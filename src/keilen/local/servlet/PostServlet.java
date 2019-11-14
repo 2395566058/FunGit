@@ -1,13 +1,8 @@
 package keilen.local.servlet;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,16 +10,16 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import keilen.local.entity.Deleted;
 import keilen.local.entity.PostFloor;
 import keilen.local.entity.PostPersonal;
+import keilen.local.mapper.DeletedMapper;
 import keilen.local.mapper.ForumMapper;
 import keilen.local.mapper.PostFloorMapper;
 import keilen.local.mapper.PostPersonalMapper;
-import keilen.local.mapper.UserMapper;
 import keilen.local.mapper.UserPersonalMapper;
 import keilen.local.util.ImageSaveUtil;
 import keilen.local.util.NowTimeFormatUtil;
-import keilen.local.util.ShowPostReviewUtil;
 import keilen.local.util.ShowPostUtil;
 
 @Service
@@ -37,6 +32,8 @@ public class PostServlet {
 	private UserPersonalMapper userPersonalMapper;
 	@Autowired
 	private PostFloorMapper postFloorMapper;
+	@Autowired
+	private DeletedMapper deletedMapper;
 
 	public String addimage(HttpServletRequest request, MultipartFile imgData) {
 		try {
@@ -149,5 +146,36 @@ public class PostServlet {
 			postPersonalMapper.addclicknumByid(postid);
 			session.setAttribute("clicknum" + postid, "1");
 		}
+	}
+	
+	public ModelAndView getMyPostById(HttpSession session,ModelAndView model,int page) {
+		String userid=(String)session.getAttribute("id");
+		int count=postPersonalMapper.getCountbyUserid(userid);
+		if(count==0) {
+			model.addObject("myPost",null);
+			return model;
+		}
+		int countpage=0;
+		if(count%5!=0) {
+			countpage=count/5+1;
+		}else {
+			countpage=count/5;
+		}
+		List<PostPersonal> pp=postPersonalMapper.getPersonalsByUseid(userid, page);
+		model.addObject("myPost",pp);
+		
+		model.addObject("localpage",page);
+		model.addObject("countpage",countpage);
+		return model;
+	}
+	
+	@Transactional
+	public String deletePost(String id) {
+		Deleted deleteEntity=new Deleted();
+		deleteEntity.setDeletetime(NowTimeFormatUtil.getNowTime());
+		deleteEntity.setOperationid("0");
+		deletedMapper.deletePostPersonal(deleteEntity);
+		postPersonalMapper.deletePostPersonalById(deleteEntity.getId(), id);
+		return "true";
 	}
 }

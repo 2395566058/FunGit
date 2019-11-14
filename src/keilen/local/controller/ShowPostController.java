@@ -20,7 +20,6 @@ public class ShowPostController {
 
 	@RequestMapping(value = "/showPost.action", params = { "id" }, method = RequestMethod.GET)
 	public ModelAndView getHtml(@RequestParam("id") String id,@RequestParam(name = "page",required = false,defaultValue = "1")String page,ModelAndView model, HttpServletRequest request) {
-		System.out.println("page="+page);
 		return postServlet.getPost(request, id, model, page);
 	}
 

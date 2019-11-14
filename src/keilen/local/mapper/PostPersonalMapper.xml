@@ -9,11 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	
 	<select id="getPersonalById" parameterType="String" resultType="PostPersonal">
-		select * from post_personal where id=#{id}
-	</select>
-	
-	<select id="getCountByPostid" parameterType="String" resultType="int">
-		select count(*) from post_personal where postid=#{postid}
+		select * from post_personal where id=#{id} and deletedid=0
 	</select>
 	
 	<update id="addclicknumByid" parameterType="String">
@@ -22,5 +18,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="addreviewnumByid" parameterType="String">
 		update post_personal set reviewnum=reviewnum+1 where id=#{id}
+	</update>
+	
+	<select id="getPersonalsByUseid"  resultType="PostPersonal">
+		<bind name="newpage" value="5*(page-1)"></bind>
+		select * from (
+			select * from post_personal where userid=#{userid} and deletedid=0 order by issuetime desc
+			) as newtable limit #{newpage},5
+	</select>
+	
+	<select id="getCountbyUserid" parameterType="String" resultType="int">
+		select count(*) from post_personal where userid=#{userid} and deletedid=0
+	</select>
+	
+	<update id="deletePostPersonalById" parameterType="String">
+		update post_personal set deletedid=#{deletedid} where id=#{id}
 	</update>
 </mapper>

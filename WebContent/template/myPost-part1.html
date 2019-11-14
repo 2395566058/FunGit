@@ -7,7 +7,41 @@
 </head>
 <body>
 <div class="showdiv">
-
+	<#if myPost??>
+	<#list myPost as k>
+		<div class="postdiv">
+			<div class="informationdiv">
+			<span style="font-size:25px;margin-left:20px;">${k.title}</span>
+			<span style="font-size:18px;margin-left:20px;">发布时间：${k.issuetime}</span>
+			<p>
+			<span style="margin-left:20px;">点击量：${k.clicknum}</span>
+			<span style="margin-left:20px;">评论量：${k.reviewnum}</span>
+			<p>
+			</div>
+			<div class="setupdiv">
+				<button class="button" onclick="parent.window.location.href='showPost.action?id=${k.id}'">查看</button>
+				<button class="button" onclick="deletePost(${k.id})">删除</button>
+			</div>
+		</div>
+	</#list>
+	<#if myPost?size<5>
+		<div style="height:20px;width:100%;text-align:center;">
+			<p>没有更多数据了呢</p>
+		</div>
+	</#if>
+	<#else>
+		<span>你还没发布过帖子呢</span>
+	</#if>
+	<div class="daohangdiv">
+		<#if myPost??>
+			<a href="" onclick="skipto(${localpage}-1,${countpage});return false;" style="margin-right:50px;cursor:pointer;">上一页</a>
+			<span>跳转到第 </span><input id="skipPage" style="height:25px;line-height:25px;width:70px" oninput = "value=value.replace(/[^\d]/g,'')" type="text" /><span> 页  </span>
+			<button style="height:30px;width:50px" onclick="skipto(document.getElementById('skipPage').value,${countpage})">跳转</button>
+			<span>当前第${localpage}页   共${countpage}页</span>
+			<a href="" onclick="skipto(${localpage}+1,${countpage});return false;" style="margin-left:50px;cursor:pointer;">下一页</a>
+		</#if>
+	</div>
 </div>
 </body>
+<script type="text/javascript" src="js/myPost/myPost1.js"></script>
 </html>
