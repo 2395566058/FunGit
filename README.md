@@ -3,7 +3,11 @@
 
 项目不采用maven管理jar包依赖
 
-使用spring+springMvc+mybatis为基础框架开发，使用redis作为全局的数据临时存储库，使用mysql进行数据保存
+使用spring+springMvc+mybatis为基础框架开发，
+
+使用redis作为全局的数据临时存储库，使用mysql进行数据保存
+
+使用log4j进行日志打印及异常信息存储
 
 前端采用CSS+HTML5+JavaScript进行开发，使用freemarker进行页面数据渲染(本人对前端UI无能为力)
 
