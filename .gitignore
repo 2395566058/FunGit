@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 # Package Files #
-/bulid/
+.bulid
 *.jar
 *.war
 *.nar
