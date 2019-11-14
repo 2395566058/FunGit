@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #CCC;
+}
+.content {
+	position: absolute;
+	width: 450px;
+	height: 500px;
+	top: calc(50% - 250px);
+	left: calc(50% - 225px);
+	background-color: white;
+}
+.name {
+	height: 25px;
+	line-height: 25px;
+	color: #666;
+	padding-bottom: 20px;
+	padding-left: 50px;
+	font-size: 25px
+}
+.rounded {
+	border-color: #666;
+	border-width: 1px;
+	width: 270px;
+	height: 25px;
+	line-height: 25px;
+	margin-top: 4px;
+	margin-left: 30px;
+	vertical-align: top;
+	border-radius: 50px;
+	font-size: 85%;
+	text-align: center;
+}
+</style>
+<title>注册</title>
+</head>
+<body>
+<div class="content">
+  <h1 style=" color:#333;padding-top:20px;padding-left:190px;font-size:35px">注册</h1>
+  <form name="fm" method="post">
+    <p> <span class="name">账号</span>
+      <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" maxlength="16" placeholder="仅字母和数字，区分大小写"  class="rounded" id="username" name="username" type="text" value="" />
+    </p>
+    <p> <span  class="name">密码</span>
+      <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" maxlength="20" class="rounded" placeholder="仅字母和数字，区分大小写" id="password"  name="password" type="password" value="" />
+    </p>
+    <p> <span style="padding-left:22px;" class="name">确认密码</span>
+      <input onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" maxlength="20" style="margin-left: 8px;" placeholder="确认密码"  id="password2" class="rounded" type="password" value="" />
+    </p>
+    <p> <span  class="name">邮箱</span>
+      <input οnkeyup="value=value.replace(/[\u4E00-\u9FA5]/g,'')" maxlength="22" placeholder="目前仅支持QQ邮箱...." id="email" class="rounded" name="email" type="email" value="" />
+    </p>
+    <p> <span style="padding-left:35px;" class="name">验证码</span>
+      <input maxlength="6" style="margin-left: 20px; width:170px;" class="rounded" id="code" name="code" type="text" value="" />
+      <span id="codeButton" onClick="getCode()" style="cursor:pointer;display:inline-block;border:1px solid #999999;margin:1px;padding:5px 5px;" >获取验证码</span> </p>
+    <p>
+      <input id="zhucebutton" style="cursor:pointer; margin-top:20px; margin-left:87px;background-color:#098; height:40px; font-size:25px;" class="rounded" name="submit" onClick="register()" type="button" value="注册" />
+    </p>
+  </form>
+  <a  class="name" href="login.action" style=" float:right;margin-right:20px; font-size:20px; color:#09C">使用已有账号登录</a>
+</div>
+</body>
+<script type="text/javascript"> 
+	var div=document.getElementById("form");
+	var xmlhttp=null;
+	if (window.XMLHttpRequest){
+  		xmlhttp=new XMLHttpRequest();
+ 	}else if (window.ActiveXObject){
+ 		 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+   function check(fm){       
+         if(document.fm.username.value==""){
+         	alert("用户名不能为空!");
+         	document.fm.username.focus();
+         	return false;
+         }
+		 if(document.fm.password.value==""){
+         	alert("密码不能为空!");
+         	document.fm.password.focus();
+         	return false;
+         }
+		 if(document.fm.email.value==""){
+         	alert("邮箱不能为空!");
+         	document.fm.email.focus();
+         	return false;
+         }
+		 if(document.fm.code.value==""){
+         	alert("验证码不能为空!");
+         	document.fm.code.focus();
+         	return false;
+         }
+		 if(document.fm.password.value!=document.fm.password2.value){
+			alert("二次密码不一致!");
+         	return false;
+		 }
+         return true;
+   }
+   function register(){
+	   var form=document.getElementsByName('fm');
+	   var result=this.check(form);
+	   if(result==true){
+		   document.getElementById("zhucebutton").value="注册中。。请等待";
+		   if (xmlhttp!=null){
+  			xmlhttp.onreadystatechange=state_Change2;
+  			xmlhttp.open("POST","register",true);
+			xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  			xmlhttp.send("username="+document.fm.username.value+"&"+
+			"password="+document.fm.password.value+"&"+
+			"email="+document.fm.email.value+"&"+
+			"code="+document.fm.code.value
+			);
+		}else{
+  			alert("Your browser does not support XMLHTTP.");
+		}
+	   }
+   }
+   function getCode(){
+	   if(document.fm.email.value==""){
+		   alert("邮箱不能为空!");
+			return;   
+	   }
+	   if(document.getElementById("codeButton").innerText!="获取验证码"){
+		   return;
+	   }
+		if (xmlhttp!=null){
+  			xmlhttp.onreadystatechange=state_Change;
+  			xmlhttp.open("POST","getCode",true);
+			xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  			xmlhttp.send("email="+document.fm.email.value);
+			this.repeatCode(60);
+		}else{
+  			alert("Your browser does not support XMLHTTP.");
+		}
+	}  
+	function state_Change(){
+		if (xmlhttp.readyState==4){
+  			if (xmlhttp.status==200){
+				alert(xmlhttp.responseText);
+			}else{
+    			alert("Problem retrieving XML data");
+			}
+    	} 
+  	}
+	function state_Change2(){
+		if (xmlhttp.readyState==4){
+  			if (xmlhttp.status==200){
+  				document.getElementById("zhucebutton").value="注册";
+  				if(xmlhttp.responseText=="注册成功！"){
+  					alert(xmlhttp.responseText);
+					window.location.href='home.action';
+				}else{
+					alert(xmlhttp.responseText);
+				}
+			}else{
+    			alert("Problem retrieving XML data");
+			}
+    	} 
+  	}
+	function repeatCode(i){
+		if(i!=0){
+			document.getElementById("codeButton").innerText="重新获取("+i+")";
+			setTimeout(function(){
+				i--;
+				this.repeatCode(i);
+			},1000);
+		}else{
+			document.getElementById("codeButton").innerText="获取验证码";
+		}
+	}
+   </script>
+</html>

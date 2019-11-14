@@ -1,0 +1,15 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #CCC;
+}
+.showdiv{
+	background-color: #00ffff;
+	float: left;
+	min-height:400x;
+	height:500px;
+	width:1050px;
+}

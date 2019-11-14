@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>首页</title>
+<link type="text/css" rel="stylesheet" href="css/home.css" />
+<style>
+</style>
+</head>
+<body>
+<object class="objectDiv" data="head.action?num=1"></object>
+<div class="bigDiv">
+	<div onselectstart="return false;" class="searchDiv">
+    <input id="searchInput" class="searchInput" placeholder="  请输入关键词" name="keywords" type="text" maxlength="20" />
+    <select class="searchSelect" id="searchSelect">
+    	<option value ="title">标题</option>
+  		<option value ="name">用户</option>
+    </select>
+    <button id="searchButton" class="searchButton">搜索</button>
+    </div>
+    <div class="hotDiv">
+    	<span onselectstart="return false;" class="hotTitle">热点帖子</span>
+        <br onselectstart="return false;"/><br onselectstart="return false;"/>
+		<hr style="margin-left:48px;width:600px;"/>
+        <div  onselectstart="return true;" class="hostdivpost">
+        	<div class="hostpost"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

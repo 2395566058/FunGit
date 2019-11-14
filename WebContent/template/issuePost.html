@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link type="text/css" rel="stylesheet" href="css/issuePost.css" />
+</head>
+<body>
+<object class="objectDiv" data="head.action?num=2"></object>
+<div class="forum">
+	现有版块：<br/>
+	<#list list as map>
+		<#list map as K,V>
+			<button onClick="selectForum('${V}')" class="forumbutton">${V}</button>
+		</#list>
+	</#list>
+</div>
+<div class="content">
+	<div class="div1">
+	<div class="div1-forumName" id="forumName">版块选择</div>
+		<input placeholder="输入您的标题" class="div1-title" type="text" id="title" maxlength="20" />
+		<div onClick="openFile()" class="addDiv">
+    		<img class="imgadd" src="image/download.png"/>
+    		<span style="line-height:30px;margin-left:5px;" >插入图片</span>
+    		<input onChange="addImage(this)" id="fileimg" type="file" hidden="false" />
+    	</div>
+	</div>
+	<div id="divcontent" class="div2" contenteditable="true"></div>
+	<div onclick="issue()" id="issueButton" class="issueButton">我要发布</div>
+</div>
+</body>
+<script type="text/javascript">
+</script>
+<script type="text/javascript" src="js/issuePost.js"></script>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #CCC;
+}
+.content {
+	position: absolute;
+	width: 550px;
+	height: 420px;
+	top: calc(50% - 210px);
+	left: calc(50% - 275px);
+	background-color: white;
+}
+.name {
+	height: 25px;
+	line-height: 25px;
+	color: #666;
+	padding-bottom: 20px;
+	padding-left: 50px;
+	font-size: 25px
+}
+.rounded {
+	border-color: #666;
+	border-width: 1px;
+	width: 310px;
+	height: 25px;
+	line-height: 25px;
+	margin-top: 4px;
+	margin-left: 15px;
+	vertical-align: top;
+	border-radius: 50px;
+	font-size: 85%;
+	text-align: center;
+}
+</style>
+<title>密码找回</title>
+</head>
+<body>
+<div class="content">
+  <h1 style=" color:#333;padding-top:50px;padding-left:200px;font-size:35px">重置密码</h1>
+  <form name="fm" method="post">
+    <p style="margin-top: 50px;"> <span class="name" style="padding-left: 30px;">账号/邮箱</span>
+      <input maxlength="20" class="rounded" id="username" name="username" placeholder="输入用户账户或邮箱地址"  type="text" value="" />
+    </p>
+    <p style="margin-top:30px;"> <span style="padding-left:60px;" class="name">验证码</span>
+      <input maxlength="6" placeholder="请输入右方验证码"  style="margin-left: 20px; width:190px; margin-right:20px" class="rounded" id="code" name="code" type="text" value="" />
+      <span id="codeButton" onClick="getCode()" style="cursor:pointer;display:inline-block;border:1px solid #999999;margin:1px;padding:5px 5px;" >发送验证码</span> </p>
+    <p>
+      <input id="updatebutton" style="cursor:pointer; margin-top:20px; margin-left:120px;background-color:#098; height:40px; font-size:25px;" class="rounded" name="submit" onClick="update()" type="button" value="重置" />
+    </p>
+  </form>
+   <a  class="name" href="login.action" style=" float:right; margin-top:10px;margin-right:40px; font-size:20px; color:#09C">返回登录</a>
+</div>
+</body>
+<script type="text/javascript"> 
+	var div=document.getElementById("form");
+	var xmlhttp=null;
+	if (window.XMLHttpRequest){
+  		xmlhttp=new XMLHttpRequest();
+ 	}else if (window.ActiveXObject){
+ 		 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+   function check(fm){       
+         if(document.fm.username.value==""){
+         	alert("用户名或邮箱不能为空!");
+         	document.fm.username.focus();
+         	return false;
+         }
+		 if(document.fm.code.value==""){
+         	alert("验证码不能为空!");
+         	document.fm.code.focus();
+         	return false;
+         }
+         return true;
+   }
+   function update(){
+	   var form=document.getElementsByName('fm');
+	   var result=this.check(form);
+	   if(result==true){
+		   if (xmlhttp!=null){
+			document.getElementById("updatebutton").value="验证中。。请等待";
+  			xmlhttp.onreadystatechange=state_Change2;
+  			xmlhttp.open("POST","forgetPassword",true);
+			xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  			xmlhttp.send("username="+document.fm.username.value+"&"+
+			"code="+document.fm.code.value
+			);
+		}else{
+  			alert("Your browser does not support XMLHTTP.");
+		}
+	   }
+   }
+   function getCode(){
+	   var username=document.getElementById("username").value;
+	   if(username==""){
+		   alert("用户名或邮箱不能为空!");
+		   return;
+	   }
+	   if(document.getElementById("codeButton").innerText!="发送验证码"){
+		   return;
+	   }
+		if(xmlhttp!=null){
+  			xmlhttp.onreadystatechange=state_Change;
+  			xmlhttp.open("POST","updateCode",true);
+			xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  			xmlhttp.send("username="+username);
+			this.repeatCode(60);
+		}else{
+  			alert("Your browser does not support XMLHTTP.");
+		}
+	}  
+	function state_Change(){
+		if (xmlhttp.readyState==4){
+  			if (xmlhttp.status==200){
+				if(xmlhttp.responseText=="true"){
+					alert("验证码已经发送至您的邮箱！");
+				}else{
+					alert(xmlhttp.responseText);
+				}
+			}else{
+    			alert("Problem retrieving XML data");
+			}
+    	} 
+  	}
+	function state_Change2(){
+		if (xmlhttp.readyState==4){
+  			if (xmlhttp.status==200){
+  				document.getElementById("updatebutton").value="重置";
+				if(xmlhttp.responseText=="true"){
+					alert("密码重置！已将您的新密码发送至您的邮箱，请尽快更改密码！");
+					window.location.href='login.action';
+				}else{
+					alert(xmlhttp.responseText);
+				}
+			}else{
+    			alert("Problem retrieving XML data");
+			}
+    	} 
+  	}
+	function repeatCode(i){
+		if(i!=0){
+			document.getElementById("codeButton").innerText="重新获取("+i+")";
+			setTimeout(function(){
+				i--;
+				this.repeatCode(i);
+			},1000);
+		}else{
+			document.getElementById("codeButton").innerText="发送验证码";
+		}
+	}
+   </script>
+</html>

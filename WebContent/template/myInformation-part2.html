@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link type="text/css" rel="stylesheet" href="css/myInformation/myInformation2.css" />
+<style>
+.imghead {
+	background-image:url(${head});
+}
+</style>
+</head>
+<body>
+<div style="height:auto; width:990px;">
+	<div onClick="openFile()" class="button" style="width:150px; background-color:#999; color:#000">
+    <img class="imgstyle" src="image/download.png"/>
+    <span style="margin-left:-10px;">上传头像</span>
+    </div>
+    <div class="button-value">建议尺寸200*200，支持jpg、png,最大不能超过1024KB</div>
+    <input onChange="changeFile(this)" id="fileimg" type="file" hidden="false" />
+   <img id="divhead" class="imghead" />
+   <div class="divstyle"></div>
+  <div id="updateBotton" onClick="updateHead()" class="button" style="float:right; margin-right:795px">我要修改</div>
+</div>
+</body>
+<script type="text/javascript" src="js/myInformation/myInformation2.js"></script>
+</html>

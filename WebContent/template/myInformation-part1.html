@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link type="text/css" rel="stylesheet" href="css/myInformation/myInformation1.css" />
+</head>
+<body>
+<div style="height:auto; width:990px;">
+  <div class="tags">
+    <div class="tagName">昵称</div>
+    <input id="name" maxlength="17" class="tagValue" type="text" name="name" value="${name}" />
+  </div>
+  <div class="tags">
+    <div class="tagName">生日</div>
+    <input id="birthday" class="tagValue" type="text" name="birthday" value="${birthday}" />
+  </div>
+  <div class="tags">
+    <div class="tagName">QQ</div>
+    <input onkeyup="this.value=this.value.replace(/\D/g,'')" maxlength="15" id="qq" class="tagValue" type="text" name="qq" value="${qq}" />
+  </div>
+  <div class="tags">
+    <div class="tagName">居住地</div>
+    <input id="city" class="tagValue" type="text" name="city" value="${city}" />
+  </div>
+  <div class="tags">
+    <div class="tagName">注册时间</div>
+    <input readonly class="tagValue" type="text" value="${register}" />
+  </div>
+  <div class="center">
+    <div class="center-tag"><span style="margin-left:15px">自我简介</span></div>
+    <textarea id="introduce" class="center-value" name="introduce">${introduce}</textarea>
+  </div>
+  <div id="updateButton" onclick="updateInformation()" class="button">我要修改</div>
+</div>
+</body>
+<script type="text/javascript" src="js/myInformation/myInformation1.js"></script>
+</html>

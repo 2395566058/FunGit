@@ -1,0 +1,68 @@
+.tags {
+	float: left;
+	height: 40px;
+	width: 990px;
+	margin-top: 12px;
+}
+.tagName {
+	float: left;
+	height: 36px;
+	width: 70px;
+	line-height: 36px;
+	text-align: center;
+	background-color: #CCC;
+	margin-left: 40px;
+}
+.tagValue {
+	float: left;
+	height: 30px;
+	width: 250px;
+	line-height: 30px;
+	text-align: center;
+	outline: none;
+}
+.center {
+	float: left;
+	width: 920px;
+	height: 130px;
+	margin-top: 20px;
+	margin-left: 30px;
+	background-color: white;
+	border: #000 solid 1px;
+	border-radius: 15px 15px 0px 15px;
+}
+.center-tag {
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	height: 30px;
+	line-height: 30px;
+	width: 100%;
+	background-color: #CCC;
+}
+.center-value {
+	margin-top: 5px;
+	border: none;
+	overflow-x: hidden;
+	font-size: 15px;
+	margin-left: 10px;
+	width: 905px;
+	height: 89px;
+	line-height: 30px;
+	border-bottom-left-radius: 15px;
+	outline: none;
+}
+.button {
+	float: right;
+	margin-top: 10px;
+	margin-right: 50px;
+	height: 50px;
+	width: 120px;
+	text-align: center;
+	color: #FFF;
+	font-size: 18px;
+	line-height: 50px;
+	background-color: #0C9;
+	border-radius: 8px;
+	box-shadow: 4px 4px 6px #777777;
+	cursor: pointer;
+}
