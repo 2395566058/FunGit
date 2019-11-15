@@ -20,6 +20,8 @@ import keilen.local.mapper.PostPersonalMapper;
 import keilen.local.mapper.UserPersonalMapper;
 import keilen.local.util.ImageSaveUtil;
 import keilen.local.util.NowTimeFormatUtil;
+import keilen.local.util.ShowMyPostReviewUtil;
+import keilen.local.util.ShowPostReviewUtil;
 import keilen.local.util.ShowPostUtil;
 
 @Service
@@ -133,7 +135,7 @@ public class PostServlet {
 		} else {
 			model.addObject("isLogin", "false");
 		}
-		int floorNum=postFloorMapper.getCountByPostid(id);
+		int floorNum = postFloorMapper.getCountByPostid(id);
 		model.addObject("floorNum", floorNum);
 		model.setViewName("showPost");
 		return model;
@@ -147,35 +149,108 @@ public class PostServlet {
 			session.setAttribute("clicknum" + postid, "1");
 		}
 	}
-	
-	public ModelAndView getMyPostById(HttpSession session,ModelAndView model,int page) {
-		String userid=(String)session.getAttribute("id");
-		int count=postPersonalMapper.getCountbyUserid(userid);
-		if(count==0) {
-			model.addObject("myPost",null);
+
+	public ModelAndView getMyPostReviewUtil(ModelAndView model, HttpSession session, int page) {
+		String userid = (String) session.getAttribute("id");
+		int count = postFloorMapper.getCountByUserid(userid);
+		if (count == 0) {
+			model.addObject("list", null);
 			return model;
 		}
-		int countpage=0;
-		if(count%5!=0) {
-			countpage=count/5+1;
-		}else {
-			countpage=count/5;
+		int countpage = 0;
+		if (count % 5 != 0) {
+			countpage = count / 5 + 1;
+		} else {
+			countpage = count / 5;
 		}
-		List<PostPersonal> pp=postPersonalMapper.getPersonalsByUseid(userid, page);
-		model.addObject("myPost",pp);
-		
-		model.addObject("localpage",page);
-		model.addObject("countpage",countpage);
+		List<ShowMyPostReviewUtil> list = postFloorMapper.getMyPostReviewUtil(userid, page);
+		model.addObject("list", list);
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
 		return model;
 	}
-	
+
+	public ModelAndView getMyPostById(HttpSession session, ModelAndView model, int page) {
+		String userid = (String) session.getAttribute("id");
+		int count = postPersonalMapper.getCountbyUserid(userid);
+		if (count == 0) {
+			model.addObject("myPost", null);
+			return model;
+		}
+		int countpage = 0;
+		if (count % 5 != 0) {
+			countpage = count / 5 + 1;
+		} else {
+			countpage = count / 5;
+		}
+		List<PostPersonal> pp = postPersonalMapper.getPersonalsByUseid(userid, page);
+		model.addObject("myPost", pp);
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
+		return model;
+	}
+
 	@Transactional
 	public String deletePost(String id) {
-		Deleted deleteEntity=new Deleted();
+		Deleted deleteEntity = new Deleted();
 		deleteEntity.setDeletetime(NowTimeFormatUtil.getNowTime());
 		deleteEntity.setOperationid("0");
-		deletedMapper.deletePostPersonal(deleteEntity);
+		deletedMapper.deleteTable(deleteEntity);
 		postPersonalMapper.deletePostPersonalById(deleteEntity.getId(), id);
 		return "true";
+	}
+
+	public String showPostReviewByPostId(HttpSession session, String postid) {
+		List<ShowPostReviewUtil> list = postFloorMapper.getReviewByUseridAndPostId((String) session.getAttribute("id"),
+				postid);
+		if (list.size() == 0) {
+			return "";
+		}
+		StringBuffer result = new StringBuffer("[");
+		for (ShowPostReviewUtil value : list) {
+			StringBuffer result2 = new StringBuffer("{");
+			result2.append("\"floor\":\"" + value.getFloor() + "\",");
+			String result3 = new String(value.getContent());
+			result3 = result3.replace("\"", "\'");
+			result2.append("\"content\":\"" + result3 + "\",");
+			result2.append("\"issuetime\":\"" + value.getIssuetime() + "\",");
+			if (value.getReviewName() == null || value.getReviewName().equals("")) {
+				result2.append("\"reviewName\":\"\"");
+			} else {
+				result2.append("\"reviewName\":\"" + value.getReviewName() + "\"");
+			}
+			result2.append("}");
+			result.append(result2 + ",");
+		}
+		result = result.deleteCharAt(result.length() - 1);
+		result.append("]");
+		return result.toString();
+	}
+
+	@Transactional
+	public String deleteReviewFloor(String postid, String floor) {
+		Deleted deleted = new Deleted();
+		deleted.setOperationid("0");
+		deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
+		deletedMapper.deleteTable(deleted);
+		boolean result = postFloorMapper.deletePostReview(postid, floor, deleted.getId());
+		if (result) {
+			return "true";
+		}
+		return "false";
+	}
+
+	@Transactional
+	public String deleteReviewAll(HttpSession session, String postid) {
+		Deleted deleted = new Deleted();
+		deleted.setOperationid("0");
+		deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
+		deletedMapper.deleteTable(deleted);
+		boolean result = postFloorMapper.deletePostReviewAll(postid, (String) session.getAttribute("id"),
+				deleted.getId());
+		if (result) {
+			return "true";
+		}
+		return "false";
 	}
 }

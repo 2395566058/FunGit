@@ -13,4 +13,5 @@ public class ShowPostReviewUtil implements Serializable {
 	private String content;
 	private String issuetime;
 	private String useName;
+	private String reviewName;
 }

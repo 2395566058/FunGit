@@ -16,7 +16,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<association property="useName" column="userid" select="keilen.local.mapper.UserPersonalMapper.getNameById" />
 		<association property="useHead" column="userid" select="keilen.local.mapper.UserPersonalMapper.getHeadById" />
 		<association property="review"  column="reviewid" select="keilen.local.mapper.PostFloorMapper.getFloorByid" />
-	</resultMap>	
+	</resultMap>
+	<resultMap type="keilen.local.util.ShowPostReviewUtil" id="ShowPostReviewUtilMap">
+		<result property="floor" column="floor"/>
+		<result property="content" column="content"/>
+		<result property="issuetime" column="issuetime"/>
+		<association property="reviewName" column="reviewid" select="keilen.local.mapper.PostFloorMapper.getUseNameById" />
+	</resultMap>
 	<select id="getCountByPostid" parameterType="String" resultType="int">
 		select count(*) from post_floor where postid=#{postid}
 	</select>
@@ -38,14 +44,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getFloorsById" resultMap="floorMap">
-		select floor,content,userid,issuetime,reviewid from post_floor where postid=#{postid} and floor&gt;=#{head} and floor&lt;=#{foot}
+		select floor,IF(deleted>0,'发言已被删除',content) as content,userid,issuetime,reviewid from post_floor where postid=#{postid} and floor&gt;=#{head} and floor&lt;=#{foot}
 	</select>
 	
 	<select id="getFloorByid" resultMap="postReviewMap">
-		select floor,content,userid,issuetime from post_floor where id=#{reviewid}
+		select floor,IF(deleted>0,'发言已被删除',content) as content,userid,issuetime from post_floor where id=#{reviewid}
 	</select>
 	
 	<select id="getIdByPostidAndFloor" parameterType="String" resultType="String">
 		select id from post_floor where postid=#{postid} and floor=#{floor}
 	</select>
+	
+	<select id="getMyPostReviewUtil" parameterType="String" resultType="keilen.local.util.ShowMyPostReviewUtil">
+		<bind name="newpage" value="5*(page-1)"></bind>
+		SELECT D.id,title,count(*) as count,name,D.issuetime from post_floor as C JOIN
+			(SELECT A.id,title,name,issuetime from post_personal as A JOIN user_personal as B ON A.userid=B.id where A.deletedid=0)
+		as D ON C.postid=D.id WHERE C.userid=#{userid} and C.deleted=0 GROUP BY postid limit #{newpage},5
+	</select>
+	
+	<select id="getCountByUserid" parameterType="String" resultType="int">
+		select COUNT(*) from (
+			select COUNT(*) from post_floor as A JOIN post_personal as B ON A.postid=B.id where A.userid=#{userid} and A.deleted=0 and B.deletedid=0 GROUP BY postid
+		) as newtale
+	</select>
+	
+	<select id="getReviewByUseridAndPostId" resultMap="ShowPostReviewUtilMap">
+		select floor,content,issuetime,reviewid from post_floor where userid=#{userid} and postid=#{postid} order by floor
+	</select>
+	
+	<select id="getUseNameById" parameterType="String" resultType="String">
+		select name from user_personal where id=(select userid from post_floor where id=#{id})
+	</select>
+	
+	<update id="deletePostReview" parameterType="String">
+		update post_floor set deleted=#{deleted} where postid=#{postid} and floor=#{floor}
+	</update>
+	
+	<update id="deletePostReviewAll" parameterType="String">
+		update post_floor set deleted=#{deleted} where postid=#{postid} and userid=#{userid}
+	</update>
 </mapper>

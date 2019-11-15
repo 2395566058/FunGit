@@ -7,7 +7,11 @@ function getXmlHttp(){
 	}
 	return xmlhttp;
 }
-function addreviewTag(useName,floor){
+function addreviewTag(useName,floor,status){
+	if(status==0){
+		alert("不可以回复被删除的楼层！");
+		return;
+	}
 	var div=document.getElementById("content");
 	div.innerHTML="<input disabled='disabled'id='reviewfloor"+floor+"'class='reviewTag'type='text'value='回复 "+useName+" "+floor+"楼:' />";
 	div.focus();

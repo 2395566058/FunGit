@@ -7,6 +7,9 @@ function toMyInformation(){
 function toMyPost(){
 	parent.window.location.href="myPost.action";
 }
+function toMyPost2(){
+	parent.window.location.href="myPost.action?part=2";
+}
 function toIssuePost(){
 	parent.window.location.href="issuePost.action";
 }

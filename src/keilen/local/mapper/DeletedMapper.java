@@ -5,5 +5,5 @@ import keilen.local.entity.Deleted;
 
 @Mapper
 public interface DeletedMapper {
-	public void deletePostPersonal(Deleted deleted);
+	public void deleteTable(Deleted deleted);
 }
