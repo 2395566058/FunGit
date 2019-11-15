@@ -29,11 +29,18 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
+	<!-- 读取mybatis配置文件及mapper对应的xml文件 -->
 	<bean id="SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath*:keilen/local/mapper/impl/*.xml" />
 		<property name="configLocation" value="classpath:keilen/local/config/mybatis-config.xml" />
 	</bean>
-	<!-- 自动扫描配置mapper -->
+	<!-- 自动扫描配置mapper接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="keilen.local.mapper" />
+		<property name="SqlSessionFactoryBeanName" value="SqlSessionFactory" />
+		<property name="annotationClass" value="org.apache.ibatis.annotations.Mapper" />
+	</bean>
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="keilen.local.mapper" />
 		<property name="SqlSessionFactoryBeanName" value="SqlSessionFactory" />
