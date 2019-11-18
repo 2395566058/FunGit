@@ -27,7 +27,7 @@ public class MyPostController {
 			model.setViewName("login");
 			return model;
 		}
-		model.addObject("part",part);
+		model.addObject("part", part);
 		model.setViewName("myPost");
 		return model;
 	}
@@ -35,7 +35,6 @@ public class MyPostController {
 	@RequestMapping(value = "/myPost1.action", method = RequestMethod.GET)
 	public ModelAndView getHtml1(HttpServletRequest request, ModelAndView model,
 			@RequestParam(name = "page", required = false, defaultValue = "1") String page) {
-		System.out.println("page=" + page);
 		HttpSession session = request.getSession();
 		if (session.getAttribute("id") == null) {
 			model.setViewName("login");
@@ -45,36 +44,56 @@ public class MyPostController {
 		model.setViewName("myPost-part1");
 		return model;
 	}
-	
+
 	@RequestMapping(value = "/myPost2.action", method = RequestMethod.GET)
 	public ModelAndView getHtml2(HttpServletRequest request, ModelAndView model,
 			@RequestParam(name = "page", required = false, defaultValue = "1") String page) {
-		System.out.println("page=" + page);
 		HttpSession session = request.getSession();
 		if (session.getAttribute("id") == null) {
 			model.setViewName("login");
 			return model;
 		}
-		model=postServlet.getMyPostReviewUtil(model, request.getSession(), Integer.parseInt(page));
+		model = postServlet.getMyPostReviewUtil(model, request.getSession(), Integer.parseInt(page));
 		model.setViewName("myPost-part2");
 		return model;
 	}
-	
-	@RequestMapping(value = "/showPostReviewByPostId",method = RequestMethod.POST)
+
+	@RequestMapping(value = "/myPost3.action", method = RequestMethod.GET)
+	public ModelAndView getHtml3(HttpServletRequest request, ModelAndView model,
+			@RequestParam(name = "page", required = false, defaultValue = "1") String page) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null) {
+			model.setViewName("login");
+			return model;
+		}
+		model = postServlet.getReviewMeCards(model, request.getSession(), Integer.parseInt(page));
+		model.setViewName("myPost-part3");
+		return model;
+	}
+
+	//
+	@RequestMapping(value = "/showReviewMeByPostId", method = RequestMethod.POST)
 	@ResponseBody
-	public String showPostReviewByPostId(HttpServletRequest request,String postid){
+	public String showReviewMeByPostId(HttpServletRequest request, String postid) {
+		return postServlet.getShowReviewMeByPostid(postid, request.getSession());
+	}
+
+	//
+	@RequestMapping(value = "/showPostReviewByPostId", method = RequestMethod.POST)
+	@ResponseBody
+	public String showPostReviewByPostId(HttpServletRequest request, String postid) {
 		return postServlet.showPostReviewByPostId(request.getSession(), postid);
 	}
-	
-	@RequestMapping(value = "/deleteReviewAll",method = RequestMethod.POST)
+
+	@RequestMapping(value = "/deleteReviewAll", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteReviewAll(HttpServletRequest request,String postid) {
-		return postServlet.deleteReviewAll(request.getSession(),postid);
+	public String deleteReviewAll(HttpServletRequest request, String postid) {
+		return postServlet.deleteReviewAll(request.getSession(), postid);
 	}
-	
-	@RequestMapping(value = "/deleteReviewByFloor",method = RequestMethod.POST)
+
+	@RequestMapping(value = "/deleteReviewByFloor", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteReviewByFloor(String postid,String floor) {
+	public String deleteReviewByFloor(String postid, String floor) {
 		return postServlet.deleteReviewFloor(postid, floor);
 	}
 

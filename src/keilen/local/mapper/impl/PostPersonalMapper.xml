@@ -34,4 +34,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="deletePostPersonalById" parameterType="String">
 		update post_personal set deletedid=#{deletedid} where id=#{id}
 	</update>
+	
+	<select id="getTitleById" parameterType="String" resultType="String">
+		select title from post_personal where id=#{id} and deletedid=0
+	</select>
 </mapper>

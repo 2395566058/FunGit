@@ -23,4 +23,6 @@ public interface PostPersonalMapper {
 	public int getCountbyUserid(@Param("userid") String userid);
 
 	public void deletePostPersonalById(@Param("deletedid") String deletedid, @Param("id") String id);
+	
+	public String getTitleById(@Param("id")String id);
 }

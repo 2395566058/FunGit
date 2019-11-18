@@ -20,9 +20,11 @@ import keilen.local.mapper.PostPersonalMapper;
 import keilen.local.mapper.UserPersonalMapper;
 import keilen.local.util.ImageSaveUtil;
 import keilen.local.util.NowTimeFormatUtil;
+import keilen.local.util.ReviewMeUtil;
 import keilen.local.util.ShowMyPostReviewUtil;
 import keilen.local.util.ShowPostReviewUtil;
 import keilen.local.util.ShowPostUtil;
+import keilen.local.util.ShowReviewUtil;
 
 @Service
 public class PostServlet {
@@ -252,5 +254,58 @@ public class PostServlet {
 			return "true";
 		}
 		return "false";
+	}
+
+	public ModelAndView getReviewMeCards(ModelAndView model, HttpSession session, int page) {
+		int count = postFloorMapper.getCountforReviewUtilBuUserid((String) session.getAttribute("id"));
+		if (count == 0) {
+			model.addObject("list", null);
+			return model;
+		}
+		int countpage = 0;
+		if (count % 5 != 0) {
+			countpage = count / 5 + 1;
+		} else {
+			countpage = count / 5;
+		}
+		List<ReviewMeUtil> list = postFloorMapper.getReviewUtilByUserid((String) session.getAttribute("id"), page);
+		model.addObject("list", list);
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
+		return model;
+	}
+
+	public String getShowReviewMeByPostid(String postid, HttpSession session) {
+		List<ShowReviewUtil> list = postFloorMapper.getMyReviewByPostid((String) session.getAttribute("id"), postid);
+		StringBuffer result = new StringBuffer("[");
+		for (ShowReviewUtil value : list) {
+			StringBuffer result2 = new StringBuffer("{");
+			result2.append("\"floor\":\"" + value.getFloor() + "\",");
+			String result3 = new String(value.getContent());
+			result3 = result3.replace("\"", "\'");
+			result2.append("\"content\":\"" + result3 + "\",");
+			result2.append("\"issuetime\":\"" + value.getIssuetime() + "\",");
+			StringBuffer result4 = new StringBuffer("[");
+			for (PostFloor value2 : value.getReview()) {
+				StringBuffer result5 = new StringBuffer("{");
+				result5.append("\"floor\":\"" + value2.getFloor() + "\",");
+				result5.append("\"userName\":\"" + value2.getUserid() + "\",");
+				String result6 = new String(value2.getContent());
+				result6 = result6.replace("\"", "\'");
+				result5.append("\"content\":\"" + result6 + "\",");
+				result5.append("\"issuetime\":\"" + value2.getIssuetime() + "\"");
+				result5.append("}");
+				result4.append(result5 + ",");
+			}
+			result4 = result4.deleteCharAt(result4.length() - 1);
+			result4.append("]");
+			String review = result4.toString();
+			result2.append("\"review\":" + review);
+			result2.append("}");
+			result.append(result2 + ",");
+		}
+		result = result.deleteCharAt(result.length() - 1);
+		result.append("]");
+		return result.toString();
 	}
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css" href="css/myPost/myPost2.css" />
+<link rel="stylesheet" type="text/css" href="css/myPost/myPost3.css" />
 </head>
 <body>
 <div class="showdiv">
@@ -11,13 +11,11 @@
 	<#list list as k>
 		<div class="postdiv">
 			<div class="informationdiv">
-				<span style="margin-left:20px;font-size:20px;">你在 "<span style="font-size:22px;color:#1b1b1b">${k.title}</span>" 中发表了 ${k.count} 次评论</span><br>
-				<span style="margin-left:20px;font-size:18px;">贴主： <span style="font-size:20px;color:#1b1b1b">${k.name}</span></span><br>
-				<span style="margin-left:20px;font-size:18px;">帖子发布时间： <span style="font-size:20px;color:#1b1b1b">${k.issuetime}</span></span>
+				<span style="margin-left:20px;font-size:20px;">你在帖子 "<span style="font-size:22px;color:#1b1b1b">${k.title}</span>" 中有 ${k.count} 条回复</span><br>
+				<span style="margin-left:20px;font-size:18px;">最后回复时间： <span style="font-size:20px;color:#1b1b1b">${k.lastReviewTime}</span></span><br>
 			</div>
 			<div class="setupdiv">
-				<button class="button" onclick="showreviewdiv('${k.id}')">查看</button>
-				<button class="button" onclick="deletePost('${k.id}')">删除</button>
+				<button class="button" onclick="showreviewdiv('${k.postid}')">查看</button>
 			</div>
 		</div>
 	</#list>
@@ -27,7 +25,7 @@
 		</div>
 	</#if>
 	<#else>
-		<span>你还没发表过评论呢</span>
+		<span>暂时还没有人回复你呢</span>
 	</#if>
 	<div class="daohangdiv">
 		<#if list??>
@@ -43,5 +41,5 @@
 	<div onClick="event.cancelBubble = true" id="showreviewdiv" class="divdivdiv"></div>
 </div>
 </body>
-<script type="text/javascript" src="js/myPost/myPost2.js"></script>
+<script type="text/javascript" src="js/myPost/myPost3.js"></script>
 </html>

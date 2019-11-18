@@ -23,6 +23,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="issuetime" column="issuetime"/>
 		<association property="reviewName" column="reviewid" select="keilen.local.mapper.PostFloorMapper.getUseNameById" />
 	</resultMap>
+	<resultMap type="keilen.local.util.ReviewMeUtil" id="reviewMeUtilMap">
+		<result property="postid" column="postid"/>
+		<result property="count" column="count"/>
+		<result property="lastReviewTime" column="lastReviewTime"/>
+		<association property="title" column="postid" select="keilen.local.mapper.PostPersonalMapper.getTitleById" />
+	</resultMap>
+	<resultMap type="keilen.local.util.ShowReviewUtil" id="ShowReviewUtilMap">
+		<result property="floor" column="floor"/>
+		<result property="content" column="content"/>
+		<result property="issuetime" column="issuetime"/>
+		<collection property="review" column="{userid=userid,reviewid=id,postid=postid}" javaType="list" 
+			ofType="PostFloor" select="getReviewmeListByPostid">
+			<result property="floor" column="floor"/>
+			<result property="userid" column="userid"/>
+			<result property="content" column="content"/>
+			<result property="issuetime" column="issuetime"/>
+		</collection>
+	</resultMap>
+	
 	<select id="getCountByPostid" parameterType="String" resultType="int">
 		select count(*) from post_floor where postid=#{postid}
 	</select>
@@ -83,4 +102,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="deletePostReviewAll" parameterType="String">
 		update post_floor set deleted=#{deleted} where postid=#{postid} and userid=#{userid}
 	</update>
+	
+	<select id="getReviewUtilByUserid" resultMap="reviewMeUtilMap">
+		<bind name="newpage" value="5*(page-1)"></bind>
+		SELECT postid,count(*) as count,MAX(issuetime) as lastReviewTime FROM post_floor WHERE userid!=#{userid} and reviewid in (
+			SELECT A.id from post_floor as A JOIN post_personal as B ON A.postid=B.id 
+				WHERE A.userid=#{userid} and B.deletedid=0
+		) and deleted=0 GROUP BY postid limit #{newpage},5
+	</select>
+	
+	<select id="getCountforReviewUtilBuUserid" parameterType="String" resultType="int">
+		select count(*) from (
+			SELECT count(*) FROM post_floor WHERE userid!=#{userid} and reviewid in (
+				SELECT A.id from post_floor as A JOIN post_personal as B ON A.postid=B.id 
+					WHERE A.userid=#{userid} and B.deletedid=0 and A.deleted=0
+			) and deleted=0 GROUP BY postid
+		) as newtable
+	</select>
+	
+	<select id="getMyReviewByPostid" parameterType="String" resultMap="ShowReviewUtilMap">
+		SELECT floor,A.content,
+		A.issuetime,A.id,A.userid,A.postid from post_floor as A LEFT JOIN post_personal as B ON A.postid=B.id WHERE 
+		postid=#{postid} and A.userid=#{userid} and B.deletedid=0 and 
+		(SELECT count(*) from post_floor WHERE userid!=#{userid} and reviewid=A.id and deleted=0)>0 and A.deleted=0
+	</select>
+	
+	<select id="getReviewmeListByPostid" resultType="PostFloor">
+		SELECT floor,content,B.name as userid,issuetime from post_floor as A JOIN user_personal as B ON A.userid=B.id WHERE 
+		userid!=#{userid} and reviewid=#{reviewid} and postid=#{postid} and deleted=0
+	</select>
 </mapper>
