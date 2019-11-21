@@ -68,10 +68,8 @@ function deletereview(postid,floor){
 				}
 			};
 			xmlhttp.open("POST", "deleteReviewByFloor", true);
-			xmlhttp.setRequestHeader("Content-Type",
-					"application/x-www-form-urlencoded;charset=utf-8");
-			xmlhttp.send("postid=" + postid+"&"+
-					"floor="+floor);
+			xmlhttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded;charset=utf-8");
+			xmlhttp.send("postid=" + postid+"&floor="+floor);
 		} else {
 			alert("Your browser does not support XMLHTTP.");
 		}

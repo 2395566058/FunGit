@@ -20,6 +20,8 @@ if (window.XMLHttpRequest){
 }else if (window.ActiveXObject){
  	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 }
+this.getOnlineStatus();
+this.getMessage();
 function showTags(){
 	document.getElementById("shortimg").style.display="block";
 	document.getElementById("dropDown").style.display="block";
@@ -79,5 +81,57 @@ function ttag(num){
 	if(num==5){
 		document.getElementById("tag5").style.backgroundColor="#FFF";document.getElementById("tag5").style.borderColor="inherit";
 		return;
+	}
+}
+function getMessage(){
+	var xmlhttp=null;
+	if (window.XMLHttpRequest){
+	  	xmlhttp=new XMLHttpRequest();
+	}else if (window.ActiveXObject){
+	 	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if (xmlhttp!=null){
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4){
+			  		if (xmlhttp.status==200){
+						if(xmlhttp.responseText==""){
+							setTimeout(() => {
+								getMessage();
+							}, 1500);
+						}else{
+							alert(xmlhttp.responseText);
+							getMessage();
+						}
+					}
+			    } 
+			};
+		xmlhttp.open("POST","getMessage",true);
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		xmlhttp.send();
+	}else{
+			alert("Your browser does not support XMLHTTP.");
+	}
+}
+function getOnlineStatus(){
+	if (xmlhttp!=null){
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4){
+			  		if (xmlhttp.status==200){
+						if(xmlhttp.responseText=="1"){
+							setTimeout(() => {
+								getOnlineStatus();
+							}, 1500);
+						}else{
+							alert("你的账号已在其他地方登录！");
+							parent.window.location.href="login.action";
+						}
+					}
+			    } 
+			};
+		xmlhttp.open("POST","getOnlineStatus",true);
+		xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+		xmlhttp.send();
+	}else{
+			alert("Your browser does not support XMLHTTP.");
 	}
 }

@@ -16,6 +16,8 @@ public class LoginServlet {
 	private UserMapper userMapper;
 	@Autowired
 	private UserPersonalMapper userPersonalMapper;
+	@Autowired
+	private RedisCacheServlet redisCacheServlet;
 
 	public String login(String username, String password, String code, HttpServletRequest request) {
 		HttpSession httpSession = request.getSession();
@@ -39,6 +41,7 @@ public class LoginServlet {
 					httpSession.setAttribute("id", user.getId());
 					httpSession.setAttribute("name", user.getName());
 					httpSession.setAttribute("head", userPersonalMapper.getHeadByName(user.getName()));
+					redisCacheServlet.addOnline(user.getId(), httpSession.getId());
 					return "true";
 				} else {
 					return "密码错误！";
@@ -56,6 +59,7 @@ public class LoginServlet {
 			httpSession.setAttribute("id", user.getId());
 			httpSession.setAttribute("name", user.getName());
 			httpSession.setAttribute("head", userPersonalMapper.getHeadByName(user.getName()));
+			redisCacheServlet.addOnline(user.getId(), httpSession.getId());
 			return "true";
 		}
 		return "密码错误！";
