@@ -24,7 +24,7 @@ public class MessageAlertController {
 
 	@RequestMapping(value = "/getOnlineStatus", method = RequestMethod.POST)
 	@ResponseBody
-	public String getOnlineStatus(HttpServletRequest request) {
+	public String getOnlineStatus(HttpServletRequest request) throws InterruptedException {
 		return (String) longSessionServlet.getOnlineStatus(request.getSession());
 	}
 }

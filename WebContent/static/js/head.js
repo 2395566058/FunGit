@@ -94,14 +94,7 @@ function getMessage(){
 			xmlhttp.onreadystatechange=function(){
 				if (xmlhttp.readyState==4){
 			  		if (xmlhttp.status==200){
-						if(xmlhttp.responseText==""){
-							setTimeout(() => {
-								getMessage();
-							}, 1500);
-						}else{
-							alert(xmlhttp.responseText);
-							getMessage();
-						}
+						alert(xmlhttp.responseText);
 					}
 			    } 
 			};
@@ -117,14 +110,8 @@ function getOnlineStatus(){
 			xmlhttp.onreadystatechange=function(){
 				if (xmlhttp.readyState==4){
 			  		if (xmlhttp.status==200){
-						if(xmlhttp.responseText=="1"){
-							setTimeout(() => {
-								getOnlineStatus();
-							}, 1500);
-						}else{
-							alert("你的账号已在其他地方登录！");
-							parent.window.location.href="login.action";
-						}
+						alert("你的账号已在其他地方登录！");
+						parent.window.location.href="login.action";
 					}
 			    } 
 			};

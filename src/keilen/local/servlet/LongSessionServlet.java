@@ -14,19 +14,24 @@ public class LongSessionServlet {
 	private RedisCacheServlet redisCacheServlet;
 
 	public MessageUtil waitMessageAlert(HttpServletRequest request) throws InterruptedException {
-		MessageUtil message = new MessageUtil();
 		String id = (String) request.getAttribute("id");
-		message = redisCacheServlet.getMessage("Message" + id);
+		MessageUtil message = redisCacheServlet.getMessage("Message" + id);
+		boolean status = false;
+		while (!status)
+			if (message == null || message.equals("")) {
+				Thread.sleep(1500);
+			} else {
+				status = false;
+			}
 		return message;
 	}
 
-	public String getOnlineStatus(HttpSession session) {
+	public String getOnlineStatus(HttpSession session) throws InterruptedException {
 		boolean result = redisCacheServlet.getOnline((String) session.getAttribute("id"), session.getId());
-		if (result) {
-			return "1";
-		} else {
-			session.invalidate();
-			return "0";
+		while (result) {
+			Thread.sleep(1500);
+			result = redisCacheServlet.getOnline((String) session.getAttribute("id"), session.getId());
 		}
+		return "0";
 	}
 }
