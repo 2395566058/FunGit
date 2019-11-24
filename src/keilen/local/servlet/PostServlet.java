@@ -1,5 +1,6 @@
 package keilen.local.servlet;
 
+import java.text.ParseException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,6 +39,8 @@ public class PostServlet {
 	private PostFloorMapper postFloorMapper;
 	@Autowired
 	private DeletedMapper deletedMapper;
+	@Autowired
+	private RedisCacheServlet redisCacheServlet;
 
 	public String addimage(HttpServletRequest request, MultipartFile imgData) {
 		try {
@@ -51,6 +54,7 @@ public class PostServlet {
 	@Transactional
 	public boolean reviewPost(HttpSession session, String postid, String content) {
 		PostFloor pf = new PostFloor();
+		String reviewUserid;
 		int index = content.indexOf("<input disabled=\"disabled\" id=\"reviewfloor");
 		if (index != -1) {
 			String newContent = content.substring(index + 42, index + 52);
@@ -62,7 +66,9 @@ public class PostServlet {
 			String head = content.substring(0, stringHead);
 			String foot = content.substring(stringFoot, content.length());
 			content = head.concat(foot);
+			reviewUserid = postFloorMapper.getUseridById(reviewid);
 		}
+		reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
 		pf.setPostid(postid);
 		pf.setContent(content);
 		String userid = (String) session.getAttribute("id");
@@ -79,6 +85,11 @@ public class PostServlet {
 				return false;
 			}
 			postPersonalMapper.addreviewnumByid(postid);
+			if (!reviewUserid.equals(userid)) {
+				String title = postPersonalMapper.getTitleById(postid);
+				String object = "您在帖子 " + title + " 中有一条回复：<br>" + content;
+				redisCacheServlet.addMessage(reviewUserid, object, "ReviewReview");
+			}
 			return true;
 		}
 		return false;
@@ -307,5 +318,27 @@ public class PostServlet {
 		result = result.deleteCharAt(result.length() - 1);
 		result.append("]");
 		return result.toString();
+	}
+
+	public List<PostPersonal> getHotPost(int num) {
+		return postPersonalMapper.getHotPostForHome(num);
+	}
+
+	public List<PostPersonal> getNewPost(int num) throws ParseException {
+		List<PostPersonal> list = postPersonalMapper.getNewPostForHome(num);
+		for (PostPersonal value : list) {
+			value.setIssuetime(NowTimeFormatUtil.getTimeFormat(value.getIssuetime()));
+		}
+		return list;
+	}
+
+	public String List2JsonTypePostPersonal(List<PostPersonal> list) {
+		StringBuffer listJson = new StringBuffer("[");
+		for (PostPersonal pp : list) {
+			listJson.append(pp.toString() + ",");// 重写toString
+		}
+		listJson = listJson.deleteCharAt(listJson.length() - 1);
+		listJson.append("]");
+		return listJson.toString();
 	}
 }

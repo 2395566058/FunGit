@@ -18,4 +18,18 @@ public class PostPersonal implements Serializable {
 	private String clicknum;
 	private String reviewnum;
 	private String content;
+
+	@Override
+	public String toString() {
+		StringBuffer result = new StringBuffer("{");
+		result.append("\"id\":\"" + this.id + "\",");
+		result.append("\"title\":\"" + this.title + "\",");
+		result.append("\"userid\":\"" + this.userid + "\",");
+		result.append("\"forumid\":\"" + this.forumid + "\",");
+		result.append("\"issuetime\":\"" + this.issuetime + "\",");
+		result.append("\"clicknum\":\"" + this.clicknum + "\",");
+		result.append("\"reviewnum\":\"" + this.reviewnum + "\",");
+		result.append("\"content\":\"" + this.content + "\"}");
+		return result.toString();
+	}
 }

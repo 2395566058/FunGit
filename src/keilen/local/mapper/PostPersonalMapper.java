@@ -23,6 +23,10 @@ public interface PostPersonalMapper {
 	public int getCountbyUserid(@Param("userid") String userid);
 
 	public void deletePostPersonalById(@Param("deletedid") String deletedid, @Param("id") String id);
+
+	public String getTitleById(@Param("id") String id);
+
+	public List<PostPersonal> getHotPostForHome(@Param("num")int num);
 	
-	public String getTitleById(@Param("id")String id);
+	public List<PostPersonal> getNewPostForHome(@Param("num")int num);
 }

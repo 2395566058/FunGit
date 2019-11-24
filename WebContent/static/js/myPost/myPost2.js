@@ -31,7 +31,13 @@ function showreviewdiv(id){
 						div.id=divid;
 						div.className = "newPostDiv";
 						var param="\'"+id+"\',\'"+obj[i].floor+"\',\'"+divid+"\'";
-						div.innerHTML=" "+obj[i].floor+"楼      发表时间："+obj[i].issuetime+"<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview("+param+")\">删除</div><br> 回复  "+obj[i].reviewName+":<br>"+obj[i].content;
+						var existReviewName;
+						if(obj[i].reviewName==""){
+							existReviewName="<br> 帖子发言";
+						}else{
+							existReviewName="<br> 回复  ";
+						}
+						div.innerHTML=" "+obj[i].floor+"楼      发表时间："+obj[i].issuetime+"<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview("+param+")\">删除</div>"+existReviewName+obj[i].reviewName+":<br>"+obj[i].content;
 						showreviewdiv.appendChild(div);
 					}
 					bigshowreviewdiv.style.display="block";

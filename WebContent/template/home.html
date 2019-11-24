@@ -22,10 +22,81 @@
     	<span onselectstart="return false;" class="hotTitle">热点帖子</span>
         <br onselectstart="return false;"/><br onselectstart="return false;"/>
 		<hr style="margin-left:48px;width:600px;"/>
-        <div  onselectstart="return true;" class="hostdivpost">
-        	<div class="hostpost"></div>
-        </div>
+		<div style="height:720px;width:100%;overflow-x: hidden">
+		<#if hotlist??>
+			<#list hotlist as postPersonal>
+			<div  onselectstart="return true;" class="hostpost" onclick="window.open('showPost.action?id=${postPersonal.id}')">
+        	<div class="hostposttitle">
+        		<span style="font-size:28px;margin-left:10px;">${postPersonal.title}</span>
+        	</div>
+        	<div class="hostpostnum">
+        		<div style="margin-top:5px;font-size:16px">点击量：${postPersonal.clicknum}</div>
+        		<div style="margin-top:5px;font-size:16px">评论量：${postPersonal.reviewnum}</div>
+        	</div>
+        	<div class="hostposthead">
+        		<div class="imghead" style="background-image: url('${postPersonal.userid}');"></div>
+        	</div>
+        	<div class="hostpostname">${postPersonal.content}</div>
+        	<div class="hostpostother">
+        		<span style="margin-left:30px;">发表于版块：${postPersonal.forumid}</span>
+        		<span style="float:right;margin-right:25px;">发表时间：${postPersonal.issuetime}</span>
+        	</div>
+        	</div>
+			</#list>
+			<#if hotlist?size<5>
+				<div style="float:left;height:20px;width:100%;text-align:center;">
+				<p>没有更多数据了呢</p>
+			</div>
+			<#else>
+				<div id="addHotPost" style="float:left;height:20px;width:100%;text-align:center;">
+				<p style="color:green;cursor:pointer;" onclick="getMoreHotPost()">查看更多</p>
+				</div>
+			</#if>
+		<#else>
+			<span>暂时没有热点帖子</span>
+		</#if>
+		</div>
+    </div>
+    <div class="hotDiv">
+    	<span onselectstart="return false;" class="hotTitle">最新帖子</span>
+        <br onselectstart="return false;"/><br onselectstart="return false;"/>
+		<hr style="margin-left:48px;width:600px;"/>
+		<div style="height:720px;width:100%;overflow-x: hidden">
+		<#if newlist??>
+			<#list newlist as postPersonal>
+			<div  onselectstart="return true;" class="hostpost" onclick="window.open('showPost.action?id=${postPersonal.id}')">
+        	<div class="hostposttitle">
+        		<span style="font-size:28px;margin-left:10px;">${postPersonal.title}</span>
+        	</div>
+        	<div class="hostpostnum">
+        		<div style="margin-top:5px;font-size:16px">点击量：${postPersonal.clicknum}</div>
+        		<div style="margin-top:5px;font-size:16px">评论量：${postPersonal.reviewnum}</div>
+        	</div>
+        	<div class="hostposthead">
+        		<div class="imghead" style="background-image: url('${postPersonal.userid}');"></div>
+        	</div>
+        	<div class="hostpostname">${postPersonal.content}</div>
+        	<div class="hostpostother">
+        		<span style="margin-left:30px;">发表于版块：${postPersonal.forumid}</span>
+        		<span style="margin-right:15px;position:absolute;left:310px;">发表时间：${postPersonal.issuetime}</span>
+        	</div>
+        	</div>
+			</#list>
+			<#if newlist?size<5>
+				<div style="float:left;height:20px;width:100%;text-align:center;">
+				<p>没有更多数据了呢</p>
+			</div>
+			<#else>
+				<div  id="addNewPost" style="float:left;height:20px;width:100%;text-align:center;">
+				<p style="color:green;cursor:pointer;" onclick="getMoreNewPost()">查看更多</p>
+				</div>
+			</#if>
+		<#else>
+			<span>暂时没有热点帖子</span>
+		</#if>
+		</div>
     </div>
 </div>
 </body>
+<script type="text/javascript" src="js/home.js"></script>
 </html>

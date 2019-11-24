@@ -3,7 +3,7 @@ html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
+	overflow-x: hidden;
 	background-color: #CCC;
 }
 .bigDiv{
@@ -53,8 +53,10 @@ html, body {
 	text-align:center;
 }
 .hotDiv{
-	height:300px;
-	width:100%;
+	float:left;
+	height:auto;
+	width:50%;
+	margin-bottom:30px;
 }
 .hotTitle{
 	float:left;
@@ -62,17 +64,12 @@ html, body {
 	margin-left:48px;
 	margin-right:500px;
 }
-.hostdivpost{
-	margin-top:10px;
-	height:238px;
-	width:100%;
-}
 .hostpost{
-	height:190px;
-	margin-top:20px;
-	margin-left:60px;
-	width:340px;
-	background-color:#FFF;
+	height:120px;
+	margin-top:15px;
+	margin-left:50px;
+	width:85%;
+	background-color:#fefefe;
 	float:left;
 	cursor:pointer;
 	border-radius: 3px;
@@ -82,4 +79,53 @@ html, body {
 	height:330px;
 	border:0px;
 	position:absolute;
+}
+.hostposttitle{
+	font-family:cursive;
+	float:left;
+	height:36%;
+	width:78%;
+}
+.hostpostnum{
+	margin-top:1%;
+	float:left;
+	height:60%;
+	width:22%;
+	color: #73bcff;
+}
+.hostposthead{
+	margin-top:43px;
+	height:64%;
+	width:18%;
+}
+.hostpostname{
+	position:relative;
+	top:-77px;
+	left:110px;
+	width:321px;
+	height:40px;
+	font-size:22px;
+	line-height:40px;
+	font-family:monospace;
+}
+.hostpostother{
+	position:relative;
+	top:-77px;
+	left:115px;
+	width:465px;
+	height:37px;
+	font-size:14px;
+	line-height:40px;
+	color:#e65b5b;
+}
+.imghead {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin:0px auto;
+	width: 70px;
+	height: 70px;
+	border-radius: 35px;
+	border: solid rgb(100,100,100) 1px;
+	background-color: #FFF;
 }

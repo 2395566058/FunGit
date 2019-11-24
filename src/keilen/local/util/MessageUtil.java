@@ -14,6 +14,6 @@ public class MessageUtil implements Serializable {
 		this.object = null;
 	}
 
+	private String type;
 	private Object object;
-	private boolean status;// 是否被查看
 }

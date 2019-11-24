@@ -3,6 +3,17 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="keilen.local.mapper.PostPersonalMapper">
+	<resultMap type="PostPersonal" id="homePostMap">
+		<id property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="issuetime" column="issuetime"/>
+		<result property="clicknum" column="clicknum"/>
+		<result property="reviewnum" column="reviewnum"/>
+		<association property="forumid" column="forumid" select="keilen.local.mapper.ForumMapper.getNameById" />
+		<association property="userid" column="userid" select="keilen.local.mapper.UserPersonalMapper.getHeadById" />
+		<association property="content" column="userid" select="keilen.local.mapper.UserPersonalMapper.getNameById" />
+	</resultMap>
+
 	<insert id="insertOne" parameterType="PostPersonal" useGeneratedKeys="true" keyProperty="id">
 		insert into post_personal (id,title,userid,forumid,issuetime,clicknum,reviewnum,content)
 			values (id,#{title},#{userid},#{forumid},#{issuetime},"0","0",#{content})
@@ -37,5 +48,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="getTitleById" parameterType="String" resultType="String">
 		select title from post_personal where id=#{id} and deletedid=0
+	</select>
+	
+	<select id="getHotPostForHome" parameterType="int" resultMap="homePostMap">
+		SELECT * FROM post_personal WHERE deletedid=0 ORDER BY clicknum AND reviewnum desc LIMIT #{num},5
+	</select>
+	
+	<select id="getNewPostForHome" parameterType="int" resultMap="homePostMap">
+		SELECT * FROM post_personal WHERE deletedid=0 ORDER BY issuetime desc LIMIT #{num},5
 	</select>
 </mapper>

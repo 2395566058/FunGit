@@ -18,7 +18,7 @@ public class MessageAlertController {
 
 	@RequestMapping(value = "/getMessage", method = RequestMethod.POST)
 	@ResponseBody
-	public MessageUtil getMessage(HttpServletRequest request) throws InterruptedException {
+	public String getMessage(HttpServletRequest request) throws InterruptedException {
 		return longSessionServlet.waitMessageAlert(request);
 	}
 

@@ -12,38 +12,41 @@ import keilen.local.util.ShowReviewUtil;
 
 @Mapper
 public interface PostFloorMapper {
+
 	public int getCountByPostid(@Param("postid") String postid);
 
-	public boolean insertOne(PostFloor postFloor);
-
 	public int getCountByPostidAndFloor(@Param("postid") String postid, @Param("floor") String floor);
+
+	public int getCountforReviewUtilBuUserid(@Param("userid") String userid);
+
+	public int getCountByUserid(@Param("userid") String userid);
+
+	public String getIdByPostidAndFloor(@Param("postid") String postid, @Param("floor") String floor);
+
+	public String getUseNameById(@Param("id") String id);
+
+	public String getUseridById(@Param("id") String id);
+
+	public ShowPostReviewUtil getFloorById(@Param("reviewid") String id);
 
 	public List<ShowPostUtil> getFloorsById(@Param("postid") String postid, @Param("head") int head,
 			@Param("foot") int foot);
 
-	public ShowPostReviewUtil getFloorById(@Param("reviewid") String id);
-
-	public String getIdByPostidAndFloor(@Param("postid") String postid, @Param("floor") String floor);
-
 	public List<ShowMyPostReviewUtil> getMyPostReviewUtil(@Param("userid") String userid, @Param("page") int page);
-
-	public int getCountByUserid(@Param("userid") String userid);
 
 	public List<ShowPostReviewUtil> getReviewByUseridAndPostId(@Param("userid") String userid,
 			@Param("postid") String postid);
 
-	public String getUseNameById(@Param("id") String id);
+	public List<ReviewMeUtil> getReviewUtilByUserid(@Param("userid") String userid, @Param("page") int page);
+
+	public List<ShowReviewUtil> getMyReviewByPostid(@Param("userid") String userid, @Param("postid") String postid);
+
+	public boolean insertOne(PostFloor postFloor);
 
 	public boolean deletePostReview(@Param("postid") String postid, @Param("floor") String floor,
 			@Param("deleted") String deleted);
 
 	public boolean deletePostReviewAll(@Param("postid") String postid, @Param("userid") String userid,
 			@Param("deleted") String deleted);
-
-	public List<ReviewMeUtil> getReviewUtilByUserid(@Param("userid") String userid, @Param("page") int page);
-
-	public int getCountforReviewUtilBuUserid(@Param("userid") String userid);
-
-	public List<ShowReviewUtil> getMyReviewByPostid(@Param("userid") String userid, @Param("postid") String postid);
 
 }
