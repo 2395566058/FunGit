@@ -100,7 +100,7 @@ public class PostServlet {
 	public String addPostPersonal(HttpSession session, PostPersonal postPersonal) {
 		String id = (String) session.getAttribute("id");
 		postPersonal.setUserid(id);
-		postPersonal.setForumid(forumMapper.getIdByName(postPersonal.getForumid()));
+		postPersonal.setForumid(forumMapper.getColumnByArg("forum", "id", "name", postPersonal.getForumid()));
 		String date = NowTimeFormatUtil.getNowTime();
 		postPersonal.setIssuetime(date);
 		boolean result = postPersonalMapper.insertOne(postPersonal);
@@ -126,7 +126,7 @@ public class PostServlet {
 		String writerName = userPersonalMapper.getNameById(pp.getUserid());
 		model.addObject("writerName", writerName);
 		model.addObject("reviewnum", pp.getReviewnum());
-		String forumName = forumMapper.getNameById(pp.getForumid());
+		String forumName = forumMapper.getColumnByArg("forum", "name", "id", pp.getForumid());
 		model.addObject("forumName", forumName);
 		int page_int = Integer.parseInt(page);
 		List<ShowPostUtil> floorlist = postFloorMapper.getFloorsById(id, 5 * page_int - 4, 5 * page_int);
