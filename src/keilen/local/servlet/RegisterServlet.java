@@ -1,15 +1,10 @@
 package keilen.local.servlet;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import keilen.local.entity.User;
 import keilen.local.entity.UserPersonal;
 import keilen.local.mapper.UserMapper;
@@ -26,9 +21,9 @@ public class RegisterServlet {
 	@Transactional
 	public String register(String username, String password, String email, String code, HttpServletRequest request,
 			String name) {
-		boolean result = userMapper.existUsername(username);
+		boolean result = userMapper.existArgsByCloumn("user", username, "username");
 		if (!result) {
-			result = userMapper.existEmail(email);
+			result = userMapper.existArgsByCloumn("user", email, "email");
 		} else {
 			return "用户账号已被注册！";
 		}

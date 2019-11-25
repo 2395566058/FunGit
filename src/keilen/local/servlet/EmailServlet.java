@@ -29,7 +29,7 @@ public class EmailServlet {
 	 * 发送验证码到用户注册的邮箱，并设置session过期为10分钟
 	 */
 	public String sendRegisterEmail(String email, HttpSession session) {
-		boolean result = userMapper.existEmail(email);
+		boolean result=userMapper.existArgsByCloumn("user",email, "email");
 		if (result) {
 			return "邮箱已被注册！";
 		}
@@ -49,24 +49,26 @@ public class EmailServlet {
 		if (username.length() > 7) {
 			String nameOrEmail = username.substring(username.length() - 7, username.length());
 			if (nameOrEmail.equals("@qq.com")) {
-				boolean result = userMapper.existEmail(username);
+				boolean result=userMapper.existArgsByCloumn("user",username, "email");
 				if (!result) {
 					return "邮箱不存在！";
 				}
 			} else {
-				boolean result = userMapper.existUsername(username);
+				boolean result=userMapper.existArgsByCloumn("user",username, "username");
 				if (!result) {
 					return "用户账号不存在！";
 				}
-				User user = userMapper.getUserByUsername(username);
+				List<User> userList = userMapper.getListByArg("user", "username", username);
+				User user = userList.get(0);
 				username = user.getEmail();
 			}
 		} else {
-			boolean result = userMapper.existUsername(username);
+			boolean result=userMapper.existArgsByCloumn("user",username, "username");
 			if (!result) {
 				return "用户账号不存在！";
 			}
-			User user = userMapper.getUserByUsername(username);
+			List<User> userList = userMapper.getListByArg("user", "username", username);
+			User user = userList.get(0);
 			username = user.getEmail();
 		}
 		String code = getCode(6);
@@ -87,11 +89,13 @@ public class EmailServlet {
 			if (nameOrEmail.equals("@qq.com")) {
 
 			} else {
-				User user = userMapper.getUserByUsername(username);
+				List<User> userList = userMapper.getListByArg("user", "username", username);
+				User user = userList.get(0);
 				username = user.getEmail();
 			}
 		} else {
-			User user = userMapper.getUserByUsername(username);
+			List<User> userList = userMapper.getListByArg("user", "username", username);
+			User user = userList.get(0);
 			username = user.getEmail();
 		}
 		String code = getCode(8);

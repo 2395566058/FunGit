@@ -1,5 +1,7 @@
 package keilen.local.servlet;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -29,14 +31,15 @@ public class LoginServlet {
 		if (username.length() > 7) {
 			String nameOrEmail = username.substring(username.length() - 7, username.length());
 			if (nameOrEmail.equals("@qq.com")) {
-				//邮箱登录
-				result = userMapper.existEmail(username);
+				// 邮箱登录
+				result = userMapper.existArgsByCloumn("user", username, "email");
 				if (!result) {
 					return "该邮箱不存在！";
 				}
 				result = userMapper.loginByEmail(username, password);
 				if (result) {
-					User user = userMapper.getUserByEmail(username);
+					List<User> userList = userMapper.getListByArg("user", "email", username);
+					User user = userList.get(0);
 					httpSession.setMaxInactiveInterval(3600);
 					httpSession.setAttribute("id", user.getId());
 					httpSession.setAttribute("name", user.getName());
@@ -48,13 +51,14 @@ public class LoginServlet {
 				}
 			}
 		}
-		result = userMapper.existUsername(username);
+		result = userMapper.existArgsByCloumn("user", username, "username");
 		if (!result) {
 			return "该账号不存在！";
 		}
 		result = userMapper.loginByUsername(username, password);
 		if (result) {
-			User user = userMapper.getUserByUsername(username);
+			List<User> userList = userMapper.getListByArg("user", "username", username);
+			User user = userList.get(0);
 			httpSession.setMaxInactiveInterval(3600);
 			httpSession.setAttribute("id", user.getId());
 			httpSession.setAttribute("name", user.getName());
