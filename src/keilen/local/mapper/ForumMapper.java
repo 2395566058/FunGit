@@ -3,8 +3,6 @@ package keilen.local.mapper;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import keilen.local.entity.Forum;
 
 @Mapper

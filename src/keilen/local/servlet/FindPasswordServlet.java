@@ -1,17 +1,10 @@
 package keilen.local.servlet;
 
 import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import keilen.local.entity.User;
-import keilen.local.mapper.UserMapper;
 
 @Service
 public class FindPasswordServlet {
-	@Autowired
-	private UserMapper userMapper;
 
 	public String findPassword(HttpSession session, String username, String code) {
 		String forgetUsername = (String) session.getAttribute("forgetUsername");

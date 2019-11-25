@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ImageSaveUtil {
-	private static ImageSaveUtil local = new ImageSaveUtil();
 	private static final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
 
 	private ImageSaveUtil() {

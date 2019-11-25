@@ -20,8 +20,6 @@ public class MyInformationServlet {
 	@Autowired
 	private UserMapper userMapper;
 
-	private static final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
-
 	public UserPersonal getInformationByName(HttpSession session) {
 		return userPersonalMapper.getUserPersonalByName((String) session.getAttribute("name"));
 	}
