@@ -35,4 +35,10 @@ public interface CommonMapper<T> {
 			@Param("table") String table, //
 			@Param("args") String args, //
 			@Param("column") String column);
+
+	@Select(value = "SELECT COUNT(*) FROM ${table} where ${argName}=#{argValue}")
+	public int getCountByArg(//
+			@Param("table") String table, //
+			@Param("argName") String argName, //
+			@Param("argValue") String argValue);
 }

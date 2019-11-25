@@ -6,13 +6,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getForumName" resultType="java.util.HashMap">
 		select name from forum
 	</select>
-	
-	<select id="getIdByName" parameterType="String" resultType="String">
-		select id from forum where name=#{name}
-	</select>
-	
-	<select id="getNameById" parameterType="String" resultType="String">
-		select name from forum where id=#{id}
-	</select>
-	
 </mapper>

@@ -5,12 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import keilen.local.entity.Forum;
+
 @Mapper
-public interface ForumMapper {
+public interface ForumMapper extends CommonMapper<Forum>{
 	public List<HashMap<String, Object>> getForumName();
-	
-	public String getIdByName(@Param("name")String name);
-	
-	public String getNameById(@Param("id")String id);
-	
+
 }
