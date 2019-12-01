@@ -54,11 +54,12 @@ html, body {
 	position:relative;
 	padding:10px 20px;
 	background-color: #e3fff2;
-	width:960px;
+	width:959px;
 	min-height:300px;
 	overflow-y:auto;
 	overflow-x:none;
 	font-size:20px;
+	border-left:double 1px #000000;
 }
 .img{
 	max-width:940px;
@@ -70,7 +71,6 @@ html, body {
 	width:139px;
 	min-height:300px;
 	background-color: #f3f3f3;
-	border-right: double 1px;
 }
 .imghead {
 	background-size: 100% 100%;

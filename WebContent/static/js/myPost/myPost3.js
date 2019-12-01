@@ -75,3 +75,6 @@ function deletereview(postid,floor){
 		}
 	}
 }
+function gotoPost(id){
+	parent.window.open("showPost.action?id="+id);
+}

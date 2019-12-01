@@ -11,7 +11,7 @@
 	<#list list as k>
 		<div class="postdiv">
 			<div class="informationdiv">
-				<span style="margin-left:20px;font-size:20px;">你在 "<span style="font-size:22px;color:#1b1b1b">${k.title}</span>" 中发表了 ${k.count} 次评论</span><br>
+				<span style="margin-left:20px;font-size:20px;">你在 "<a href="" onclick="gotoPost('${k.id}')" style="font-size:22px;color:#1b1b1b">${k.title}</a>" 中发表了 ${k.count} 次评论</span><br>
 				<span style="margin-left:20px;font-size:18px;">贴主： <span style="font-size:20px;color:#1b1b1b">${k.name}</span></span><br>
 				<span style="margin-left:20px;font-size:18px;">帖子发布时间： <span style="font-size:20px;color:#1b1b1b">${k.issuetime}</span></span>
 			</div>

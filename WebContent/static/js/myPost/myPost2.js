@@ -100,3 +100,6 @@ function deletePost(postid){
 		}
 	}
 }
+function gotoPost(id){
+	parent.window.open("showPost.action?id="+id);
+}
