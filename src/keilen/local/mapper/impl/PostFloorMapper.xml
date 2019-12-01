@@ -7,14 +7,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="floor" column="floor"/>
 		<result property="content" column="content"/>
 		<result property="issuetime" column="issuetime"/>
-		<association property="useName" column="userid" select="keilen.local.mapper.UserPersonalMapper.getNameById" />
+		<association property="useName" column="table=user_personalString,cloumn=nameString,argName=idString,argValue=userid" 
+			select="keilen.local.mapper.UserPersonalMapper.getColumnByArg" />
 	</resultMap>
 	<resultMap id="floorMap" type="keilen.local.util.ShowPostUtil">
 		<result property="floor" column="floor"/>
 		<result property="content" column="content"/>
 		<result property="issuetime" column="issuetime"/>
-		<association property="useName" column="userid" select="keilen.local.mapper.UserPersonalMapper.getNameById" />
-		<association property="useHead" column="userid" select="keilen.local.mapper.UserPersonalMapper.getHeadById" />
+		<association property="useName" column="table=user_personalString,cloumn=nameString,argName=idString,argValue=userid" 
+			select="keilen.local.mapper.UserPersonalMapper.getColumnByArg" />
+		<association property="useName" column="table=user_personalString,cloumn=headString,argName=idString,argValue=userid" 
+			select="keilen.local.mapper.UserPersonalMapper.getColumnByArg" />
 		<association property="review"  column="reviewid" select="keilen.local.mapper.PostFloorMapper.getFloorByid" />
 	</resultMap>
 	<resultMap type="keilen.local.util.ShowPostReviewUtil" id="ShowPostReviewUtilMap">
@@ -42,10 +45,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</collection>
 	</resultMap>
 	
-	<select id="getCountByPostid" parameterType="String" resultType="int">
-		select count(*) from post_floor where postid=#{postid}
-	</select>
-	
 	<insert id="insertOne" parameterType="PostFloor">
 		insert into post_floor (id,postid,floor,content,userid,issuetime
 		<if test="reviewid!=null">
@@ -63,11 +62,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getFloorsById" resultMap="floorMap">
-		select floor,IF(deleted>0,'发言已被删除',content) as content,userid,issuetime,reviewid from post_floor where postid=#{postid} and floor&gt;=#{head} and floor&lt;=#{foot}
+		select floor,IF(deleted>0,'发言已被删除',content) as content,userid,issuetime,reviewid,
+			'user_personal' as user_personalString,'id' as idString,'head' as headString,'name' as nameString 
+		from post_floor where postid=#{postid} and floor&gt;=#{head} and floor&lt;=#{foot}
 	</select>
 	
 	<select id="getFloorByid" resultMap="postReviewMap">
-		select floor,IF(deleted>0,'发言已被删除',content) as content,userid,issuetime from post_floor where id=#{reviewid}
+		select floor,IF(deleted>0,'发言已被删除',content) as content,userid,issuetime
+			'user_personal' as user_personalString,'id' as idString,'name' as nameString 
+		from post_floor where id=#{reviewid}
 	</select>
 	
 	<select id="getIdByPostidAndFloor" parameterType="String" resultType="String">

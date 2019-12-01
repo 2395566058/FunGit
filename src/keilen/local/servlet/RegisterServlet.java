@@ -54,7 +54,7 @@ public class RegisterServlet {
 					session.setMaxInactiveInterval(3600);
 					session.setAttribute("id", user.getId());
 					session.setAttribute("name", user.getName());
-					session.setAttribute("head", userPersonalMapper.getHeadByName(user.getName()));
+					session.setAttribute("head", userPersonalMapper.getColumnByArg("user_personal", "head", "name", user.getName()));
 					return "注册成功！";
 				}
 			}

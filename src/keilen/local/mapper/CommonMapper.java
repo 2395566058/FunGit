@@ -25,11 +25,6 @@ public interface CommonMapper<T> {
 			@Param("argName") String argName, //
 			@Param("argValue") String argValue);
 
-	@Select(value = "DELETE FROM ${table} WHERE id = #{id}")
-	public boolean deleteOneById(//
-			@Param("table") String table, //
-			@Param("id") String id);//
-
 	@Select(value = "SELECT COUNT(*) FROM ${table} where ${column}=#{args}")
 	public boolean existArgsByCloumn(//
 			@Param("table") String table, //

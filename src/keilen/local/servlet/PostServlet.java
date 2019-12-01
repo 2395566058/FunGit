@@ -66,14 +66,14 @@ public class PostServlet {
 			String head = content.substring(0, stringHead);
 			String foot = content.substring(stringFoot, content.length());
 			content = head.concat(foot);
-			reviewUserid = postFloorMapper.getUseridById(reviewid);
+			reviewUserid=postFloorMapper.getColumnByArg("post_floor", "userid", "id",reviewid );
 		}
 		reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
 		pf.setPostid(postid);
 		pf.setContent(content);
 		String userid = (String) session.getAttribute("id");
 		String issuetime = NowTimeFormatUtil.getNowTime();
-		int count = postFloorMapper.getCountByPostid(postid);
+		int count = postFloorMapper.getCountByArg("post_floor", "postid", postid);
 		pf.setUserid(userid);
 		pf.setFloor(String.valueOf(count + 1));
 		pf.setIssuetime(issuetime);
@@ -123,7 +123,8 @@ public class PostServlet {
 		model.addObject("postid", id);
 		model.addObject("title", pp.getTitle());
 		model.addObject("clicknum", pp.getClicknum());
-		String writerName = userPersonalMapper.getNameById(pp.getUserid());
+		String writerName = userPersonalMapper.getColumnByArg("user_personal", "name", "id", pp.getUserid());
+		
 		model.addObject("writerName", writerName);
 		model.addObject("reviewnum", pp.getReviewnum());
 		String forumName = forumMapper.getColumnByArg("forum", "name", "id", pp.getForumid());
@@ -135,7 +136,7 @@ public class PostServlet {
 			spu.setFloor("0");
 			spu.setContent(pp.getContent());
 			spu.setUseName(writerName);
-			spu.setUseHead(userPersonalMapper.getHeadByName(writerName));
+			spu.setUseHead(userPersonalMapper.getColumnByArg("user_personal", "head", "name", writerName));
 			spu.setIssuetime(pp.getIssuetime());
 			floorlist.add(0, spu);
 		}
@@ -148,7 +149,7 @@ public class PostServlet {
 		} else {
 			model.addObject("isLogin", "false");
 		}
-		int floorNum = postFloorMapper.getCountByPostid(id);
+		int floorNum = postFloorMapper.getCountByArg("post_floor", "postid", id);
 		model.addObject("floorNum", floorNum);
 		model.setViewName("showPost");
 		return model;

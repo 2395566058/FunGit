@@ -7,18 +7,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertUserPersonal" parameterType="UserPersonal">
 		insert into user_personal(id,name,head,register) values(#{id},#{name},#{head},#{register})
 	</insert>
-	
-	<select id="getHeadByName" parameterType="String" resultType="String">
-		select head from user_personal where name=#{name}
-	</select>
-	
-	<select id="getHeadById" parameterType="String" resultType="String">
-		select head from user_personal where id=#{id}
-	</select>
-	
-	<select id="getNameById" parameterType="String" resultType="String">
-		select name from user_personal where id=#{id}
-	</select>
 
 	<select id="getUserPersonalByName" parameterType="String" resultType="UserPersonal">
 		select * from user_personal where name=#{name}

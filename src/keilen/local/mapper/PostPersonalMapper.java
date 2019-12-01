@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import keilen.local.entity.PostPersonal;
 
 @Mapper
-public interface PostPersonalMapper {
+public interface PostPersonalMapper extends CommonMapper<PostPersonal>{
 
 	public boolean insertOne(PostPersonal postPersonal);
 

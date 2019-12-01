@@ -43,7 +43,7 @@ public class LoginServlet {
 					httpSession.setMaxInactiveInterval(3600);
 					httpSession.setAttribute("id", user.getId());
 					httpSession.setAttribute("name", user.getName());
-					httpSession.setAttribute("head", userPersonalMapper.getHeadByName(user.getName()));
+					httpSession.setAttribute("head", userPersonalMapper.getColumnByArg("user_personal", "head", "name", user.getName()));
 					redisCacheServlet.addOnline(user.getId(), httpSession.getId());
 					return "true";
 				} else {
@@ -62,7 +62,7 @@ public class LoginServlet {
 			httpSession.setMaxInactiveInterval(3600);
 			httpSession.setAttribute("id", user.getId());
 			httpSession.setAttribute("name", user.getName());
-			httpSession.setAttribute("head", userPersonalMapper.getHeadByName(user.getName()));
+			httpSession.setAttribute("head", userPersonalMapper.getColumnByArg("user_personal", "head", "name", user.getName()));
 			redisCacheServlet.addOnline(user.getId(), httpSession.getId());
 			return "true";
 		}

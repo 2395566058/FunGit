@@ -32,7 +32,7 @@ public class MyInformationServlet {
 			if (userPersonal.getName() == "" || userPersonal.getName().length() < 2) {
 				return "昵称不符合规范";
 			} else {
-				boolean result = userPersonalMapper.existName(userPersonal.getName());
+				boolean result = userPersonalMapper.existArgsByCloumn("user_personal", userPersonal.getName(), "name");				
 				if (result) {
 					return "昵称已经被使用！";
 				}

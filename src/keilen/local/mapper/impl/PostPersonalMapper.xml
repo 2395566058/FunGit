@@ -9,9 +9,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="issuetime" column="issuetime"/>
 		<result property="clicknum" column="clicknum"/>
 		<result property="reviewnum" column="reviewnum"/>
-		<association property="forumid" column="forumid" select="keilen.local.mapper.ForumMapper.getNameById" />
-		<association property="userid" column="userid" select="keilen.local.mapper.UserPersonalMapper.getHeadById" />
-		<association property="content" column="userid" select="keilen.local.mapper.UserPersonalMapper.getNameById" />
+		<association property="forumid" column="table=forumString,column=nameString,argName=idString,argValue=forumid" 
+			select="keilen.local.mapper.ForumMapper.getColumnByArg" />
+		<association property="userid" column="table=user_personalString,column=headString,argName=idString,argValue=userid" 
+			select="keilen.local.mapper.UserPersonalMapper.getColumnByArg" />
+		<association property="content" column="table=user_personalString,column=nameString,argName=idString,argValue=userid" 
+			select="keilen.local.mapper.UserPersonalMapper.getColumnByArg" />
 	</resultMap>
 
 	<insert id="insertOne" parameterType="PostPersonal" useGeneratedKeys="true" keyProperty="id">
@@ -51,10 +54,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="getHotPostForHome" parameterType="int" resultMap="homePostMap">
-		SELECT * FROM post_personal WHERE deletedid=0 ORDER BY clicknum AND reviewnum desc LIMIT #{num},5
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 ORDER BY clicknum AND reviewnum desc LIMIT #{num},5
 	</select>
 	
 	<select id="getNewPostForHome" parameterType="int" resultMap="homePostMap">
-		SELECT * FROM post_personal WHERE deletedid=0 ORDER BY issuetime desc LIMIT #{num},5
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 ORDER BY issuetime desc LIMIT #{num},5
 	</select>
 </mapper>

@@ -11,9 +11,7 @@ import keilen.local.util.ShowPostUtil;
 import keilen.local.util.ShowReviewUtil;
 
 @Mapper
-public interface PostFloorMapper {
-
-	public int getCountByPostid(@Param("postid") String postid);
+public interface PostFloorMapper extends CommonMapper<PostFloor>{
 
 	public int getCountByPostidAndFloor(@Param("postid") String postid, @Param("floor") String floor);
 
@@ -24,8 +22,6 @@ public interface PostFloorMapper {
 	public String getIdByPostidAndFloor(@Param("postid") String postid, @Param("floor") String floor);
 
 	public String getUseNameById(@Param("id") String id);
-
-	public String getUseridById(@Param("id") String id);
 
 	public ShowPostReviewUtil getFloorById(@Param("reviewid") String id);
 
