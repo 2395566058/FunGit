@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import keilen.local.entity.PostPersonal;
 
 @Mapper
-public interface PostPersonalMapper extends CommonMapper<PostPersonal>{
+public interface PostPersonalMapper extends CommonMapper<PostPersonal> {
 
 	public boolean insertOne(PostPersonal postPersonal);
 
@@ -26,7 +26,15 @@ public interface PostPersonalMapper extends CommonMapper<PostPersonal>{
 
 	public String getTitleById(@Param("id") String id);
 
-	public List<PostPersonal> getHotPostForHome(@Param("num")int num);
+	public List<PostPersonal> getHotPostForHome(@Param("num") int num);
+
+	public List<PostPersonal> getNewPostForHome(@Param("num") int num);
 	
-	public List<PostPersonal> getNewPostForHome(@Param("num")int num);
+	public int getCountLikeTitle(@Param("title") String title);
+	
+	public int getCountLikeUserid(@Param("userid") String userid);
+
+	public List<PostPersonal> getListLikeTitle(@Param("title") String title, @Param("num") int num);
+
+	public List<PostPersonal> getListLikeUserid(@Param("userid") String userid, @Param("num") int num);
 }

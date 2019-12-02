@@ -64,4 +64,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
 		FROM post_personal WHERE deletedid=0 ORDER BY issuetime desc LIMIT #{num},5
 	</select>
+	
+	<select id="getCountLikeTitle" resultType="int">
+		SELECT count(*) FROM post_personal WHERE deletedid=0 and title like #{title}
+	</select>
+	
+	<select id="getCountLikeUserid" resultType="int">
+		SELECT count(*) FROM post_personal WHERE deletedid=0 and userid in
+			(select id from user_personal where name like #{userid})
+	</select>
+	
+	<select id="getListLikeTitle" resultMap="homePostMap">
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 and title like #{title} ORDER BY issuetime desc LIMIT #{num},10
+	</select>
+	
+	<select id="getListLikeUserid" resultMap="homePostMap">
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 and userid in
+			(select id from user_personal where name like #{userid}) 
+		ORDER BY issuetime desc LIMIT #{num},10
+	</select>
 </mapper>

@@ -106,3 +106,10 @@ function getMoreNewPost() {
 		alert("Your browser does not support XMLHTTP.");
 	}
 }
+function searchPost(input,select){
+	if(input.value==null||input.value==""){
+		alert("请输入搜索的关键词！");
+		return;
+	}
+	window.open("showSearchPost.action?input="+input.value+"&select="+select.value);
+}

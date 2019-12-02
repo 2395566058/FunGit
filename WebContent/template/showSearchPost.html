@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>查询结果</title>
+<link type="text/css" rel="stylesheet" href="css/showSearchPost.css" />
+</head>
+<body>
+<h3 style="margin-left:50px;font-size:30px;">共查找到${count}条帖子，结果如下</h3>
+<div class="hotDiv">
+	<div style="height:auto;width:100%;overflow: hidden">
+		<#if searchlist??>
+			<#list searchlist as postPersonal>
+			<div  onselectstart="return true;" class="hostpost" onclick="window.open('showPost.action?id=${postPersonal.id}')">
+        	<div class="hostposttitle">
+        		<span style="font-size:28px;margin-left:10px;">${postPersonal.title}</span>
+        	</div>
+        	<div class="hostpostnum">
+        		<div style="margin-top:5px;font-size:16px">点击量：${postPersonal.clicknum}</div>
+        		<div style="margin-top:5px;font-size:16px">评论量：${postPersonal.reviewnum}</div>
+        	</div>
+        	<div class="hostposthead">
+        		<div class="imghead" style="background-image: url('${postPersonal.userid}');"></div>
+        	</div>
+        	<div class="hostpostname">${postPersonal.content}</div>
+        	<div class="hostpostother">
+        		<span style="margin-left:30px;">发表于版块：${postPersonal.forumid}</span>
+        		<span style="float:right;margin-right:25px;">发表时间：${postPersonal.issuetime}</span>
+        	</div>
+        	</div>
+			</#list>
+			<#if (searchlist?size)%2!=0>
+				<div style="float:left;height:120px;margin-top:15px;margin-left:50px;width:45%;text-align:center;">
+					<p>没有更多数据了呢</p>
+				</div>
+			</#if>
+		<#else>
+			<span>搜索不到相关信息</span>
+		</#if>
+	</div>
+	<div class="daohangdiv">
+		<#if searchlist??>
+			<a href="" onclick="skipto(${localpage}-1,${countpage});return false;" style="margin-right:50px;cursor:pointer;">上一页</a>
+			<span>跳转到第 </span><input id="skipPage" style="height:25px;line-height:25px;width:70px" oninput = "value=value.replace(/[^\d]/g,'')" type="text" /><span> 页  </span>
+			<button style="height:30px;width:50px" onclick="skipto(document.getElementById('skipPage').value,${countpage})">跳转</button>
+			<span>当前第${localpage}页   共${countpage}页</span>
+			<a href="" onclick="skipto(${localpage}+1,${countpage});return false;" style="margin-left:50px;cursor:pointer;">下一页</a>
+		</#if>
+	</div>
+</div>
+</body>
+<script type="text/javascript">
+function skipto(targetpage,countpage){
+	if(targetpage>0&targetpage<=countpage){
+		window.location.href="showSearchPost.action?page="+targetpage+"&input=${dhinput}&select=${dhselect}";
+	}
+}
+</script>
+</html>

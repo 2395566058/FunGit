@@ -66,7 +66,7 @@ public class PostServlet {
 			String head = content.substring(0, stringHead);
 			String foot = content.substring(stringFoot, content.length());
 			content = head.concat(foot);
-			reviewUserid=postFloorMapper.getColumnByArg("post_floor", "userid", "id",reviewid );
+			reviewUserid = postFloorMapper.getColumnByArg("post_floor", "userid", "id", reviewid);
 		}
 		reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
 		pf.setPostid(postid);
@@ -124,7 +124,7 @@ public class PostServlet {
 		model.addObject("title", pp.getTitle());
 		model.addObject("clicknum", pp.getClicknum());
 		String writerName = userPersonalMapper.getColumnByArg("user_personal", "name", "id", pp.getUserid());
-		
+
 		model.addObject("writerName", writerName);
 		model.addObject("reviewnum", pp.getReviewnum());
 		String forumName = forumMapper.getColumnByArg("forum", "name", "id", pp.getForumid());
@@ -331,6 +331,46 @@ public class PostServlet {
 			value.setIssuetime(NowTimeFormatUtil.getTimeFormat(value.getIssuetime()));
 		}
 		return list;
+	}
+
+	public ModelAndView searchPost(ModelAndView model, String input, String select, int page) {
+		model.addObject("dhinput",input);
+		model.addObject("dhselect",select);
+		int num = 10 * (page - 1);
+		if ("".equals(input)) {
+			return model;
+		}
+		String inputlike = "%" + input + "%";
+		List<PostPersonal> list;
+		int countpage = 0;
+		if ("title".equals(select)) {
+			int count = postPersonalMapper.getCountLikeTitle(inputlike);
+			if (count % 10 != 0) {
+				countpage = count / 10 + 1;
+			} else {
+				countpage = count / 10;
+			}
+			model.addObject("count", count);
+			list = postPersonalMapper.getListLikeTitle(inputlike, num);
+		} else if ("name".equals(select)) {
+			int count = postPersonalMapper.getCountLikeUserid(inputlike);
+			if (count % 10 != 0) {
+				countpage = count / 10 + 1;
+			} else {
+				countpage = count / 10;
+			}
+			model.addObject("count", count);
+			list = postPersonalMapper.getListLikeUserid(inputlike, num);
+		} else {
+			return model;
+		}
+		if (list == null || list.size() == 0) {
+			return model;
+		}
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
+		model.addObject("searchlist", list);
+		return model;
 	}
 
 	public String List2JsonTypePostPersonal(List<PostPersonal> list) {
