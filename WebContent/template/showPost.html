@@ -90,7 +90,7 @@
 	<#if isLogin=="true">
 		<div class="imghead" style="background-image: url(${loginHead});margin:30px 20px"></div>
 		<div style="text-overflow:ellipsis;overflow: hidden;white-space:nowrap;margin-top:60px;float:left;height:30px;width:139px;font-size:22px;line-height:30px;word-wrap: break-word;word-break: break-all;overflow: hidden;">${loginName}</div>
-		<div style="position:relative;left:53px;cursor:pointer;margin-top:-16px;float:left;text-align:center;height:50px;width:170px;line-height:50px;border:double 1px;background-color: #98fad8;" >签到</div>
+		<div onClick="script:alert('暂未开放')" style="position:relative;left:53px;cursor:pointer;margin-top:-16px;float:left;text-align:center;height:50px;width:170px;line-height:50px;border:double 1px;background-color: #98fad8;" >签到</div>
 	</#if>
 	<#if isLogin=="false">
 	<br>

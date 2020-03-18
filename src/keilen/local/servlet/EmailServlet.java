@@ -10,6 +10,7 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import keilen.local.entity.User;
 import keilen.local.mapper.UserMapper;
@@ -83,6 +84,7 @@ public class EmailServlet {
 
 	}
 
+	@Transactional
 	public String sendForgetSuccessEmail(String username, HttpSession session) {
 		if (username.length() > 7) {
 			String nameOrEmail = username.substring(username.length() - 7, username.length());

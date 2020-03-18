@@ -10,6 +10,9 @@ function toMyPost() {
 function toMyPost2() {
 	parent.window.location.href = "myPost.action?part=2";
 }
+function toMyPost4(){
+	parent.window.location.href = "myPost.action?part=4";
+}
 function toIssuePost() {
 	parent.window.location.href = "issuePost.action";
 }
