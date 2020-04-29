@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="keilen.local.mapper.SystemInfoMapper">
+<select id="getSystemInfoByUserid" resultType="SystemInfo">
+		<bind name="newpage" value="5*(page-1)"></bind>
+		SELECT * FROM systeminfo WHERE userid = #{userid} limit #{newpage},5
+	</select>
+	<update id="isreadById" parameterType="String">
+		UPDATE systeminfo SET isread='1' WHERE id=#{id}
+	</update>
+	<select id="existNotRead" parameterType="String" resultType="boolean">
+		SELECT count(*) FROM systeminfo WHERE userid=#{userid} AND isread='0'
+	</select>
+	<insert id="addSystemInfo" parameterType="String">
+		INSERT INTO systeminfo (userid,title,content,issuetime,issueid,isread) VALUES(#{userid},#{title},#{content},#{issuetime},#{issueid},'0')
+	</insert>
+</mapper>

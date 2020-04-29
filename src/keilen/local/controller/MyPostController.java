@@ -68,6 +68,19 @@ public class MyPostController {
 		return model;
 	}
 
+	@RequestMapping(value = "/myPost4.action", method = RequestMethod.GET)
+	public ModelAndView getHtml4(HttpServletRequest request, ModelAndView model,
+			@RequestParam(name = "page", required = false, defaultValue = "1") String page) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id") == null) {
+			model.setViewName("login");
+			return model;
+		}
+		model = postServlet.getSystemInfo(model, request.getSession(), Integer.parseInt(page));
+		model.setViewName("myPost-part4");
+		return model;
+	}
+
 	//
 	@RequestMapping(value = "/showReviewMeByPostId", method = RequestMethod.POST)
 	@ResponseBody
@@ -98,5 +111,17 @@ public class MyPostController {
 	@ResponseBody
 	public String deletePost(String id) {
 		return postServlet.deletePost(id);
+	}
+
+	@RequestMapping(value = "/isreadById", method = RequestMethod.POST)
+	@ResponseBody
+	public String isreadById(String id) {
+		return postServlet.isreadById(id);
+	}
+
+	@RequestMapping(value = "/existNotRead", method = RequestMethod.POST)
+	@ResponseBody
+	public String existNotRead(HttpSession session) throws InterruptedException {
+		return postServlet.existNotRead(session);
 	}
 }

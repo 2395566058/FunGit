@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" type="text/css" href="css/myPost/myPost3.css" />
+</head>
+<body>
+<div class="showdiv">
+	<#if list??>
+	<#list list as k>
+		<div class="postdiv">
+			<div class="informationdiv">
+				<span style="margin-left:20px;font-size:20px;">${k.title}</span><br>
+				<span style="margin-left:20px;font-size:18px;"> <span style="font-size:20px;color:#1b1b1b">${k.content}</span></span><br>
+				<span style="margin-left:20px;font-size:18px;">消息时间： <span style="font-size:20px;color:#1b1b1b">${k.issuetime}</span></span><br>
+			</div>
+			<#if k.isread=="0">
+				<div class="setupdiv">
+				<br>
+				<button class="button" onclick="isread('${k.id}')">已读</button>
+				</div>
+			<#else>
+				<br>
+				已读
+			</#if>
+		</div>
+	</#list>
+	<#if list?size<5>
+		<div style="height:20px;width:100%;text-align:center;">
+			<p>没有更多数据了呢</p>
+		</div>
+	</#if>
+	<#else>
+		<span>暂时还没有人回复你呢</span>
+	</#if>
+	<div class="daohangdiv">
+		<#if list??>
+			<a href="" onclick="skipto(${localpage}-1,${countpage});return false;" style="margin-right:50px;cursor:pointer;">上一页</a>
+			<span>跳转到第 </span><input id="skipPage" style="height:25px;line-height:25px;width:70px" oninput = "value=value.replace(/[^\d]/g,'')" type="text" /><span> 页  </span>
+			<button style="height:30px;width:50px" onclick="skipto(document.getElementById('skipPage').value,${countpage})">跳转</button>
+			<span>当前第${localpage}页   共${countpage}页</span>
+			<a href="" onclick="skipto(${localpage}+1,${countpage});return false;" style="margin-left:50px;cursor:pointer;">下一页</a>
+		</#if>
+	</div>
+</div>
+<div id="bigshowreviewdiv" onclick="xiaoshi(this)" class="divdiv">
+	<div onClick="event.cancelBubble = true" id="showreviewdiv" class="divdivdiv"></div>
+</div>
+</body>
+<script type="text/javascript" src="js/myPost/myPost3.js"></script>
+</html>

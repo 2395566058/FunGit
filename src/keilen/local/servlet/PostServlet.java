@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.tools.ant.taskdefs.Sleep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 import keilen.local.entity.Deleted;
 import keilen.local.entity.PostFloor;
 import keilen.local.entity.PostPersonal;
+import keilen.local.entity.SystemInfo;
 import keilen.local.mapper.DeletedMapper;
 import keilen.local.mapper.ForumMapper;
 import keilen.local.mapper.PostFloorMapper;
 import keilen.local.mapper.PostPersonalMapper;
+import keilen.local.mapper.SystemInfoMapper;
 import keilen.local.mapper.UserPersonalMapper;
 import keilen.local.util.ImageSaveUtil;
 import keilen.local.util.NowTimeFormatUtil;
@@ -41,6 +45,8 @@ public class PostServlet {
 	private DeletedMapper deletedMapper;
 	@Autowired
 	private RedisCacheServlet redisCacheServlet;
+	@Autowired
+	private SystemInfoMapper systemInfoMapper;
 
 	public String addimage(HttpServletRequest request, MultipartFile imgData) {
 		try {
@@ -287,6 +293,25 @@ public class PostServlet {
 		return model;
 	}
 
+	public ModelAndView getSystemInfo(ModelAndView model, HttpSession session, int page) {
+		int count = systemInfoMapper.getCountByArg("systeminfo", "userid", (String) session.getAttribute("id"));
+		if (count == 0) {
+			model.addObject("list", null);
+			return model;
+		}
+		int countpage = 0;
+		if (count % 5 != 0) {
+			countpage = count / 5 + 1;
+		} else {
+			countpage = count / 5;
+		}
+		List<SystemInfo> list = systemInfoMapper.getSystemInfoByUserid((String) session.getAttribute("id"), page);
+		model.addObject("list", list);
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
+		return model;
+	}
+
 	public String getShowReviewMeByPostid(String postid, HttpSession session) {
 		List<ShowReviewUtil> list = postFloorMapper.getMyReviewByPostid((String) session.getAttribute("id"), postid);
 		StringBuffer result = new StringBuffer("[");
@@ -334,8 +359,8 @@ public class PostServlet {
 	}
 
 	public ModelAndView searchPost(ModelAndView model, String input, String select, int page) {
-		model.addObject("dhinput",input);
-		model.addObject("dhselect",select);
+		model.addObject("dhinput", input);
+		model.addObject("dhselect", select);
 		int num = 10 * (page - 1);
 		if ("".equals(input)) {
 			return model;
@@ -381,5 +406,24 @@ public class PostServlet {
 		listJson = listJson.deleteCharAt(listJson.length() - 1);
 		listJson.append("]");
 		return listJson.toString();
+	}
+
+	@Transactional
+	public String isreadById(String id) {
+		Boolean result = systemInfoMapper.isreadById(id);
+		if (result == true) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+
+	public String existNotRead(HttpSession session) throws InterruptedException {
+		Boolean result = systemInfoMapper.existNotRead((String) session.getAttribute("id"));
+		if (result == true) {
+			return "true";
+		} else {
+			return "false";
+		}
 	}
 }

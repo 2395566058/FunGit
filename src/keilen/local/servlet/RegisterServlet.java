@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import keilen.local.entity.User;
 import keilen.local.entity.UserPersonal;
+import keilen.local.mapper.SystemInfoMapper;
 import keilen.local.mapper.UserMapper;
 import keilen.local.mapper.UserPersonalMapper;
 import keilen.local.util.NowTimeFormatUtil;
@@ -17,6 +18,10 @@ public class RegisterServlet {
 	private UserMapper userMapper;
 	@Autowired
 	private UserPersonalMapper userPersonalMapper;
+	@Autowired
+	private SystemInfoMapper systemInfoMapper;
+	@Autowired
+	private RedisCacheServlet redisCacheServlet;
 
 	@Transactional
 	public String register(String username, String password, String email, String code, HttpServletRequest request,
@@ -54,7 +59,11 @@ public class RegisterServlet {
 					session.setMaxInactiveInterval(3600);
 					session.setAttribute("id", user.getId());
 					session.setAttribute("name", user.getName());
-					session.setAttribute("head", userPersonalMapper.getColumnByArg("user_personal", "head", "name", user.getName()));
+					session.setAttribute("head",
+							userPersonalMapper.getColumnByArg("user_personal", "head", "name", user.getName()));
+					systemInfoMapper.addSystemInfo(user.getId(), "系统通知", "欢迎你注册乐趣论坛，本论坛为毕业设计作品，可能有多处地方没有完善，请谅解。",
+							NowTimeFormatUtil.getNowTime(), "0");
+					redisCacheServlet.addOnline(user.getId(), session.getId());
 					return "注册成功！";
 				}
 			}

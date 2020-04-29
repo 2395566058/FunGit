@@ -24,7 +24,7 @@ if (window.XMLHttpRequest) {
 	xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 }
 this.getOnlineStatus();
-this.getMessage();
+this.existNotRead();
 function showTags() {
 	document.getElementById("shortimg").style.display = "block";
 	document.getElementById("dropDown").style.display = "block";
@@ -38,6 +38,36 @@ function tagColor(button) {
 }
 function tagColor2(button) {
 	button.style.backgroundColor = "#FFF";
+}
+var xiaoxiICON=document.getElementById("xiaoxiICON");
+function existNotRead(id) {
+	var xmlhttp2 = null;
+	if (window.XMLHttpRequest) {
+		xmlhttp2 = new XMLHttpRequest();
+	} else if (window.ActiveXObject) {
+		xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if (xmlhttp2 != null) {
+		xmlhttp2.onreadystatechange = function() {
+			if (xmlhttp2.readyState == 4) {
+				if (xmlhttp2.status == 200) {
+					var result = xmlhttp2.responseText;
+					if (result == "true") {
+						xiaoxiICON.className="imginfo";
+					} else {
+						xiaoxiICON.className="imginfo2";
+					}
+					setTimeout(existNotRead, 2000)
+				}
+			}
+		}
+		xmlhttp2.open("POST", "existNotRead", true);
+		xmlhttp2.setRequestHeader("Content-Type",
+				"application/x-www-form-urlencoded;charset=utf-8");
+		xmlhttp2.send();
+	} else {
+		alert("Your browser does not support XMLHTTP.");
+	}
 }
 function exitStatus() {
 	if (confirm("还可以再看一会哦，确定要退出吗？")) {
@@ -89,32 +119,6 @@ function ttag(num) {
 		document.getElementById("tag5").style.backgroundColor = "#FFF";
 		document.getElementById("tag5").style.borderColor = "inherit";
 		return;
-	}
-}
-function getMessage() {
-	var xmlhttp = null;
-	if (window.XMLHttpRequest) {
-		xmlhttp = new XMLHttpRequest();
-	} else if (window.ActiveXObject) {
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	if (xmlhttp != null) {
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4) {
-				if (xmlhttp.status == 200) {
-					if (xmlhttp.responseText != "false") {
-						alert(xmlhttp.responseText);
-					}
-					getMessage();
-				}
-			}
-		};
-		xmlhttp.open("POST", "getMessage", true);
-		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;charset=utf-8");
-		xmlhttp.send();
-	} else {
-		alert("Your browser does not support XMLHTTP.");
 	}
 }
 function getOnlineStatus() {

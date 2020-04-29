@@ -32,6 +32,6 @@ public class RegisterController {
 	@ResponseBody
 	public String register(String username, String password, String email, String code, HttpServletRequest request) {
 		return registerServlet.register(username, password, email, code, request,
-				emailServlet.getCode(5) + System.currentTimeMillis());
+				emailServlet.getCode(2) + System.currentTimeMillis());
 	}
 }
