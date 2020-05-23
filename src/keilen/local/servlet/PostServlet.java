@@ -358,10 +358,42 @@ public class PostServlet {
 		return list;
 	}
 
+	public ModelAndView getBlockPost(ModelAndView model, int page, String block,String type) {
+		model.addObject("dhblock", block);
+		int num = 6 * (page - 1);
+		if ("".equals(block)) {
+			return model;
+		}
+		List<PostPersonal> list=null;
+		int countpage = 0;
+		String blockid=forumMapper.getColumnByArg("forum", "id","name" , block);
+		int count = postPersonalMapper.getCountByForumid(blockid);
+		if (count % 6 != 0) {
+			countpage = count / 6 + 1;
+		} else {
+			countpage = count / 6;
+		}
+		model.addObject("count", count);
+		if("hot".equals(type)) {
+			list = postPersonalMapper.getHotListByForumid(blockid, num);
+		}else if("new".equals(type)) {
+			list = postPersonalMapper.getNewListByForumid(blockid, num);
+		}else {
+			list = postPersonalMapper.getRandowListByForumid(blockid, num);
+		}
+		if (list == null || list.size() == 0) {
+			return model;
+		}
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
+		model.addObject("searchlist", list);
+		return model;
+	}
+
 	public ModelAndView searchPost(ModelAndView model, String input, String select, int page) {
 		model.addObject("dhinput", input);
 		model.addObject("dhselect", select);
-		int num = 10 * (page - 1);
+		int num = 8 * (page - 1);
 		if ("".equals(input)) {
 			return model;
 		}
@@ -370,19 +402,19 @@ public class PostServlet {
 		int countpage = 0;
 		if ("title".equals(select)) {
 			int count = postPersonalMapper.getCountLikeTitle(inputlike);
-			if (count % 10 != 0) {
-				countpage = count / 10 + 1;
+			if (count % 8 != 0) {
+				countpage = count / 8 + 1;
 			} else {
-				countpage = count / 10;
+				countpage = count / 8;
 			}
 			model.addObject("count", count);
 			list = postPersonalMapper.getListLikeTitle(inputlike, num);
 		} else if ("name".equals(select)) {
 			int count = postPersonalMapper.getCountLikeUserid(inputlike);
-			if (count % 10 != 0) {
-				countpage = count / 10 + 1;
+			if (count % 8 != 0) {
+				countpage = count / 8 + 1;
 			} else {
-				countpage = count / 10;
+				countpage = count / 8;
 			}
 			model.addObject("count", count);
 			list = postPersonalMapper.getListLikeUserid(inputlike, num);

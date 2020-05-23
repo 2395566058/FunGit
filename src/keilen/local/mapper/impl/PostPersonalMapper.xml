@@ -74,10 +74,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			(select id from user_personal where name like #{userid})
 	</select>
 	
+	<select id="getCountByForumid" resultType="int">
+		SELECT count(*) FROM post_personal WHERE deletedid=0 and forumid=#{id}
+	</select>
+	
 	<select id="getListLikeTitle" resultMap="homePostMap">
 		SELECT * ,
 			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
-		FROM post_personal WHERE deletedid=0 and title like #{title} ORDER BY issuetime desc LIMIT #{num},10
+		FROM post_personal WHERE deletedid=0 and title like #{title} ORDER BY issuetime desc LIMIT #{num},8
 	</select>
 	
 	<select id="getListLikeUserid" resultMap="homePostMap">
@@ -85,6 +89,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
 		FROM post_personal WHERE deletedid=0 and userid in
 			(select id from user_personal where name like #{userid}) 
-		ORDER BY issuetime desc LIMIT #{num},10
+		ORDER BY issuetime desc LIMIT #{num},8
+	</select>
+	
+	<select id="getHotListByForumid" resultMap="homePostMap">
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 and forumid=#{forumid}
+		ORDER BY clicknum AND reviewnum desc LIMIT #{num},6
+	</select>
+	
+	<select id="getNewListByForumid" resultMap="homePostMap">
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 and forumid=#{forumid}
+		ORDER BY issuetime desc LIMIT #{num},6
+	</select>
+	
+	<select id="getRandowListByForumid" resultMap="homePostMap">
+		SELECT * ,
+			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
+		FROM post_personal WHERE deletedid=0 and forumid=#{forumid}
+		ORDER BY RAND() LIMIT #{num},6
 	</select>
 </mapper>
