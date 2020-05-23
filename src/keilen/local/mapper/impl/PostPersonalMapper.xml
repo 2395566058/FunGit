@@ -56,13 +56,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getHotPostForHome" parameterType="int" resultMap="homePostMap">
 		SELECT * ,
 			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
-		FROM post_personal WHERE deletedid=0 ORDER BY clicknum AND reviewnum desc LIMIT #{num},5
+		FROM post_personal WHERE deletedid=0 ORDER BY clicknum AND reviewnum desc LIMIT #{num},6
 	</select>
 	
 	<select id="getNewPostForHome" parameterType="int" resultMap="homePostMap">
 		SELECT * ,
 			'forum' as forumString,'id' as idString,'name' as nameString ,'user_personal' as user_personalString,'head' as headString 
-		FROM post_personal WHERE deletedid=0 ORDER BY issuetime desc LIMIT #{num},5
+		FROM post_personal WHERE deletedid=0 ORDER BY issuetime desc LIMIT #{num},6
 	</select>
 	
 	<select id="getCountLikeTitle" resultType="int">

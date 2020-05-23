@@ -26,6 +26,7 @@ html, body {
 	width: 140px;
 	background-color: #F93;
 	border-color: #F90;
+	cursor:pointer;
 }
 .imghead {
 	background-size: 100% 100%;
@@ -53,7 +54,7 @@ html, body {
 	background-position: center;
 	float: right;
 	margin-top: 29px;
-	margin-right: 10px;
+	margin-right: 20px;
 	width: 20px;
 	height: 20px;
 	border-radius: 9px;
@@ -67,7 +68,7 @@ html, body {
 	background-position: center;
 	float: right;
 	margin-top: 20px;
-	margin-right: 30px;
+	margin-right: 20px;
 	margin-left: 15px;
 	width: 40px;
 	height: 32px;
@@ -80,7 +81,7 @@ html, body {
 	background-position: center;
 	float: right;
 	margin-top: 20px;
-	margin-right: 30px;
+	margin-right: 20px;
 	margin-left: 15px;
 	width: 40px;
 	height: 32px;

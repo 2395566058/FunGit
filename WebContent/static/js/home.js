@@ -1,5 +1,3 @@
-var hotnum = 5;
-var newnum = 5;
 function getXmlHttp() {
 	var xmlhttp;
 	if (window.XMLHttpRequest) {
@@ -9,8 +7,15 @@ function getXmlHttp() {
 	}
 	return xmlhttp;
 }
+var getMoreHotPost_status="0";
 function getMoreHotPost() {
 	var xmlhttp = this.getXmlHttp();
+	if(getMoreHotPost_status=="1"){
+		return;
+	}
+	getMoreHotPost_status="1";
+	var parentDiv=document.getElementById("addHotPost");
+	parentDiv.innerHTML="";
 	if (xmlhttp != null) {
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4) {
@@ -19,13 +24,11 @@ function getMoreHotPost() {
 						alert("暂时没有更多热点帖子呢");
 					} else {
 						var data=JSON.parse(xmlhttp.responseText);
-						var parentDiv=document.getElementById("addHotPost");
-						var parentDivDiv=parentDiv.parentNode;
+						var data2="";
 						for(var i=0;i<data.length;i++){
-							var div=document.createElement("div");;
-							div.innerHTML="<div onselectstart='return true;' class='hostpost' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
+							data2=data2+"<div onselectstart='return true;' class='hostpost' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 								"<div class='hostposttitle'>"+
-								"<span style='font-size:28px;margin-left:10px;'>"+data[i].title+"</span>"+
+								"<span style='width:100%;display:block;font-size:28px;margin-left:10px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;'>"+data[i].title+"</span>"+
 								"</div>"+
 								"<div class='hostpostnum'>"+
 								"<div style='margin-top:5px;font-size:16px'>点击量："+data[i].clicknum+"</div>"+
@@ -41,10 +44,9 @@ function getMoreHotPost() {
 				            	"</div>"+
 				            	"</div>"+
 				            	"</div>";
-							parentDivDiv.insertBefore(div,parentDiv);
-							parentDivDiv.scrollTop = parentDivDiv.scrollHeight;
-							hotnum++;
 						}
+						parentDiv.innerHTML=data2;
+						getMoreHotPost_status="0";
 					}
 				}
 			}
@@ -52,14 +54,20 @@ function getMoreHotPost() {
 		xmlhttp.open("POST", "getMoreHotPost", false);
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=utf-8");
-		xmlhttp.send("num=" + hotnum);
+		xmlhttp.send("num=0");
 	} else {
 		alert("Your browser does not support XMLHTTP.");
 	}
 }
-
+var getMoreNewPost_status="0";
 function getMoreNewPost() {
 	var xmlhttp = this.getXmlHttp();
+	if(getMoreNewPost_status=="1"){
+		return;
+	}
+	getMoreNewPost_status="1";
+	var parentDiv=document.getElementById("addNewPost");
+	parentDiv.innerHTML="";
 	if (xmlhttp != null) {
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4) {
@@ -68,13 +76,12 @@ function getMoreNewPost() {
 						alert("暂时没有更多新帖子呢");
 					} else {
 						var data=JSON.parse(xmlhttp.responseText);
-						var parentDiv=document.getElementById("addNewPost");
-						var parentDivDiv=parentDiv.parentNode;
+						var data2="";
 						for(var i=0;i<data.length;i++){
 							var div=document.createElement("div");;
-							div.innerHTML="<div onselectstart='return true;' class='hostpost' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
+							data2=data2+"<div onselectstart='return true;' class='hostpost' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 								"<div class='hostposttitle'>"+
-								"<span style='font-size:28px;margin-left:10px;'>"+data[i].title+"</span>"+
+								"<span style='width:100%;display:block;font-size:28px;margin-left:10px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;'>"+data[i].title+"</span>"+
 								"</div>"+
 								"<div class='hostpostnum'>"+
 								"<div style='margin-top:5px;font-size:16px'>点击量："+data[i].clicknum+"</div>"+
@@ -90,10 +97,9 @@ function getMoreNewPost() {
 				            	"</div>"+
 				            	"</div>"+
 				            	"</div>";
-							parentDivDiv.insertBefore(div,parentDiv);
-							parentDivDiv.scrollTop = parentDivDiv.scrollHeight;
-							newnum++;
 						}
+						parentDiv.innerHTML=data2;
+						getMoreNewPost_status="0";
 					}
 				}
 			}
@@ -101,7 +107,7 @@ function getMoreNewPost() {
 		xmlhttp.open("POST", "getMoreNewPost", false);
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=utf-8");
-		xmlhttp.send("num=" + newnum);
+		xmlhttp.send("num=0");
 	} else {
 		alert("Your browser does not support XMLHTTP.");
 	}
