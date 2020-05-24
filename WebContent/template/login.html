@@ -96,6 +96,7 @@ html, body {
 	   var result=this.check(form);
 	   if(result==true){
 		   if (xmlhttp!=null){
+			document.getElementById("denglubutton").disabled="disabled";
 			document.getElementById("denglubutton").value="登录中。。请等待";
   			xmlhttp.onreadystatechange=state_Change2;
   			xmlhttp.open("POST","login",true);
@@ -131,11 +132,12 @@ html, body {
 	function state_Change2(){
 		if (xmlhttp.readyState==4){
   			if (xmlhttp.status==200){
-  				document.getElementById("denglubutton").value="登录";
 				if(xmlhttp.responseText=="true"){
 					window.location.href='home.action';
 				}else{
 					alert(xmlhttp.responseText);
+	  				document.getElementById("denglubutton").value="登录";
+					document.getElementById("denglubutton").disabled="";
 				}
 			}else{
     			alert("Problem retrieving XML data");

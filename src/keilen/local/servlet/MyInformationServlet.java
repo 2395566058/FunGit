@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
 import keilen.local.entity.UserPersonal;
 import keilen.local.mapper.UserMapper;
 import keilen.local.mapper.UserPersonalMapper;
@@ -20,8 +22,16 @@ public class MyInformationServlet {
 	@Autowired
 	private UserMapper userMapper;
 
-	public UserPersonal getInformationByName(HttpSession session) {
-		return userPersonalMapper.getUserPersonalByName((String) session.getAttribute("name"));
+	public ModelAndView getMyInfornation1(ModelAndView mv, String id) {
+		UserPersonal userPersonal = userPersonalMapper.getOneById("user_personal", id);
+		mv.addObject("name", userPersonal.getName());
+		mv.addObject("birthday", userPersonal.getBirthday() == null ? "" : userPersonal.getBirthday());
+		mv.addObject("qq", userPersonal.getQq() == null ? "" : userPersonal.getQq());
+		mv.addObject("city", userPersonal.getCity() == null ? "" : userPersonal.getCity());
+		mv.addObject("register", userPersonal.getRegister());
+		mv.addObject("head2",userPersonal.getHead());
+		mv.addObject("introduce", userPersonal.getIntroduce() == null ? "" : userPersonal.getIntroduce());
+		return mv;
 	}
 
 	@Transactional
@@ -32,7 +42,7 @@ public class MyInformationServlet {
 			if (userPersonal.getName() == "" || userPersonal.getName().length() < 2) {
 				return "昵称不符合规范";
 			} else {
-				boolean result = userPersonalMapper.existArgsByCloumn("user_personal", userPersonal.getName(), "name");				
+				boolean result = userPersonalMapper.existArgsByCloumn("user_personal", userPersonal.getName(), "name");
 				if (result) {
 					return "昵称已经被使用！";
 				}

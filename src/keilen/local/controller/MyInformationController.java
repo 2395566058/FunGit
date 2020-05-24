@@ -37,13 +37,7 @@ public class MyInformationController {
 			mv.setViewName("login");
 			return mv;
 		}
-		UserPersonal userPersonal = myInformationServlet.getInformationByName(session);
-		mv.addObject("name", userPersonal.getName());
-		mv.addObject("birthday", userPersonal.getBirthday() == null ? "" : userPersonal.getBirthday());
-		mv.addObject("qq", userPersonal.getQq() == null ? "" : userPersonal.getQq());
-		mv.addObject("city", userPersonal.getCity() == null ? "" : userPersonal.getCity());
-		mv.addObject("register", userPersonal.getRegister());
-		mv.addObject("introduce", userPersonal.getIntroduce() == null ? "" : userPersonal.getIntroduce());
+		mv=myInformationServlet.getMyInfornation1(mv, (String) session.getAttribute("id"));
 		mv.setViewName("myInformation-part1");
 		return mv;
 	}
