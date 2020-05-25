@@ -17,6 +17,7 @@ public class HeadController {
 		mv.addObject("num", Integer.parseInt(num));
 		mv.addObject("name", session.getAttribute("name"));
 		mv.addObject("head", session.getAttribute("head"));
+		mv.addObject("userid", session.getAttribute("id"));
 		mv.setViewName("head");
 		return mv;
 	}

@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>查询结果</title>
-<link type="text/css" rel="stylesheet" href="css/block.css" />
+<title></title>
+<link type="text/css" rel="stylesheet" href="css/personalHome-post.css" />
 </head>
 <body>
 <div class="hotDiv">
-	<div style="height:auto;width:100%;overflow: hidden">
+	<div style="height:auto;width:98%;overflow: hidden">
 		<#if searchlist??>
 			<#list searchlist as postPersonal>
 			<div  onselectstart="return true;" class="hostpost">
@@ -15,26 +15,21 @@
         		<span style="width:100%;display:block;font-size:28px;margin-left:10px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;">${postPersonal.title}</span>
         	</div>
         	<div class="hostpostnum" onclick="window.open('showPost.action?id=${postPersonal.id}')">
-        		<div style="margin-top:5px;font-size:16px">点击量：${postPersonal.clicknum}</div>
-        		<div style="margin-top:5px;font-size:16px">评论量：${postPersonal.reviewnum}</div>
+        		<div style="margin-top:15px;font-size:16px">点击量：${postPersonal.clicknum}</div>
+        		<div style="margin-top:15px;font-size:16px">评论量：${postPersonal.reviewnum}</div>
         	</div>
-        	<div class="hostposthead"onclick="window.open('personalHomeByName.action?name=${postPersonal.content}')">
+        	<div class="hostposthead" onclick="window.open('personalHomeByName.action?name=${postPersonal.content}')">
         		<div class="imghead" style="background-image: url('${postPersonal.userid}');"></div>
         	</div>
         	<div class="hostpostname" onclick="window.open('showPost.action?id=${postPersonal.id}')">${postPersonal.content}</div>
         	<div class="hostpostother" onclick="window.open('showPost.action?id=${postPersonal.id}')">
-        		<span style="margin-left:30px;">发表于版块：${postPersonal.forumid}</span>
-        		<span style="float:right;margin-right:25px;">发表时间：${postPersonal.issuetime}</span>
+        		<span style="margin-left:1px;">发表于版块：${postPersonal.forumid}</span>
+        		<span style="float:right;margin-right:3px;">发表时间：${postPersonal.issuetime}</span>
         	</div>
         	</div>
 			</#list>
-			<#if (searchlist?size)%2!=0>
-				<div style="float:left;height:120px;margin-top:15px;margin-left:50px;width:45%;text-align:center;">
-					<p>没有更多数据了呢</p>
-				</div>
-			</#if>
 		<#else>
-			<span>搜索不到相关信息</span>
+			<span>还没发布过帖子的呀</span>
 		</#if>
 	</div>
 	<div class="daohangdiv">
@@ -51,7 +46,7 @@
 <script type="text/javascript">
 function skipto(targetpage,countpage){
 	if(targetpage>0&targetpage<=countpage){
-		window.location.href="showSearchPost.action?page="+targetpage+"&input=${dhblock}&type=randow";
+		window.location.href="personalHome-post.action?page="+targetpage+"&userid=${viewid}";
 	}
 }
 </script>

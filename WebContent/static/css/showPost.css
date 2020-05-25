@@ -5,73 +5,96 @@ html, body {
 	padding: 0;
 	background-color: #f8f8f8;
 }
-.headDiv{
-	float:left;
-	position:relative;
-	height:60px;
-	width:100%;
-	padding:0px;
-	margin:0px;
-	border:double 1px;
-	border-bottom:none;
-	overflow-y:auto;
+
+.objectDiv {
+	width: 100%;
+	height: 330px;
+	border: 0px;
+	position: absolute;
 }
-.divmain{
-	float:left;
-	position:absolute;
-	padding:0px 0px;
+
+.bigDiv {
+	position: absolute;
+	width: 85%;
+	top: 80px;
+	height: 100%;
+}
+
+.headDiv {
+	float: left;
+	position: relative;
+	height: 60px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	border: double 1px;
+	border-bottom: none;
+	overflow-y: auto;
+}
+
+.divmain {
+	float: left;
+	position: absolute;
+	padding: 0px 0px;
 	background-color: #ffffb3;
-	width:1140px;
-	margin:20px 25px;
-	min-height:300px;
-	height:auto;
+	width: 1140px;
+	margin: 20px 25px;
+	min-height: 300px;
+	height: auto;
+	left: calc(59% - 620px);
 }
-.childen{
-	float:left;
-	position:relative;
-	padding:0px 0px;
-	width:1140px;
-	min-height:300px;
+
+.childen {
+	float: left;
+	position: relative;
+	padding: 0px 0px;
+	width: 1140px;
+	min-height: 300px;
 	background-color: #f3f3f3;
-	height:auto;
-	overflow-y:auto;
-	overflow-x:none;
+	height: auto;
+	overflow-y: auto;
+	overflow-x: none;
 	padding-bottom: 0px;
-	border:double 1px #000000;
+	border: double 1px #000000;
 }
-.reviewDiv{
-	float:left;
-	position:relative;
-	padding:0px 0px;
-	width:1140px;
-	height:535px;
-	overflow-y:auto;
-	overflow-x:none;
-	border:double 1px #000000;
+
+.reviewDiv {
+	float: left;
+	position: relative;
+	padding: 0px 0px;
+	width: 1140px;
+	height: 535px;
+	overflow-y: auto;
+	overflow-x: none;
+	border: double 1px #000000;
 }
-.div{
-	float:left;
-	position:relative;
-	padding:10px 20px;
+
+.div {
+	float: left;
+	position: relative;
+	padding: 10px 20px;
 	background-color: #e3fff2;
-	width:959px;
-	min-height:300px;
-	overflow-y:auto;
-	overflow-x:none;
-	font-size:20px;
-	border-left:double 1px #000000;
+	width: 959px;
+	min-height: 300px;
+	overflow-y: auto;
+	overflow-x: none;
+	font-size: 20px;
+	border-left: double 1px #000000;
 }
-.img{
-	max-width:940px;
-	position:relative;
+
+.img {
+	max-width: 940px;
+	position: relative;
 	resize: both;
 }
-.writerdiv{
-	float:left;
-	width:139px;
-	min-height:300px;
+
+.writerdiv {
+	float: left;
+	width: 139px;
+	min-height: 300px;
 	background-color: #f3f3f3;
 }
+
 .imghead {
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
@@ -81,60 +104,66 @@ html, body {
 	width: 90px;
 	height: 90px;
 	border-radius: 45px;
-	border: solid rgb(100,100,100) 1px;
+	border: solid rgb(100, 100, 100) 1px;
 	background-color: #FFF;
+	cursor: pointer;
 }
-.writerName{
-	width:139px;
-	float:left;
-	text-align:center;
+
+.writerName {
+	width: 139px;
+	float: left;
+	text-align: center;
 	word-wrap: break-word;
-  	word-break: break-all;
- 	overflow: hidden;
+	word-break: break-all;
+	overflow: hidden;
 }
-.userDiv{
-	float:left;
-	position:fixed;
-	top:0px;
-	left:1190px;
-	padding:0px 0px;
+
+.userDiv {
+	float: left;
+	position: fixed;
+	top: 0px;
+	left: 1190px;
+	padding: 0px 0px;
 	background-color: #fff9d5;
-	height:200px;
-	margin:40px 10px;
-	width:280px;
-	border:double 1px;
+	height: 200px;
+	margin: 40px 10px;
+	width: 280px;
+	border: double 1px;
 }
-.hotPostDiv{
-	float:left;
-	position:fixed;
-	top:220px;
-	left:1190px;
-	padding:0px 0px;
+
+.hotPostDiv {
+	float: left;
+	position: fixed;
+	top: 220px;
+	left: 1190px;
+	padding: 0px 0px;
 	background-color: #fefee7;
-	height:200px;
-	margin:40px 10px;
-	width:280px;
-	border:double 1px;
+	height: 200px;
+	margin: 40px 10px;
+	width: 280px;
+	border: double 1px;
 }
-.button{
-	float:left;
-	margin-top:10px;
-	margin-left:20px;
-	height:40px;
-	width:120px;
-	text-align:center;
-	color:#FFF;
-	font-size:18px;
-	line-height:40px;
-	background-color:#0C9;
-	border-radius:8px;
-	cursor:pointer;
+
+.button {
+	float: left;
+	margin-top: 10px;
+	margin-left: 20px;
+	height: 40px;
+	width: 120px;
+	text-align: center;
+	color: #FFF;
+	font-size: 18px;
+	line-height: 40px;
+	background-color: #0C9;
+	border-radius: 8px;
+	cursor: pointer;
 }
-.reviewTag{
-	height:20px;
-	line-height:20px;
-	font-size:20px;
-	color:#0080ff;
-	border:none;
-	background-color:#e3fff2;
+
+.reviewTag {
+	height: 20px;
+	line-height: 20px;
+	font-size: 20px;
+	color: #0080ff;
+	border: none;
+	background-color: #e3fff2;
 }

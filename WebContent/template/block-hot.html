@@ -10,19 +10,19 @@
 	<div style="height:auto;width:100%;overflow: hidden">
 		<#if searchlist??>
 			<#list searchlist as postPersonal>
-			<div  onselectstart="return true;" class="hostpost" onclick="window.open('showPost.action?id=${postPersonal.id}')">
-        	<div class="hostposttitle">
+			<div  onselectstart="return true;" class="hostpost">
+        	<div class="hostposttitle" onclick="window.open('showPost.action?id=${postPersonal.id}')">
         		<span style="width:100%;display:block;font-size:28px;margin-left:10px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;">${postPersonal.title}</span>
         	</div>
-        	<div class="hostpostnum">
+        	<div class="hostpostnum" onclick="window.open('showPost.action?id=${postPersonal.id}')">
         		<div style="margin-top:5px;font-size:16px">点击量：${postPersonal.clicknum}</div>
         		<div style="margin-top:5px;font-size:16px">评论量：${postPersonal.reviewnum}</div>
         	</div>
-        	<div class="hostposthead">
+        	<div class="hostposthead" onclick="window.open('personalHomeByName.action?name=${postPersonal.content}')">
         		<div class="imghead" style="background-image: url('${postPersonal.userid}');"></div>
         	</div>
-        	<div class="hostpostname">${postPersonal.content}</div>
-        	<div class="hostpostother">
+        	<div class="hostpostname" onclick="window.open('showPost.action?id=${postPersonal.id}')">${postPersonal.content}</div>
+        	<div class="hostpostother" onclick="window.open('showPost.action?id=${postPersonal.id}')">
         		<span style="margin-left:30px;">发表于版块：${postPersonal.forumid}</span>
         		<span style="float:right;margin-right:25px;">发表时间：${postPersonal.issuetime}</span>
         	</div>

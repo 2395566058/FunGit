@@ -4,15 +4,12 @@ import java.text.ParseException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.apache.tools.ant.taskdefs.Sleep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import keilen.local.entity.Deleted;
 import keilen.local.entity.PostFloor;
 import keilen.local.entity.PostPersonal;
@@ -23,6 +20,7 @@ import keilen.local.mapper.PostFloorMapper;
 import keilen.local.mapper.PostPersonalMapper;
 import keilen.local.mapper.SystemInfoMapper;
 import keilen.local.mapper.UserPersonalMapper;
+import keilen.local.mapper.ViewErmissionsMapper;
 import keilen.local.util.ImageSaveUtil;
 import keilen.local.util.NowTimeFormatUtil;
 import keilen.local.util.ReviewMeUtil;
@@ -47,6 +45,8 @@ public class PostServlet {
 	private RedisCacheServlet redisCacheServlet;
 	@Autowired
 	private SystemInfoMapper systemInfoMapper;
+	@Autowired
+	private ViewErmissionsMapper viewErmissionsMapper;
 
 	public String addimage(HttpServletRequest request, MultipartFile imgData) {
 		try {
@@ -120,6 +120,14 @@ public class PostServlet {
 		// postid title clicknum writerName reviewnum forumName <list>floor
 		// floor: floor content useName useHead issuetime
 		PostPersonal pp = postPersonalMapper.getPersonalById(id);
+		if(!pp.getUserid().equals(request.getSession().getAttribute("id"))) {
+			String viewpost=viewErmissionsMapper.getColumnByArg("view_ermissions", "post", "id",pp.getUserid());
+			if("1".equals(viewpost)) {
+				model.addObject("info","该帖子只有发帖用户可以看");
+				return model;
+			}
+		}
+		model.addObject("info","0");
 		if (pp.getId() == null) {
 			model.addObject("404", "找不到该帖子了啦！");
 			model.addObject("url", request.getRequestURL());
@@ -358,15 +366,15 @@ public class PostServlet {
 		return list;
 	}
 
-	public ModelAndView getBlockPost(ModelAndView model, int page, String block,String type) {
+	public ModelAndView getBlockPost(ModelAndView model, int page, String block, String type) {
 		model.addObject("dhblock", block);
 		int num = 6 * (page - 1);
 		if ("".equals(block)) {
 			return model;
 		}
-		List<PostPersonal> list=null;
+		List<PostPersonal> list = null;
 		int countpage = 0;
-		String blockid=forumMapper.getColumnByArg("forum", "id","name" , block);
+		String blockid = forumMapper.getColumnByArg("forum", "id", "name", block);
 		int count = postPersonalMapper.getCountByForumid(blockid);
 		if (count % 6 != 0) {
 			countpage = count / 6 + 1;
@@ -374,13 +382,39 @@ public class PostServlet {
 			countpage = count / 6;
 		}
 		model.addObject("count", count);
-		if("hot".equals(type)) {
+		if ("hot".equals(type)) {
 			list = postPersonalMapper.getHotListByForumid(blockid, num);
-		}else if("new".equals(type)) {
+		} else if ("new".equals(type)) {
 			list = postPersonalMapper.getNewListByForumid(blockid, num);
-		}else {
+		} else {
 			list = postPersonalMapper.getRandowListByForumid(blockid, num);
 		}
+		if (list == null || list.size() == 0) {
+			return model;
+		}
+		model.addObject("localpage", page);
+		model.addObject("countpage", countpage);
+		model.addObject("searchlist", list);
+		return model;
+	}
+
+	public ModelAndView searchPostByUserid(ModelAndView model, String userid, int page) {
+		model.addObject("dhinput", userid);
+		model.addObject("viewid", userid);
+		int num = 8 * (page - 1);
+		if ("".equals(userid)) {
+			return model;
+		}
+		List<PostPersonal> list;
+		int countpage = 0;
+		int count = postPersonalMapper.getCountbyUserid(userid);
+		if (count % 8 != 0) {
+			countpage = count / 8 + 1;
+		} else {
+			countpage = count / 8;
+		}
+		model.addObject("count", count);
+		list = postPersonalMapper.getListByUserid(userid, num);
 		if (list == null || list.size() == 0) {
 			return model;
 		}

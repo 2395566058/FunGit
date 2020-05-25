@@ -26,19 +26,19 @@ function getMoreHotPost() {
 						var data=JSON.parse(xmlhttp.responseText);
 						var data2="";
 						for(var i=0;i<data.length;i++){
-							data2=data2+"<div onselectstart='return true;' class='hostpost' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
-								"<div class='hostposttitle'>"+
+							data2=data2+"<div onselectstart='return true;' class='hostpost'>"+
+								"<div class='hostposttitle' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 								"<span style='width:100%;display:block;font-size:28px;margin-left:10px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;'>"+data[i].title+"</span>"+
 								"</div>"+
-								"<div class='hostpostnum'>"+
+								"<div class='hostpostnum' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 								"<div style='margin-top:5px;font-size:16px'>点击量："+data[i].clicknum+"</div>"+
 								"<div style='margin-top:5px;font-size:16px'>评论量："+data[i].reviewnum+"</div>"+
 								"</div>"+
-								"<div class='hostposthead'>"+
+								"<div class='hostposthead' onclick='window.open(\"personalHomeByName.action?name="+data[i].content+"\")'>"+
 				        		"<div class='imghead' style='background-image: url(\""+data[i].userid+"\");'></div>"+
 				        		"</div>"+
-				        		"<div class='hostpostname'>"+data[i].content+"</div>"+
-				            	"<div class='hostpostother'>"+
+				        		"<div class='hostpostname' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+data[i].content+"</div>"+
+				            	"<div class='hostpostother' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 				            	"<span style='margin-left:30px;'>发表于版块："+data[i].forumid+"</span>"+
 				        		"<span style='float:right;margin-right:25px;'>发表时间："+data[i].issuetime+"</span>"+
 				            	"</div>"+
@@ -79,19 +79,19 @@ function getMoreNewPost() {
 						var data2="";
 						for(var i=0;i<data.length;i++){
 							var div=document.createElement("div");;
-							data2=data2+"<div onselectstart='return true;' class='hostpost' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
-								"<div class='hostposttitle'>"+
+							data2=data2+"<div onselectstart='return true;' class='hostpost'>"+
+								"<div class='hostposttitle' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 								"<span style='width:100%;display:block;font-size:28px;margin-left:10px;overflow: hidden;white-space:nowrap;text-overflow:ellipsis;'>"+data[i].title+"</span>"+
 								"</div>"+
-								"<div class='hostpostnum'>"+
+								"<div class='hostpostnum' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 								"<div style='margin-top:5px;font-size:16px'>点击量："+data[i].clicknum+"</div>"+
 								"<div style='margin-top:5px;font-size:16px'>评论量："+data[i].reviewnum+"</div>"+
 								"</div>"+
-								"<div class='hostposthead'>"+
+								"<div class='hostposthead'  onclick='window.open(\"personalHomeByName.action?name="+data[i].content+"\")'>"+
 				        		"<div class='imghead' style='background-image: url(\""+data[i].userid+"\");'></div>"+
 				        		"</div>"+
-				        		"<div class='hostpostname'>"+data[i].content+"</div>"+
-				            	"<div class='hostpostother'>"+
+				        		"<div class='hostpostname' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+data[i].content+"</div>"+
+				            	"<div class='hostpostother' onclick='window.open(\"showPost.action?id="+data[i].id+"\")'>"+
 				            	"<span style='margin-left:30px;'>发表于版块："+data[i].forumid+"</span>"+
 				            	"<span style='margin-right:15px;position:absolute;left:310px;'>发表时间："+data[i].issuetime+"</span>"+
 				            	"</div>"+

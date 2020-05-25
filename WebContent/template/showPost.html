@@ -2,12 +2,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${title}</title>
+<title><#if info=="0">${title}</#if></title>
 <link rel="stylesheet" type="text/css" href="css/showPost.css" />
 <style>
 </style>
 </head>
+<#if info!="0">
+	<script>
+		alert("${info}");
+		window.close();
+	</script>
+<#else>
 <body onload="addclicknum('${postid}')">
+	<#if isLogin=="true">
+		<object class="objectDiv" data="head.action?num=1"></object>
+	</#if>
+	<div class="bigDiv">
 	<div class="divmain">
 		<div class="headDiv">
 			<h2 style="float:left;height:60px;line-height:60px;margin:0px 20px">${title}</h2>
@@ -26,7 +36,7 @@
 				<#if showPostUtil.useName==writerName>
 					<div style="text-align:center;height:50px;width:139px;line-height:50px;border-bottom:double 1px;background-color: #f3fec0">贴主</div>
 				</#if>
-					<div class="imghead" style="background-image: url(${showPostUtil.useHead});"></div>
+					<div class="imghead" onclick="window.open('personalHomeByName.action?name=${showPostUtil.useName}')" style="background-image: url(${showPostUtil.useHead});"></div>
 					<p class="writerName">${showPostUtil.useName}</p>
 				</div>
 				<div id="bb${showPostUtil.floor}" class="div">
@@ -36,10 +46,10 @@
 					</#if>
 					</p>
 					<br><br>
-					<div style="background-color: #c6ffe3;min-height:200px">
+					<div style="min-height:200px">
 					<#if showPostUtil.review??>
 						<#assign review=showPostUtil.review />
-						<div style="margin:0px 30px;overflow-x:auto;background-color: aqua;width:auto">
+						<div style="margin:10px 0px;overflow-x:auto;background-color: aqua;width:auto">
 						--------------------------------------------------------------------<br>
 						${review.useName}:
 						<span style="font-size:15px;margin-left:100px">${review.issuetime} ${review.floor}楼</span><br>
@@ -86,23 +96,16 @@
 			<button onclick="fabiao('${isLogin}','${postid}')" class="button" style="float:right;margin-right:70px">发表</button>
 		</div>
 	</div>
-	<div class="userDiv">
-	<#if isLogin=="true">
-		<div class="imghead" style="background-image: url(${loginHead});margin:30px 20px"></div>
-		<div style="text-overflow:ellipsis;overflow: hidden;white-space:nowrap;margin-top:60px;float:left;height:30px;width:139px;font-size:22px;line-height:30px;word-wrap: break-word;word-break: break-all;overflow: hidden;">${loginName}</div>
-		<div onClick="script:alert('暂未开放')" style="position:relative;left:53px;cursor:pointer;margin-top:-16px;float:left;text-align:center;height:50px;width:170px;line-height:50px;border:double 1px;background-color: #98fad8;" >签到</div>
-	</#if>
 	<#if isLogin=="false">
+	<div class="userDiv">
 	<br>
 		<p style="text-align:center">登录后就能和他人一起畅所欲言了呢</p>
 		<br><br>
-		<div onclick="window.location.href='login.action';" style="position:relative;left:53px;cursor:pointer;margin-top:-16px;float:left;text-align:center;height:50px;width:170px;line-height:50px;border:double 1px;background-color: #98fad8;" >登录</div>
+		<div onclick="window.open('login.action');" style="position:relative;left:53px;cursor:pointer;margin-top:-16px;float:left;text-align:center;height:50px;width:170px;line-height:50px;border:double 1px;background-color: #98fad8;" >登录</div>
+		</div>
 	</#if>
 	</div>
-	<div class="hotPostDiv">
-		<p>&nbsp;&nbsp;版块热门帖子</p>
-		<hr style="margin-left:7px;margin-right:100px;margin-top:-10px">
-	</div>
 </body>
+</#if>
 <script type="text/javascript" src="js/showPost.js"></script>
 </html>

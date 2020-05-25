@@ -37,6 +37,8 @@ public interface PostPersonalMapper extends CommonMapper<PostPersonal> {
 	public int getCountByForumid(@Param("id") String id);
 
 	public List<PostPersonal> getListLikeTitle(@Param("title") String title, @Param("num") int num);
+	
+	public List<PostPersonal> getListByUserid(@Param("userid") String userid, @Param("num") int num);
 
 	public List<PostPersonal> getListLikeUserid(@Param("userid") String userid, @Param("num") int num);
 

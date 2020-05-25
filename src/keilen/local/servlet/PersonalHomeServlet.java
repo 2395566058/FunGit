@@ -2,6 +2,7 @@ package keilen.local.servlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 import keilen.local.entity.UserPersonal;
 import keilen.local.entity.ViewErmissions;
@@ -34,6 +35,8 @@ public class PersonalHomeServlet {
 			mv.addObject("viewregister1", "0".equals(viewErmissions.getRegister()) ? "" : "checked");
 			mv.addObject("viewemail0", "0".equals(viewErmissions.getEmail()) ? "checked" : "");
 			mv.addObject("viewemail1", "0".equals(viewErmissions.getEmail()) ? "" : "checked");
+			mv.addObject("viewpost0", "0".equals(viewErmissions.getPost()) ? "checked" : "");
+			mv.addObject("viewpost1", "0".equals(viewErmissions.getPost()) ? "" : "checked");
 
 			mv.addObject("birthday", userPersonal.getBirthday() == null ? "" : userPersonal.getBirthday());
 			mv.addObject("qq", userPersonal.getQq() == null ? "" : userPersonal.getQq());
@@ -70,6 +73,17 @@ public class PersonalHomeServlet {
 		mv.addObject("name", userPersonal.getName());
 		mv.addObject("head2", userPersonal.getHead());
 		mv.addObject("introduce", userPersonal.getIntroduce() == null ? "" : userPersonal.getIntroduce());
+		mv.addObject("viewid", id);
 		return mv;
+	}
+
+	@Transactional
+	public String updateErmission(String id, String column, String columnValue) {
+		boolean result = viewErmissionsMapper.updateOne(id, column, columnValue);
+		if (result == true) {
+			return "修改成功";
+		} else {
+			return "修改失败，未知原因。";
+		}
 	}
 }

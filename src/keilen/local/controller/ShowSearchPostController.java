@@ -28,4 +28,5 @@ public class ShowSearchPostController {
 		mv.setViewName("showSearchPost");
 		return mv;
 	}
+
 }

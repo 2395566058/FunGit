@@ -1,0 +1,94 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #f8f8f8;
+}
+
+.hotDiv {
+	background-color: #f8f8f8;
+	height:100%;
+	width: 100%;
+}
+
+.hotTitle {
+	float: left;
+	margin-top: 17px;
+	margin-left: 48px;
+	margin-right: 500px;
+}
+
+.hostpost {
+	height: 120px;
+	margin-top: 15px;
+	width: calc(48% - 8px);
+	margin-left:17px;
+	background-color: #ffffff;
+	float: left;
+	cursor: pointer;
+	border-radius: 3px;
+	border: 1px solid #000000;
+}
+
+.hostposttitle {
+	font-family: cursive;
+	float: left;
+	height: 36%;
+	width: 78%;
+}
+
+.hostpostnum {
+	margin-top: 1%;
+	float: left;
+	height: 60%;
+	width: 22%;
+	color: #73bcff;
+}
+
+.hostposthead {
+	margin-top: 43px;
+	height: 64%;
+	width: 18%;
+}
+
+.hostpostname {
+	position: relative;
+	top: -77px;
+	left: 110px;
+	width: 321px;
+	height: 40px;
+	font-size: 22px;
+	line-height: 40px;
+	font-family: monospace;
+}
+
+.hostpostother {
+	position: relative;
+	top: -77px;
+	left: 18%;
+	width: 82%;
+	height: 37px;
+	font-size: 14px;
+	line-height: 40px;
+	color: #e65b5b;
+}
+
+.imghead {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	margin: 0px auto;
+	width: 70px;
+	height: 70px;
+	border-radius: 35px;
+	border: solid rgb(100, 100, 100) 1px;
+	background-color: #FFF;
+}
+
+.daohangdiv {
+	text-align: center;
+	margin-top: 30px;
+	height: 30px;
+	width: 99%;
+}

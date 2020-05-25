@@ -27,12 +27,14 @@ public class RedisCacheServlet {
 		getForum();
 	}
 
+	@Transactional
 	public void getForum() {
 		List<HashMap<String, Object>> forumName = forumMapper.getForumName();
 		redisTemplate.opsForValue().set("forumName", forumName);
 		log.info("redis存入：List-forumName");
 	}
 
+	@Transactional
 	public void addMessage(String id, Object object, String type) {
 		MessageUtil message = new MessageUtil();
 		message.setObject(object);
@@ -46,6 +48,7 @@ public class RedisCacheServlet {
 		log.info("redis存入：MessageUtil-Message" + id);
 	}
 
+	@Transactional
 	public String getMessage(String id) {
 		ArrayList<MessageUtil> list = (ArrayList<MessageUtil>) redisTemplate.opsForValue().get("Message" + id);
 		if (list == null || list.size() == 0) {
@@ -64,11 +67,13 @@ public class RedisCacheServlet {
 		return result1.toString();
 	}
 
+	@Transactional
 	public void addOnline(String id, String sessionid) {
 		redisTemplate.opsForValue().set("Online" + id, sessionid);
 		log.info("redis存入：sessionid-Online" + id);
 	}
 
+	@Transactional
 	public boolean getOnline(String id, String sessionid) {
 		String sessionid_2 = (String) redisTemplate.opsForValue().get("Online" + id);
 		if (sessionid_2 == null) {

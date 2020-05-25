@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>的个人主页</title>
+<title>${name}的个人主页</title>
 <link type="text/css" rel="stylesheet" href="css/personalHome.css" />
 <style>
 .imghead {
@@ -23,8 +23,8 @@
     <input readonly id="birthday" class="tagValue" type="text" name="birthday" value="${birthday}" />
     <#if oneself=="true">
      <div class="singleButton">
-		<input type="radio" name="viewstatus1" value="0" ${viewbirthday0}>可查看
-		<input type="radio" name="viewstatus1" value="1" ${viewbirthday1}>不可查看
+		<input id="birthdaySelect" type="radio" onclick="toupdate('birthday',this.value,'1')" name="viewstatus1" value="0" ${viewbirthday0}>可查看
+		<input type="radio" onclick="toupdate('birthday',this.value,'1')" name="viewstatus1" value="1" ${viewbirthday1}>不可查看
     </div>
     </#if>
   </div>
@@ -33,8 +33,8 @@
     <input readonly maxlength="15" id="qq" class="tagValue" type="text" name="qq" value="${qq}" />
     <#if oneself=="true">
      <div class="singleButton">
-		<input type="radio" name="viewstatus2" value="0" ${viewqq0}>可查看
-		<input type="radio" name="viewstatus2" value="1" ${viewqq1}>不可查看
+		<input id="qqSelect" type="radio" onclick="toupdate('qq',this.value,'2')" name="viewstatus2" value="0" ${viewqq0}>可查看
+		<input type="radio" onclick="toupdate('qq',this.value,'2')" name="viewstatus2" value="1" ${viewqq1}>不可查看
     </div>
     </#if>
   </div>
@@ -43,8 +43,8 @@
     <input readonly maxlength="15" id="email" class="tagValue" type="text" name="email" value="${email}" />
     <#if oneself=="true">
      <div class="singleButton">
-		<input type="radio" name="viewstatus3" value="0" ${viewemail0}>可查看
-		<input type="radio" name="viewstatus3" value="1" ${viewemail1}>不可查看
+		<input id="emailSelect" type="radio" onclick="toupdate('email',this.value,'3')" name="viewstatus3" value="0" ${viewemail0}>可查看
+		<input type="radio" onclick="toupdate('email',this.value,'3')" name="viewstatus3" value="1" ${viewemail1}>不可查看
     </div>
     </#if>
   </div>
@@ -53,8 +53,8 @@
     <input readonly id="city" class="tagValue" type="text" name="city" value="${city}" />
     <#if oneself=="true">
      <div class="singleButton">
-		<input type="radio" name="viewstatus4" value="0" ${viewcity0}>可查看
-		<input type="radio" name="viewstatus4" value="1" ${viewcity1}>不可查看
+		<input id="citySelect" type="radio" onclick="toupdate('city',this.value,'4')" name="viewstatus4" value="0" ${viewcity0}>可查看
+		<input type="radio" onclick="toupdate('city',this.value,'4')" name="viewstatus4" value="1" ${viewcity1}>不可查看
     </div>
     </#if>
   </div>
@@ -62,9 +62,9 @@
     <div class="tagName">注册时间</div>
     <input readonly class="tagValue" type="text" value="${register}" />
     <#if oneself=="true">
-     <div class="singleButton">
-		<input type="radio" name="viewstatus5" value="0" ${viewregister0}>可查看
-		<input type="radio" name="viewstatus5" value="1" ${viewregister1}>不可查看
+    <div class="singleButton">
+		<input id="registerSelect" type="radio" onclick="toupdate('register',this.value,'5')" name="viewstatus5" value="0" ${viewregister0}>可查看
+		<input type="radio" onclick="toupdate('register',this.value,'5')" name="viewstatus5" value="1" ${viewregister1}>不可查看
     </div>
     </#if>
   </div>
@@ -72,6 +72,22 @@
     <div class="center-tag"><span style="margin-left:15px">自我简介</span></div>
     <textarea readonly id="introduce" class="center-value" name="introduce">${introduce}</textarea>
   </div>
+  <div class="post">
+  	<div class="post-title">
+  		<div style="width:300px" class="singleButton">
+  			<span style="background-color: #f8f8f8;margin-left:-20px" class="tagName">
+  			<#if oneself=="true">我的帖子<#else>他的帖子</#if>
+  			</span>
+			<input id="postSelect" type="radio" onclick="toupdate('post',this.value,'6')" name="viewstatus6" value="0" ${viewpost0}>可查看
+			<input type="radio" onclick="toupdate('post',this.value,'6')" name="viewstatus6" value="1" ${viewpost1}>不可查看
+    	</div>
+  	</div>
+  	<hr style="margin-left:39px;width:600px;"/><br />
+  	<object class="objectDiv2" data="personalHome-post.action?userid=${viewid}"></object>
+  </div>
 </div>
 </body>
+<#if oneself=="true">
+<script type="text/javascript" src="js/personalHome.js"></script>
+</#if>
 </html>
