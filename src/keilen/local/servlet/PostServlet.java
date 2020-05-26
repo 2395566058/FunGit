@@ -59,75 +59,84 @@ public class PostServlet {
 
 	@Transactional
 	public boolean reviewPost(HttpSession session, String postid, String content) {
-		PostFloor pf = new PostFloor();
-		String reviewUserid;
-		int index = content.indexOf("<input disabled=\"disabled\" id=\"reviewfloor");
-		if (index != -1) {
-			String newContent = content.substring(index + 42, index + 52);
-			String floor = newContent.substring(0, newContent.indexOf("\""));
-			String reviewid = postFloorMapper.getIdByPostidAndFloor(postid, floor);
-			pf.setReviewid(reviewid);
-			int stringHead = index;
-			int stringFoot = content.indexOf("楼:\">") + 4;
-			String head = content.substring(0, stringHead);
-			String foot = content.substring(stringFoot, content.length());
-			content = head.concat(foot);
-			reviewUserid = postFloorMapper.getColumnByArg("post_floor", "userid", "id", reviewid);
-		}
-		reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
-		pf.setPostid(postid);
-		pf.setContent(content);
-		String userid = (String) session.getAttribute("id");
-		String issuetime = NowTimeFormatUtil.getNowTime();
-		int count = postFloorMapper.getCountByArg("post_floor", "postid", postid);
-		pf.setUserid(userid);
-		pf.setFloor(String.valueOf(count + 1));
-		pf.setIssuetime(issuetime);
-		boolean result = postFloorMapper.insertOne(pf);
-		if (result) {
-			int nowCount = postFloorMapper.getCountByPostidAndFloor(postid, pf.getFloor());
-			if (nowCount != 1) {
-				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				return false;
+		try {
+			PostFloor pf = new PostFloor();
+			String reviewUserid;
+			int index = content.indexOf("<input disabled=\"disabled\" id=\"reviewfloor");
+			if (index != -1) {
+				String newContent = content.substring(index + 42, index + 52);
+				String floor = newContent.substring(0, newContent.indexOf("\""));
+				String reviewid = postFloorMapper.getIdByPostidAndFloor(postid, floor);
+				pf.setReviewid(reviewid);
+				int stringHead = index;
+				int stringFoot = content.indexOf("楼:\">") + 4;
+				String head = content.substring(0, stringHead);
+				String foot = content.substring(stringFoot, content.length());
+				content = head.concat(foot);
+				reviewUserid = postFloorMapper.getColumnByArg("post_floor", "userid", "id", reviewid);
 			}
-			postPersonalMapper.addreviewnumByid(postid);
-			if (!reviewUserid.equals(userid)) {
-				String title = postPersonalMapper.getTitleById(postid);
-				String object = "您在帖子 " + title + " 中有一条回复：<br>" + content;
-				redisCacheServlet.addMessage(reviewUserid, object, "ReviewReview");
+			reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
+			pf.setPostid(postid);
+			pf.setContent(content);
+			String userid = (String) session.getAttribute("id");
+			String issuetime = NowTimeFormatUtil.getNowTime();
+			int count = postFloorMapper.getCountByArg("post_floor", "postid", postid);
+			pf.setUserid(userid);
+			pf.setFloor(String.valueOf(count + 1));
+			pf.setIssuetime(issuetime);
+			boolean result = postFloorMapper.insertOne(pf);
+			if (result) {
+				int nowCount = postFloorMapper.getCountByPostidAndFloor(postid, pf.getFloor());
+				if (nowCount != 1) {
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return false;
+				}
+				postPersonalMapper.addreviewnumByid(postid);
+				if (!reviewUserid.equals(userid)) {
+					String title = postPersonalMapper.getTitleById(postid);
+					String object = "您在帖子 " + title + " 中有一条回复：<br>" + content;
+					redisCacheServlet.addMessage(reviewUserid, object, "ReviewReview");
+				}
+				return true;
 			}
-			return true;
+			return false;
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return false;
 		}
-		return false;
-
 	}
 
 	@Transactional
 	public String addPostPersonal(HttpSession session, PostPersonal postPersonal) {
-		String id = (String) session.getAttribute("id");
-		postPersonal.setUserid(id);
-		postPersonal.setForumid(forumMapper.getColumnByArg("forum", "id", "name", postPersonal.getForumid()));
-		String date = NowTimeFormatUtil.getNowTime();
-		postPersonal.setIssuetime(date);
-		boolean result = postPersonalMapper.insertOne(postPersonal);
-		if (result) {
-			return postPersonal.getId();
+		try {
+			String id = (String) session.getAttribute("id");
+			postPersonal.setUserid(id);
+			postPersonal.setForumid(forumMapper.getColumnByArg("forum", "id", "name", postPersonal.getForumid()));
+			String date = NowTimeFormatUtil.getNowTime();
+			postPersonal.setIssuetime(date);
+			boolean result = postPersonalMapper.insertOne(postPersonal);
+			if (result) {
+				return postPersonal.getId();
+			}
+			return "false";
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "false";
 		}
-		return "false";
 	}
 
 	public ModelAndView getPost(HttpServletRequest request, String id, ModelAndView model, String page) {
 		// postid title clicknum writerName reviewnum forumName <list>floor
 		// floor: floor content useName useHead issuetime
 		PostPersonal pp = postPersonalMapper.getPersonalById(id);
-		if(!pp.getUserid().equals(request.getSession().getAttribute("id"))) {
-			String viewpost=viewErmissionsMapper.getColumnByArg("view_ermissions", "post", "id",pp.getUserid());
-			if("1".equals(viewpost)) {
-				model.addObject("info","该帖子只有发帖用户可以看");
+		if (!pp.getUserid().equals(request.getSession().getAttribute("id"))) {
+			String viewpost = viewErmissionsMapper.getColumnByArg("view_ermissions", "post", "id", pp.getUserid());
+			if ("1".equals(viewpost)) {
+				model.addObject("info", "该帖子只有发帖用户可以看");
 				return model;
 			}
 		}
-		model.addObject("info","0");
+		model.addObject("info", "0");
 		if (pp.getId() == null) {
 			model.addObject("404", "找不到该帖子了啦！");
 			model.addObject("url", request.getRequestURL());
@@ -171,10 +180,14 @@ public class PostServlet {
 
 	@Transactional
 	public void addclicknum(HttpSession session, String postid) {
+		try {
 		String status = (String) session.getAttribute("clicknum" + postid);
 		if (status == null) {
 			postPersonalMapper.addclicknumByid(postid);
 			session.setAttribute("clicknum" + postid, "1");
+		}
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
 	}
 
@@ -220,12 +233,17 @@ public class PostServlet {
 
 	@Transactional
 	public String deletePost(String id) {
+		try {
 		Deleted deleteEntity = new Deleted();
 		deleteEntity.setDeletetime(NowTimeFormatUtil.getNowTime());
 		deleteEntity.setOperationid("0");
 		deletedMapper.deleteTable(deleteEntity);
 		postPersonalMapper.deletePostPersonalById(deleteEntity.getId(), id);
 		return "true";
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "false";
+		}
 	}
 
 	public String showPostReviewByPostId(HttpSession session, String postid) {
@@ -257,6 +275,7 @@ public class PostServlet {
 
 	@Transactional
 	public String deleteReviewFloor(String postid, String floor) {
+		try {
 		Deleted deleted = new Deleted();
 		deleted.setOperationid("0");
 		deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
@@ -266,10 +285,15 @@ public class PostServlet {
 			return "true";
 		}
 		return "false";
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "false";
+		}
 	}
 
 	@Transactional
 	public String deleteReviewAll(HttpSession session, String postid) {
+		try {
 		Deleted deleted = new Deleted();
 		deleted.setOperationid("0");
 		deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
@@ -280,6 +304,10 @@ public class PostServlet {
 			return "true";
 		}
 		return "false";
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "false";
+		}
 	}
 
 	public ModelAndView getReviewMeCards(ModelAndView model, HttpSession session, int page) {

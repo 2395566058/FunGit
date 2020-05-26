@@ -3,6 +3,7 @@ package keilen.local.servlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.servlet.ModelAndView;
 import keilen.local.entity.UserPersonal;
 import keilen.local.entity.ViewErmissions;
@@ -79,11 +80,16 @@ public class PersonalHomeServlet {
 
 	@Transactional
 	public String updateErmission(String id, String column, String columnValue) {
+		try {
 		boolean result = viewErmissionsMapper.updateOne(id, column, columnValue);
 		if (result == true) {
 			return "修改成功";
 		} else {
 			return "修改失败，未知原因。";
+		}
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "修改失败，请稍后重试!";
 		}
 	}
 }

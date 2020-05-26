@@ -6,4 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateOne" parameterType="String">
 		update view_ermissions set ${column}=#{columnValue} where id=#{id}
 	</update>
+	<insert id="insertOne" parameterType="String">
+		insert into view_ermissions(id) VALUES (#{id})
+	</insert>
 </mapper>

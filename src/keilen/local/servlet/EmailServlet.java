@@ -11,6 +11,7 @@ import org.apache.commons.mail.SimpleEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import keilen.local.entity.User;
 import keilen.local.mapper.UserMapper;
@@ -86,6 +87,7 @@ public class EmailServlet {
 
 	@Transactional
 	public String sendForgetSuccessEmail(String username, HttpSession session) {
+		try {
 		if (username.length() > 7) {
 			String nameOrEmail = username.substring(username.length() - 7, username.length());
 			if (nameOrEmail.equals("@qq.com")) {
@@ -111,6 +113,10 @@ public class EmailServlet {
 			}
 		}
 		return status;
+		} catch (Exception e) {
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "密码重置失败，请重试";
+		}
 	}
 
 	public String sendEmail(String email, String code, String title, String msg) {
