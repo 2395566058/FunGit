@@ -68,15 +68,18 @@
 			</script>
 		</#list>	
 		<div style="font-size:20px;text-align:center;line-height:60px;float:left;border-left:double 1px;border-right:double 1px;height:50px;width:100%;background-color: white;">
-			<#if RequestParameters['page']??>
-				<#assign pagenum = RequestParameters['page']>
-				<#else>
-				<#assign pagenum = 1>
-			</#if>
 			<#if (floorNum%5)==0>
 				<#assign pagetag =(floorNum/5)?int />
 				<#else>
 				<#assign pagetag =((floorNum/5)?int)+1 >
+			</#if>
+			<#if RequestParameters['page']??>
+				<#assign pagenum = RequestParameters['page']>
+				<#if pagenum=='final'>
+					<#assign pagenum = pagetag>
+				</#if>
+				<#else>
+				<#assign pagenum = 1>
 			</#if>
 			<a href="" onclick="skipto('${pagetag}','${pagenum?number}','${postid}','${pagenum?number-1}');return false;" style="margin-right:50px;cursor:pointer;">上一页</a>
 			<span>跳转到第 </span><input id="skipPage" style="height:25px;line-height:25px;width:70px" oninput = "value=value.replace(/[^\d]/g,'')" type="text" /><span> 页  </span>

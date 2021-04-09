@@ -68,7 +68,7 @@
     	<span onselectstart="return false;" style="font-size:15px;float:left;margin-top:18px;cursor:pointer;" onclick="getMoreNewPost()">刷新</span>
         <br onselectstart="return false;"/><br onselectstart="return false;"/>
 		<hr style="margin-left:48px;width:600px;"/>
-		<div style="height:720px;width:100%;overflow-x: hidden">
+		<div style="height:430px;width:100%;overflow-x: hidden">
 		<div id="addNewPost">
 		<#if newlist??>
 			<#list newlist as postPersonal>
@@ -96,7 +96,11 @@
 		</div>
 		</div>
     </div>
+    <div style="width:100%;height: 50px;margin-left:calc(50% - 50px);;float:left;font-size:20px">到底部了呢</div>
 </div>
+<a id="return-top" href="#top">
+    <p class="black-circle">TOP</p>
+</a>
 </body>
 <script type="text/javascript" src="js/home.js"></script>
 </html>

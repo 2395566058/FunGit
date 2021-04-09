@@ -1,4 +1,5 @@
 function skipto(targetpage,countpage){
+	targetpage=parseInt(targetpage)
 	if(targetpage>0&targetpage<=countpage){
 		window.location.href="myPost1.action?page="+targetpage;
 	}

@@ -13,10 +13,10 @@ function getMoreHotPost() {
 	if(getMoreHotPost_status=="1"){
 		return;
 	}
-	getMoreHotPost_status="1";
 	var parentDiv=document.getElementById("addHotPost");
-	parentDiv.innerHTML="";
+	parentDiv.innerHTML="<span>正在努力加载中。。</span>";
 	if (xmlhttp != null) {
+		getMoreHotPost_status="1";
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4) {
 				if (xmlhttp.status == 200) {
@@ -65,10 +65,10 @@ function getMoreNewPost() {
 	if(getMoreNewPost_status=="1"){
 		return;
 	}
-	getMoreNewPost_status="1";
 	var parentDiv=document.getElementById("addNewPost");
-	parentDiv.innerHTML="";
+	parentDiv.innerHTML="<span>正在努力加载中。。</span>";
 	if (xmlhttp != null) {
+		getMoreNewPost_status="1";
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4) {
 				if (xmlhttp.status == 200) {

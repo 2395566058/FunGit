@@ -147,12 +147,23 @@ public class PostServlet {
 		model.addObject("title", pp.getTitle());
 		model.addObject("clicknum", pp.getClicknum());
 		String writerName = userPersonalMapper.getColumnByArg("user_personal", "name", "id", pp.getUserid());
-
 		model.addObject("writerName", writerName);
 		model.addObject("reviewnum", pp.getReviewnum());
 		String forumName = forumMapper.getColumnByArg("forum", "name", "id", pp.getForumid());
 		model.addObject("forumName", forumName);
-		int page_int = Integer.parseInt(page);
+		int floorNum = postFloorMapper.getCountByArg("post_floor", "postid", id);
+		model.addObject("floorNum", floorNum);
+		int page_int = 1;
+		if (page.equals("final")) {
+			if (floorNum % 5 > 0) {
+				page_int = floorNum / 5 + 1;
+			} else {
+				page_int = floorNum / 5;
+			}
+			page=String.valueOf(page_int);
+		} else {
+			page_int = Integer.parseInt(page);
+		}
 		List<ShowPostUtil> floorlist = postFloorMapper.getFloorsById(id, 5 * page_int - 4, 5 * page_int);
 		if (page.equals("1")) {
 			ShowPostUtil spu = new ShowPostUtil();
@@ -172,8 +183,6 @@ public class PostServlet {
 		} else {
 			model.addObject("isLogin", "false");
 		}
-		int floorNum = postFloorMapper.getCountByArg("post_floor", "postid", id);
-		model.addObject("floorNum", floorNum);
 		model.setViewName("showPost");
 		return model;
 	}
@@ -181,11 +190,11 @@ public class PostServlet {
 	@Transactional
 	public void addclicknum(HttpSession session, String postid) {
 		try {
-		String status = (String) session.getAttribute("clicknum" + postid);
-		if (status == null) {
-			postPersonalMapper.addclicknumByid(postid);
-			session.setAttribute("clicknum" + postid, "1");
-		}
+			String status = (String) session.getAttribute("clicknum" + postid);
+			if (status == null) {
+				postPersonalMapper.addclicknumByid(postid);
+				session.setAttribute("clicknum" + postid, "1");
+			}
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 		}
@@ -234,12 +243,12 @@ public class PostServlet {
 	@Transactional
 	public String deletePost(String id) {
 		try {
-		Deleted deleteEntity = new Deleted();
-		deleteEntity.setDeletetime(NowTimeFormatUtil.getNowTime());
-		deleteEntity.setOperationid("0");
-		deletedMapper.deleteTable(deleteEntity);
-		postPersonalMapper.deletePostPersonalById(deleteEntity.getId(), id);
-		return "true";
+			Deleted deleteEntity = new Deleted();
+			deleteEntity.setDeletetime(NowTimeFormatUtil.getNowTime());
+			deleteEntity.setOperationid("0");
+			deletedMapper.deleteTable(deleteEntity);
+			postPersonalMapper.deletePostPersonalById(deleteEntity.getId(), id);
+			return "true";
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return "false";
@@ -276,15 +285,15 @@ public class PostServlet {
 	@Transactional
 	public String deleteReviewFloor(String postid, String floor) {
 		try {
-		Deleted deleted = new Deleted();
-		deleted.setOperationid("0");
-		deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
-		deletedMapper.deleteTable(deleted);
-		boolean result = postFloorMapper.deletePostReview(postid, floor, deleted.getId());
-		if (result) {
-			return "true";
-		}
-		return "false";
+			Deleted deleted = new Deleted();
+			deleted.setOperationid("0");
+			deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
+			deletedMapper.deleteTable(deleted);
+			boolean result = postFloorMapper.deletePostReview(postid, floor, deleted.getId());
+			if (result) {
+				return "true";
+			}
+			return "false";
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return "false";
@@ -294,16 +303,16 @@ public class PostServlet {
 	@Transactional
 	public String deleteReviewAll(HttpSession session, String postid) {
 		try {
-		Deleted deleted = new Deleted();
-		deleted.setOperationid("0");
-		deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
-		deletedMapper.deleteTable(deleted);
-		boolean result = postFloorMapper.deletePostReviewAll(postid, (String) session.getAttribute("id"),
-				deleted.getId());
-		if (result) {
-			return "true";
-		}
-		return "false";
+			Deleted deleted = new Deleted();
+			deleted.setOperationid("0");
+			deleted.setDeletetime(NowTimeFormatUtil.getNowTime());
+			deletedMapper.deleteTable(deleted);
+			boolean result = postFloorMapper.deletePostReviewAll(postid, (String) session.getAttribute("id"),
+					deleted.getId());
+			if (result) {
+				return "true";
+			}
+			return "false";
 		} catch (Exception e) {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return "false";

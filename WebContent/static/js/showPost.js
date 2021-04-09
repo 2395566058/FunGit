@@ -37,7 +37,7 @@ function fabiao(status,postid){
 					var data=xmlhttp.responseText;
 					if(data=="发表成功！"){
 						alert(data);
-						window.location.reload();
+						window.open("showPost.action?id="+postid+"&page=final")
 					}
 				}
 			}
@@ -102,6 +102,7 @@ function addclicknum(postid){
 	}
 }
 function skipto(pagetag,pagenum,postid,topage){
+	topage=parseInt(topage)
 	if(topage==""){
 		topage=document.getElementById("skipPage").value;
 	}
