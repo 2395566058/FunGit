@@ -102,6 +102,12 @@ function addclicknum(postid){
 	}
 }
 function skipto(pagetag,pagenum,postid,topage){
+	if(topage=="0"){
+		topage=document.getElementById("skipPage").value
+	}
+	if(topage==null||topage==""){
+		return;
+	}
 	topage=parseInt(topage)
 	if(topage==""){
 		topage=document.getElementById("skipPage").value;

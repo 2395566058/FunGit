@@ -78,12 +78,13 @@
 				<#if pagenum=='final'>
 					<#assign pagenum = pagetag>
 				</#if>
-				<#else>
+			<#else>
 				<#assign pagenum = 1>
+				<#assign pagetag = 1>
 			</#if>
 			<a href="" onclick="skipto('${pagetag}','${pagenum?number}','${postid}','${pagenum?number-1}');return false;" style="margin-right:50px;cursor:pointer;">上一页</a>
 			<span>跳转到第 </span><input id="skipPage" style="height:25px;line-height:25px;width:70px" oninput = "value=value.replace(/[^\d]/g,'')" type="text" /><span> 页  </span>
-			<button style="height:30px;width:50px" onclick="skipto('${pagetag}','${pagenum}','${postid}','')">跳转</button>
+			<button style="height:30px;width:50px" onclick="skipto('${pagetag}','${pagenum}','${postid}','0')">跳转</button>
 			<span>当前第${pagenum}页   共${pagetag}页</span>
 			<a href="" onclick="skipto('${pagetag}','${pagenum?number}','${postid}','${pagenum?number+1}');return false;" style="margin-left:50px;cursor:pointer;">下一页</a>
 		</div>	

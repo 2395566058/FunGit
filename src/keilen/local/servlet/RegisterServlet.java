@@ -72,7 +72,7 @@ public class RegisterServlet {
 							session.setAttribute("head",
 									userPersonalMapper.getColumnByArg("user_personal", "head", "name", user.getName()));
 							systemInfoMapper.addSystemInfo(user.getId(), "系统通知",
-									"欢迎你注册乐趣论坛，本论坛为毕业设计作品，可能有多处地方没有完善，请谅解。", NowTimeFormatUtil.getNowTime(), "0");
+									"欢迎你注册乐趣论坛，本论坛可能有多处地方没有完善，请谅解。", NowTimeFormatUtil.getNowTime(), "0");
 							redisCacheServlet.addOnline(user.getId(), session.getId());
 							return "注册成功！";
 						}

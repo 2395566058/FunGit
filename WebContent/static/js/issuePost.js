@@ -60,7 +60,7 @@ function issue() {
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send("title=" + title + "&" + "forumid=" + forumshow + "&"
-				+ "content=" + div.innerHTML);
+				+ "content=" +encodeURIComponent(div.innerHTML));
 	} else {
 		alert("Your browser does not support XMLHTTP.");
 	}

@@ -114,6 +114,10 @@ public class PostServlet {
 			postPersonal.setForumid(forumMapper.getColumnByArg("forum", "id", "name", postPersonal.getForumid()));
 			String date = NowTimeFormatUtil.getNowTime();
 			postPersonal.setIssuetime(date);
+			String content=postPersonal.getContent();
+			content=content.replaceAll("<div>", "<p>");
+			content=content.replaceAll("</div>", "</p>");
+			postPersonal.setContent(content);
 			boolean result = postPersonalMapper.insertOne(postPersonal);
 			if (result) {
 				return postPersonal.getId();

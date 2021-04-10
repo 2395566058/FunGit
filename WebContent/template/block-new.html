@@ -50,6 +50,9 @@
 </body>
 <script type="text/javascript">
 function skipto(targetpage,countpage){
+	if(targetpage>=countpage){
+		return;
+	}
 	if(targetpage>0&targetpage<=countpage){
 		window.location.href="showSearchPost.action?page="+targetpage+"&input=${dhblock}&type=new";
 	}

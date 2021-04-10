@@ -14,7 +14,7 @@ function getMoreHotPost() {
 		return;
 	}
 	var parentDiv=document.getElementById("addHotPost");
-	parentDiv.innerHTML="<span>正在努力加载中。。</span>";
+	parentDiv.innerHTML="        <span>正在努力加载中。。</span>";
 	if (xmlhttp != null) {
 		getMoreHotPost_status="1";
 		xmlhttp.onreadystatechange = function() {
@@ -51,7 +51,7 @@ function getMoreHotPost() {
 				}
 			}
 		};
-		xmlhttp.open("POST", "getMoreHotPost", false);
+		xmlhttp.open("POST", "getMoreHotPost", true);
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send("num=0");
@@ -66,7 +66,7 @@ function getMoreNewPost() {
 		return;
 	}
 	var parentDiv=document.getElementById("addNewPost");
-	parentDiv.innerHTML="<span>正在努力加载中。。</span>";
+	parentDiv.innerHTML="<span>        正在努力加载中。。</span>";
 	if (xmlhttp != null) {
 		getMoreNewPost_status="1";
 		xmlhttp.onreadystatechange = function() {
@@ -104,7 +104,7 @@ function getMoreNewPost() {
 				}
 			}
 		};
-		xmlhttp.open("POST", "getMoreNewPost", false);
+		xmlhttp.open("POST", "getMoreNewPost", true);
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send("num=0");

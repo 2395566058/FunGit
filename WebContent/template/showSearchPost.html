@@ -6,6 +6,10 @@
 <link type="text/css" rel="stylesheet" href="css/showSearchPost.css" />
 </head>
 <body>
+<#if count??>
+<#else>
+	<#assign count = 0>
+</#if>
 <h3 style="margin-left:50px;font-size:30px;">共查找到${count}条帖子，结果如下</h3>
 <div class="hotDiv">
 	<div style="height:auto;width:100%;overflow: hidden">
