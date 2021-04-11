@@ -14,6 +14,9 @@
 	</script>
 <#else>
 <body onload="addclicknum('${postid}')">
+	<a id="return-top" href="#reviewDiv">
+    	<p class="black-circle">评论</p>
+	</a>
 	<#if isLogin=="true">
 		<object class="objectDiv" data="head.action?num=1"></object>
 	</#if>
@@ -88,7 +91,7 @@
 			<span>当前第${pagenum}页   共${pagetag}页</span>
 			<a href="" onclick="skipto('${pagetag}','${pagenum?number}','${postid}','${pagenum?number+1}');return false;" style="margin-left:50px;cursor:pointer;">下一页</a>
 		</div>	
-		<div class="reviewDiv">
+		<div id="reviewDiv" class="reviewDiv">
 			<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;发表回复</h4><br><br><br>
 			<div style="float:left;height:400px;width:1030px;border:double #aaa 1px;margin-left:-40px;">
 				<div style="float:left;height:40px;width:100%">

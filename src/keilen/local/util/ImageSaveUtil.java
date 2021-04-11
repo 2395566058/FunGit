@@ -36,8 +36,7 @@ public class ImageSaveUtil {
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 		}
-		String strBackUrl = "http://" + request.getServerName() + ":" + request.getServerPort()
-				+ request.getContextPath() + "/images/" + fileName;
+		String strBackUrl = "images/" + fileName;
 		return strBackUrl;
 	}
 }
