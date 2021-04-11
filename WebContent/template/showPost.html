@@ -13,7 +13,7 @@
 		window.close();
 	</script>
 <#else>
-<body onload="addclicknum('${postid}')">
+<body onload="addclicknum('${postid}')" onclick="tohidden()">
 	<a id="return-top" href="#reviewDiv">
     	<p class="black-circle">评论</p>
 	</a>
@@ -94,11 +94,80 @@
 		<div id="reviewDiv" class="reviewDiv">
 			<h4 style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;发表回复</h4><br><br><br>
 			<div style="float:left;height:400px;width:1030px;border:double #aaa 1px;margin-left:-40px;">
-				<div style="float:left;height:40px;width:100%">
+				<div style="float:left;height:43px;width:140px">
 					<button class="button" onclick="openFile()">插入图片</button>
 					<input onChange="addImage(this)" id="imgfile" type="file" hidden />
 				</div>
-			<div id="content" contenteditable="true" class="div" style="max-height:300px;margin-left:15px;margin-top:20px;border:double black 1px"></div>
+				<div style="float:left;height:43px;width:140px">
+					<button id="EmojiButton" class="button" onclick="openEmoji()">插入表情</button>
+					<div onclick="NoHidden()" id="EmojiDiv" class="emoji-box bottom">
+						<div style="margin:10px;width:auto;height:auto">
+						<a onclick="addEmoji('doge')" class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/doge.webp" title="[doge]"></a>
+						<a onclick="addEmoji('微笑')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/微笑.webp" title="[微笑]"></a>
+						<a onclick="addEmoji('OK')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/OK.webp" title="[OK]"></a>
+						<a onclick="addEmoji('星星眼')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/星星眼.webp" title="[星星眼]"></a>
+						<a onclick="addEmoji('妙啊')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/妙啊.webp" title="[妙啊]"></a>
+						<a onclick="addEmoji('辣眼睛')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/辣眼睛.webp" title="[辣眼睛]"></a>
+						<a onclick="addEmoji('吃瓜')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/吃瓜.webp" title="[吃瓜]"></a>
+						<a onclick="addEmoji('滑稽')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/滑稽.webp" title="[滑稽]"></a>
+						<a onclick="addEmoji('呲牙')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/呲牙.webp" title="[呲牙]"></a>
+						<a onclick="addEmoji('打call')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/打call.webp" title="[打call]"></a>
+						<a onclick="addEmoji('歪嘴')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/歪嘴.webp" title="[歪嘴]"></a>
+						<a onclick="addEmoji('调皮')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/调皮.webp" title="[调皮]"></a>
+						<a onclick="addEmoji('嗑瓜子')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/嗑瓜子.webp" title="[嗑瓜子]"></a>
+						<a onclick="addEmoji('笑哭')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/笑哭.webp" title="[笑哭]"></a>
+						<a onclick="addEmoji('脱单doge')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/脱单doge.webp" title="[脱单doge]"></a>
+						<a onclick="addEmoji('给心心')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/给心心.webp" title="[给心心]"></a>
+						<a onclick="addEmoji('嘟嘟')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/嘟嘟.webp" title="[嘟嘟]"></a>
+						<a onclick="addEmoji('喜欢')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/喜欢.webp" title="[喜欢]"></a>
+						<a onclick="addEmoji('酸了')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/酸了.webp" title="[酸了]"></a>
+						<a onclick="addEmoji('哦呼')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/哦呼.webp" title="[哦呼]"></a>
+						
+						<a onclick="addEmoji('嫌弃')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/嫌弃.webp" title="[嫌弃]"></a>
+						<a onclick="addEmoji('大哭')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/大哭.webp" title="[大哭]"></a>
+						<a onclick="addEmoji('害羞')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/害羞.webp" title="[害羞]"></a>
+						<a onclick="addEmoji('疑惑')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/疑惑.webp" title="[疑惑]"></a>
+						<a onclick="addEmoji('喜极而泣')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/喜极而泣.webp" title="[喜极而泣]"></a>
+						<a onclick="addEmoji('奸笑')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/奸笑.webp" title="[奸笑]"></a>
+						<a onclick="addEmoji('笑')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/笑.webp" title="[笑]"></a>
+						<a onclick="addEmoji('偷笑')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/偷笑.webp" title="[偷笑]"></a>
+						<a onclick="addEmoji('惊讶')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/惊讶.webp" title="[惊讶]"></a>
+						<a onclick="addEmoji('捂脸')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/捂脸.webp" title="[捂脸]"></a>
+						<a onclick="addEmoji('阴险')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/阴险.webp" title="[阴险]"></a>
+						<a onclick="addEmoji('囧')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/囧.webp" title="[囧]"></a>
+						<a onclick="addEmoji('呆')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/呆.webp" title="[呆]"></a>
+						<a onclick="addEmoji('抠鼻')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/抠鼻.webp" title="[抠鼻]"></a>
+						<a onclick="addEmoji('大笑')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/大笑.webp" title="[大笑]"></a>
+						<a onclick="addEmoji('惊喜')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/惊喜.webp" title="[惊喜]"></a>
+						<a onclick="addEmoji('无语')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/无语.webp" title="[无语]"></a>
+						<a onclick="addEmoji('点赞')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/点赞.webp" title="[点赞]"></a>
+						<a onclick="addEmoji('鼓掌')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/鼓掌.webp" title="[鼓掌]"></a>
+						<a onclick="addEmoji('尴尬')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/尴尬.webp" title="[尴尬]"></a>
+						
+						<a onclick="addEmoji('灵魂出窍')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/灵魂出窍.webp" title="[灵魂出窍]"></a>
+						<a onclick="addEmoji('委屈')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/委屈.webp" title="[委屈]"></a>
+						<a onclick="addEmoji('傲娇')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/傲娇.webp" title="[傲娇]"></a>
+						<a onclick="addEmoji('疼')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/疼.webp" title="[疼]"></a>
+						<a onclick="addEmoji('冷')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/冷.webp" title="[冷]"></a>
+						<a onclick="addEmoji('生病')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/生病.webp" title="[生病]"></a>
+						<a onclick="addEmoji('吓')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/吓.webp" title="[吓]"></a>
+						<a onclick="addEmoji('吐')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/吐.webp" title="[吐]"></a>
+						<a onclick="addEmoji('捂眼')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/捂眼.webp" title="[捂眼]"></a>
+						<a onclick="addEmoji('嘘声')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/嘘声.webp" title="[嘘声]"></a>
+						<a onclick="addEmoji('思考')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/思考.webp" title="[思考]"></a>
+						<a onclick="addEmoji('再见')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/再见.webp" title="[再见]"></a>
+						<a onclick="addEmoji('翻白眼')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/翻白眼.webp" title="[翻白眼]"></a>
+						<a onclick="addEmoji('哈欠')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/哈欠.webp" title="[哈欠]"></a>
+						<a onclick="addEmoji('奋斗')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/奋斗.webp" title="[奋斗]"></a>
+						<a onclick="addEmoji('墨镜')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/墨镜.webp" title="[墨镜]"></a>
+						<a onclick="addEmoji('难过')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/难过.webp" title="[难过]"></a>
+						<a onclick="addEmoji('撇嘴')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/撇嘴.webp" title="[撇嘴]"></a>
+						<a onclick="addEmoji('抓狂')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/抓狂.webp" title="[抓狂]"></a>
+						<a onclick="addEmoji('生气')"class="emoji-list emoji-text emoji-pic emoji-small"><img src="images/emoji/生气.webp" title="[生气]"></a>
+						</div>
+					</div>
+				</div>
+			<div id="content" contenteditable="true" class="div" style="max-height:500px;margin-left:15px;margin-top:20px;border:double black 1px"></div>
 			</div>
 			<button onclick="fabiao('${isLogin}','${postid}')" class="button" style="float:right;margin-right:70px">发表</button>
 		</div>

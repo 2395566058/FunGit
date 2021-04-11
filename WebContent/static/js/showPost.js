@@ -51,6 +51,38 @@ function fabiao(status,postid){
 		alert("Your browser does not support XMLHTTP.");
 	}
 }
+
+function addEmoji(image){
+	var content= document.getElementById("content");
+	content.innerHTML=content.innerHTML+"<img style='vertical-align:middle;width:26px;height:26px' src='images/emoji/"+image+".webp'>"
+}
+
+var emojeStatus=0;
+function openEmoji(){
+	var emojiButton= document.getElementById("EmojiButton");
+	var top=emojiButton.offsetTop;
+	var left=emojiButton.offsetLeft;
+	var emojiDiv= document.getElementById("EmojiDiv");
+	emojiDiv.style.top=(top+41)+"px";
+	emojiDiv.style.left=(left+8)+"px";
+	emojiDiv.style.display="block";
+	window.location.href="#EmojiDiv"
+	emojeStatus=1
+}
+
+function tohidden(){
+	if(emojeStatus==0 ){
+		var emojiDiv= document.getElementById("EmojiDiv");
+		emojiDiv.style.display="none";
+	}else{
+		emojeStatus=0
+	}
+}
+
+function NoHidden(){
+	emojeStatus=1
+}
+
 function openFile() {
 	document.getElementById("imgfile").click();
 }
