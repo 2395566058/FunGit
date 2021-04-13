@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="keilen.local.mapper.SystemInfoMapper">
 <select id="getSystemInfoByUserid" resultType="SystemInfo">
 		<bind name="newpage" value="5*(page-1)"></bind>
-		SELECT * FROM systeminfo WHERE userid = #{userid} limit #{newpage},5
+		SELECT * FROM systeminfo WHERE userid = #{userid} order by issuetime desc limit #{newpage},5 
 	</select>
 	<update id="isreadById" parameterType="String">
 		UPDATE systeminfo SET isread='1' WHERE id=#{id}
@@ -14,6 +14,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT count(*) FROM systeminfo WHERE userid=#{userid} AND isread='0'
 	</select>
 	<insert id="addSystemInfo" parameterType="String">
-		INSERT INTO systeminfo (userid,title,content,issuetime,issueid,isread) VALUES(#{userid},#{title},#{content},#{issuetime},#{issueid},'0')
+		INSERT INTO systeminfo (userid,title,content,issuetime,issueid,isread,content_title) VALUES(#{userid},#{title},#{content},#{issuetime},#{issueid},'0',#{content_title})
 	</insert>
 </mapper>

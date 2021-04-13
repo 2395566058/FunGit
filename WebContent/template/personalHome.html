@@ -78,8 +78,10 @@
   			<span style="background-color: #f8f8f8;margin-left:-20px" class="tagName">
   			<#if oneself=="true">我的帖子<#else>他的帖子</#if>
   			</span>
+  			<#if oneself=="true">
 			<input id="postSelect" type="radio" onclick="toupdate('post',this.value,'6')" name="viewstatus6" value="0" ${viewpost0}>可查看
 			<input type="radio" onclick="toupdate('post',this.value,'6')" name="viewstatus6" value="1" ${viewpost1}>不可查看
+			</#if>
     	</div>
   	</div>
   	<hr style="margin-left:39px;width:600px;"/><br />

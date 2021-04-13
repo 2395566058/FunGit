@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</collection>
 	</resultMap>
 	
-	<insert id="insertOne" parameterType="PostFloor">
+	<insert id="insertOne" parameterType="PostFloor" keyProperty="id" useGeneratedKeys="true">
 		insert into post_floor (id,postid,floor,content,userid,issuetime
 		<if test="reviewid!=null">
 			,reviewid
@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		) and deleted=0 GROUP BY postid limit #{newpage},5
 	</select>
 	
-	<select id="getCountforReviewUtilBuUserid" parameterType="String" resultType="int">
+	<select id="getCountforReviewUtilByUserid" parameterType="String" resultType="int">
 		select count(*) from (
 			SELECT count(*) FROM post_floor WHERE userid!=#{userid} and reviewid in (
 				SELECT A.id from post_floor as A JOIN post_personal as B ON A.postid=B.id 

@@ -1,11 +1,13 @@
 function skipto(targetpage, countpage) {
-	targetpage=parseInt(targetpage)
+	targetpage = parseInt(targetpage)
 	if (targetpage > 0 & targetpage <= countpage) {
 		window.location.href = "myPost3.action?page=" + targetpage;
 	}
 }
 function xiaoshi(div) {
 	div.style.display = "none";
+	var showreviewdiv = document.getElementById("showreviewdiv");
+	showreviewdiv.innerHTML = "";
 }
 function getXmlHttp() {
 	var xmlhttp;
@@ -16,7 +18,17 @@ function getXmlHttp() {
 	}
 	return xmlhttp;
 }
-function isread(id) {
+function isread(ids) {
+	var id = ids.split("|");
+	if(id.length==1){
+		this.sendisread(id);
+	}else{
+		for(var i=0;i<id.length;i++){
+			this.sendisread(id[i]);
+		}
+	}
+}
+function sendisread(id){
 	var xmlhttp = this.getXmlHttp();
 	if (xmlhttp != null) {
 		xmlhttp.onreadystatechange = function() {
@@ -33,7 +45,7 @@ function isread(id) {
 		}
 		xmlhttp.open("POST", "isreadById", true);
 		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;charset=utf-8");
+			"application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send("id=" + id);
 	} else {
 		alert("Your browser does not support XMLHTTP.");
@@ -55,21 +67,26 @@ function showreviewdiv(id) {
 						div.id = divid;
 						div.className = "newPostDiv";
 						var param = "\'" + id + "\',\'" + obj[i].floor + "\'";
-						div.innerHTML = " "
-								+ obj[i].floor
-								+ "楼      发表时间："
-								+ obj[i].issuetime
-								+ "<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview("
-								+ param + ")\">删除</div><br>" + obj[i].content;
+						div.innerHTML = " " +
+							obj[i].floor +
+							"楼      " +
+							"<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview(" +
+							param + ")\">删除</div>"+
+							"<span style='margin-right:30px;font-size:15px;float:right'>" +
+							"发表时间：" +
+							"<span style='font-size:16px;color:#1b1b1b'>" +
+							obj[i].issuetime +
+							"</span></span>" +
+							"<br>" + obj[i].content;
 						showreviewdiv.appendChild(div);
 						var review = obj[i].review;
 						for (var j = 0; j < review.length; j++) {
 							var div2 = document.createElement("div");
 							div2.className = "newPostDiv2";
 							div2.innerHTML = " " + review[j].floor
-									+ "楼      发表时间：" + review[i].issuetime
-									+ "<br><div >" + review[j].userName
-									+ ":</div><br>" + review[j].content;
+								+ "楼      发表时间：" + review[j].issuetime
+								+ "<br><div >" + review[j].userName
+								+ ":</div><br>" + review[j].content;
 							showreviewdiv.appendChild(div2);
 						}
 					}
@@ -79,7 +96,7 @@ function showreviewdiv(id) {
 		};
 		xmlhttp.open("POST", "showReviewMeByPostId", true);
 		xmlhttp.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded;charset=utf-8");
+			"application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send("postid=" + id);
 	} else {
 		alert("Your browser does not support XMLHTTP.");
@@ -101,7 +118,7 @@ function deletereview(postid, floor) {
 			};
 			xmlhttp.open("POST", "deleteReviewByFloor", true);
 			xmlhttp.setRequestHeader("Content-Type",
-					"application/x-www-form-urlencoded;charset=utf-8");
+				"application/x-www-form-urlencoded;charset=utf-8");
 			xmlhttp.send("postid=" + postid + "&floor=" + floor);
 		} else {
 			alert("Your browser does not support XMLHTTP.");

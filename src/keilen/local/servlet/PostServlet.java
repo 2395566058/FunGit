@@ -1,6 +1,10 @@
 package keilen.local.servlet;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -74,8 +78,9 @@ public class PostServlet {
 				String foot = content.substring(stringFoot, content.length());
 				content = head.concat(foot);
 				reviewUserid = postFloorMapper.getColumnByArg("post_floor", "userid", "id", reviewid);
+			} else {
+				reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
 			}
-			reviewUserid = postPersonalMapper.getPersonalById(postid).getUserid();
 			pf.setPostid(postid);
 			pf.setContent(content);
 			String userid = (String) session.getAttribute("id");
@@ -94,8 +99,15 @@ public class PostServlet {
 				postPersonalMapper.addreviewnumByid(postid);
 				if (!reviewUserid.equals(userid)) {
 					String title = postPersonalMapper.getTitleById(postid);
-					String object = "您在帖子 " + title + " 中有一条回复：<br>" + content;
-					redisCacheServlet.addMessage(reviewUserid, object, "ReviewReview");
+					String writeid = postPersonalMapper.getColumnByArg("post_personal", "userid", "id", postid);
+					String object;
+					if (reviewUserid.equals(writeid)) {
+						object = "您的帖子 " + title + " 中有[替换]条新的评论";
+						systemInfoMapper.addSystemInfo(reviewUserid, "他人评论",  pf.getId(), issuetime, "0", object);
+					} else {
+						object = "您在帖子 " + title + " 中收到[替换]条新的回复";
+						systemInfoMapper.addSystemInfo(reviewUserid, "他人回复",  pf.getId(), issuetime, "0", object);
+					}
 				}
 				return true;
 			}
@@ -114,9 +126,9 @@ public class PostServlet {
 			postPersonal.setForumid(forumMapper.getColumnByArg("forum", "id", "name", postPersonal.getForumid()));
 			String date = NowTimeFormatUtil.getNowTime();
 			postPersonal.setIssuetime(date);
-			String content=postPersonal.getContent();
-			content=content.replaceAll("<div>", "<p>");
-			content=content.replaceAll("</div>", "</p>");
+			String content = postPersonal.getContent();
+			content = content.replaceAll("<div>", "<p>");
+			content = content.replaceAll("</div>", "</p>");
 			postPersonal.setContent(content);
 			boolean result = postPersonalMapper.insertOne(postPersonal);
 			if (result) {
@@ -164,7 +176,7 @@ public class PostServlet {
 			} else {
 				page_int = floorNum / 5;
 			}
-			page=String.valueOf(page_int);
+			page = String.valueOf(page_int);
 		} else {
 			page_int = Integer.parseInt(page);
 		}
@@ -322,9 +334,31 @@ public class PostServlet {
 			return "false";
 		}
 	}
+	
+	public String getCommentFromPeopleForNotice(String id) {
+		System.out.println("id="+id);
+		ShowPostReviewUtil spu=postFloorMapper.getFloorByid(id);
+		StringBuffer result = new StringBuffer("{");
+		result.append("\"floor\":\"" + spu.getFloor() + "\",");
+		String result2 = new String(spu.getContent());
+		result2 = result2.replace("\"", "\'");
+		result.append("\"content\":\"" + result2 + "\",");
+		result.append("\"issuetime\":\"" + spu.getIssuetime() + "\"");
+		result.append("}");
+		System.out.println(result.toString());
+		return result.toString();
+	}
+	//
+	public String getReviewFromPeopleForNotice(HttpSession session,String id) {
+		return null;
+	}
+	//
+	public String getSystemInfoForNotice(HttpSession session,String id) {
+		return null;
+	}
 
 	public ModelAndView getReviewMeCards(ModelAndView model, HttpSession session, int page) {
-		int count = postFloorMapper.getCountforReviewUtilBuUserid((String) session.getAttribute("id"));
+		int count = postFloorMapper.getCountforReviewUtilByUserid((String) session.getAttribute("id"));
 		if (count == 0) {
 			model.addObject("list", null);
 			return model;
@@ -342,7 +376,7 @@ public class PostServlet {
 		return model;
 	}
 
-	public ModelAndView getSystemInfo(ModelAndView model, HttpSession session, int page) {
+	public ModelAndView getSystemInfo(ModelAndView model, HttpSession session, int page) throws ParseException {
 		int count = systemInfoMapper.getCountByArg("systeminfo", "userid", (String) session.getAttribute("id"));
 		if (count == 0) {
 			model.addObject("list", null);
@@ -355,7 +389,7 @@ public class PostServlet {
 			countpage = count / 5;
 		}
 		List<SystemInfo> list = systemInfoMapper.getSystemInfoByUserid((String) session.getAttribute("id"), page);
-		model.addObject("list", list);
+		model.addObject("list", this.MergerInfo(list));
 		model.addObject("localpage", page);
 		model.addObject("countpage", countpage);
 		return model;
@@ -532,5 +566,48 @@ public class PostServlet {
 		} else {
 			return "false";
 		}
+	}
+
+	public List<SystemInfo> MergerInfo(List<SystemInfo> list) throws ParseException {
+		List<SystemInfo> newlist = new ArrayList<SystemInfo>();
+		for (int i = 0; i < list.size(); i++) {
+			SystemInfo info = list.get(i);
+			String issuetime = info.getIssuetime();
+			int sametime = 1;
+			if (list.size() != 1) {
+				int status = 0;
+				for (int j = i + 1; j < list.size(); j++) {
+					SystemInfo info2 = list.get(j);
+					if (info.getContent_title().equals(info2.getContent_title())) {
+						sametime++;
+						status = 1;
+						list.remove(j);
+						j = j - 1;
+						DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Date data1 = fmt.parse(info.getIssuetime());
+						Date data2 = fmt.parse(info2.getIssuetime());
+						if (data1.before(data2)) {
+							info.setIssuetime(info2.getIssuetime());
+							String newContent = info2.getContent() + "|" + info.getContent();
+							info.setContent(newContent);
+						} else {
+							String newContent = info.getContent() + "|" + info2.getContent();
+							info.setContent(newContent);
+						}
+						String ids = info.getId()+ "|" + info2.getId();
+						info.setId(ids);
+					}
+				}
+				if (status == 1) {
+					list.remove(i);
+					i = i - 1;
+				}
+			}
+			String content_title = info.getContent_title();
+			content_title = content_title.replace("[替换]", String.valueOf(sametime));
+			info.setContent_title(content_title);
+			newlist.add(info);
+		}
+		return newlist;
 	}
 }

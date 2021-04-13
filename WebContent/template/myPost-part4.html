@@ -11,19 +11,19 @@
 	<#list list as k>
 		<div class="postdiv">
 			<div class="informationdiv">
-				<span style="margin-left:20px;font-size:20px;">${k.title}</span><br>
-				<span style="margin-left:20px;font-size:18px;"> <span style="font-size:20px;color:#1b1b1b">${k.content}</span></span><br>
-				<span style="margin-left:20px;font-size:18px;">消息时间： <span style="font-size:20px;color:#1b1b1b">${k.issuetime}</span></span><br>
+				<span style="margin-left:20px;font-size:20px;color: #FF2D2D;">&nbsp;${k.title}</span><br>
+				<span style="margin-left:20px;font-size:18px;"> <span style="font-size:20px;color:#1b1b1b">&nbsp;&nbsp;${k.content_title}</span></span><br>
+				<span style="margin-right:30px;font-size:15px;float:right">消息时间： <span style="font-size:16px;color:#1b1b1b">${k.issuetime}</span></span><br>
 			</div>
-			<#if k.isread=="0">
-				<div class="setupdiv">
-				<br>
-				<button class="button" onclick="isread('${k.id}')">已读</button>
-				</div>
-			<#else>
-				<br>
-				已读
-			</#if>
+			<div class="setupdiv">
+				<button class="button" onclick="showreviewdivs('${k.title}','${k.content}')">查看</button>
+				<#if k.isread=="0">
+					<button class="button" onclick="isread('${k.id}')">已读</button>
+				<#else>
+					<br>
+					<span class="button" style="display:block;text-align: center;line-height:36px">已读</span>
+				</#if>
+			</div>
 		</div>
 	</#list>
 	<#if list?size<5>
@@ -32,7 +32,7 @@
 		</div>
 	</#if>
 	<#else>
-		<span>暂时还没有人回复你呢</span>
+		<span>暂时还没有更多消息呢</span>
 	</#if>
 	<div class="daohangdiv">
 		<#if list??>
@@ -49,4 +49,5 @@
 </div>
 </body>
 <script type="text/javascript" src="js/myPost/myPost3.js"></script>
+<script type="text/javascript" src="js/myPost/myPost4.js"></script>
 </html>

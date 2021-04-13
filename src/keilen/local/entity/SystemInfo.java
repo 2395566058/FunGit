@@ -16,4 +16,5 @@ public class SystemInfo implements Serializable {
 	public String issuetime;
 	public String issueid;
 	public String isread;
+	public String content_title;
 }

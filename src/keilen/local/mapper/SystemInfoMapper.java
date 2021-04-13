@@ -16,5 +16,5 @@ public interface SystemInfoMapper extends CommonMapper<SystemInfo> {
 	public Boolean existNotRead(@Param("userid") String userid);
 
 	public Boolean addSystemInfo(@Param("userid") String userid, @Param("title") String title,
-			@Param("content") String content, @Param("issuetime") String issuetime, @Param("issueid") String issueid);
+			@Param("content") String content, @Param("issuetime") String issuetime, @Param("issueid") String issueid,@Param("content_title") String content_title);
 }

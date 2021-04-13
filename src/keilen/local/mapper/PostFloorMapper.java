@@ -15,7 +15,7 @@ public interface PostFloorMapper extends CommonMapper<PostFloor>{
 
 	public int getCountByPostidAndFloor(@Param("postid") String postid, @Param("floor") String floor);
 
-	public int getCountforReviewUtilBuUserid(@Param("userid") String userid);
+	public int getCountforReviewUtilByUserid(@Param("userid") String userid);
 
 	public int getCountByUserid(@Param("userid") String userid);
 
@@ -23,7 +23,7 @@ public interface PostFloorMapper extends CommonMapper<PostFloor>{
 
 	public String getUseNameById(@Param("id") String id);
 
-	public ShowPostReviewUtil getFloorById(@Param("reviewid") String id);
+	public ShowPostReviewUtil getFloorByid(@Param("reviewid") String id);
 
 	public List<ShowPostUtil> getFloorsById(@Param("postid") String postid, @Param("head") int head,
 			@Param("foot") int foot);

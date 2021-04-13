@@ -1,5 +1,7 @@
 package keilen.local.controller;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +72,7 @@ public class MyPostController {
 
 	@RequestMapping(value = "/myPost4.action", method = RequestMethod.GET)
 	public ModelAndView getHtml4(HttpServletRequest request, ModelAndView model,
-			@RequestParam(name = "page", required = false, defaultValue = "1") String page) {
+			@RequestParam(name = "page", required = false, defaultValue = "1") String page) throws NumberFormatException, ParseException {
 		HttpSession session = request.getSession();
 		if (session.getAttribute("id") == null) {
 			model.setViewName("login");
@@ -123,5 +125,23 @@ public class MyPostController {
 	@ResponseBody
 	public String existNotRead(HttpSession session) throws InterruptedException {
 		return postServlet.existNotRead(session);
+	}
+	
+	@RequestMapping(value = "/getCommentFromPeopleForNotice", method = RequestMethod.POST)
+	@ResponseBody
+	public String getCommentFromPeopleForNotice(String id) throws InterruptedException {
+		return postServlet.getCommentFromPeopleForNotice(id);
+	}
+	
+	@RequestMapping(value = "/getReviewFromPeopleForNotice", method = RequestMethod.POST)
+	@ResponseBody
+	public String getReviewFromPeopleForNotice(HttpSession session,String id) throws InterruptedException {
+		return postServlet.getReviewFromPeopleForNotice(session,id);
+	}
+	
+	@RequestMapping(value = "/getSystemInfoForNotice", method = RequestMethod.POST)
+	@ResponseBody
+	public String getSystemInfoForNotice(HttpSession session,String id) throws InterruptedException {
+		return postServlet.getSystemInfoForNotice(session,id);
 	}
 }

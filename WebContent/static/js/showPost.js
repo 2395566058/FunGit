@@ -37,7 +37,7 @@ function fabiao(status,postid){
 					var data=xmlhttp.responseText;
 					if(data=="发表成功！"){
 						alert(data);
-						window.open("showPost.action?id="+postid+"&page=final")
+						window.location.assign("showPost.action?id="+postid+"&page=final#reviewDiv")
 					}
 				}
 			}
@@ -46,7 +46,7 @@ function fabiao(status,postid){
 		xmlhttp.setRequestHeader("Content-Type",
 				"application/x-www-form-urlencoded;charset=utf-8");
 		xmlhttp.send("postid=" + postid + "&" +
-				"content=" + content);
+				"content=" + encodeURIComponent(content));
 	} else {
 		alert("Your browser does not support XMLHTTP.");
 	}
