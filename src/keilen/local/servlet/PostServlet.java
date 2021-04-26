@@ -101,10 +101,13 @@ public class PostServlet {
 					String title = postPersonalMapper.getTitleById(postid);
 					String writeid = postPersonalMapper.getColumnByArg("post_personal", "userid", "id", postid);
 					String object;
-					if (reviewUserid.equals(writeid)) {
+					if (reviewUserid.equals(writeid)&&pf.getReviewid()==null) {
+						//用户直接在帖子下发言
 						object = "您的帖子 " + title + " 中有[替换]条新的评论";
-						systemInfoMapper.addSystemInfo(reviewUserid, "他人评论",  pf.getId(), issuetime, "0", object);
-					} else {
+						systemInfoMapper.addSystemInfo(writeid, "他人评论",  pf.getId(), issuetime, "0", object);
+					} 
+					if(pf.getReviewid()!=null) {
+						//用户回复他人发言
 						object = "您在帖子 " + title + " 中收到[替换]条新的回复";
 						systemInfoMapper.addSystemInfo(reviewUserid, "他人回复",  pf.getId(), issuetime, "0", object);
 					}

@@ -27,6 +27,7 @@ function showreviewdivs(title, ids) {
 						div.className = "newPostDiv";
 						var param = "\'" + dataArray[i] + "\',\'" + result.floor + "\'";
 						div.innerHTML = " "
+							+"<div>"
 							+ result.floor
 							+ "楼      "
 							+ "<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview("
@@ -36,7 +37,7 @@ function showreviewdivs(title, ids) {
 							+ "<span style='font-size:16px;color:#1b1b1b'>"
 							+ result.issuetime
 							+"</span></span>"
-							+"<br>" + result.content;
+							+"</div><br>" + result.content;
 						showreviewdiv.appendChild(div);
 					}
 				}

@@ -68,6 +68,7 @@ function showreviewdiv(id) {
 						div.className = "newPostDiv";
 						var param = "\'" + id + "\',\'" + obj[i].floor + "\'";
 						div.innerHTML = " " +
+							"<div>"+
 							obj[i].floor +
 							"楼      " +
 							"<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview(" +
@@ -77,7 +78,7 @@ function showreviewdiv(id) {
 							"<span style='font-size:16px;color:#1b1b1b'>" +
 							obj[i].issuetime +
 							"</span></span>" +
-							"<br>" + obj[i].content;
+							"</div><br>" + obj[i].content;
 						showreviewdiv.appendChild(div);
 						var review = obj[i].review;
 						for (var j = 0; j < review.length; j++) {

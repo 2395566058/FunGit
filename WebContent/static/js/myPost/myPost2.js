@@ -34,9 +34,9 @@ function showreviewdiv(id){
 						var param="\'"+id+"\',\'"+obj[i].floor+"\',\'"+divid+"\'";
 						var existReviewName;
 						if(obj[i].reviewName==""){
-							existReviewName="<br> 楼层发言";
+							existReviewName=" 楼层发言";
 						}else{
-							existReviewName="<br> 回复  ";
+							existReviewName=" 回复  ";
 						}
 						div.innerHTML=" "+obj[i].floor+"楼      "+
 						"<div style='cursor:pointer;margin-right:20px;float:right' onclick=\"deletereview("+param+")\">删除</div>"+
@@ -44,8 +44,8 @@ function showreviewdiv(id){
 						"发表时间："+
 						"<span style='font-size:16px;color:#1b1b1b'>"+
 						obj[i].issuetime+
-						"</span></span>"+
-						existReviewName+obj[i].reviewName+":<br>"+obj[i].content;
+						"</span></span><div>"+
+						existReviewName+obj[i].reviewName+":</div><br>"+obj[i].content;
 						showreviewdiv.appendChild(div);
 					}
 					bigshowreviewdiv.style.display="block";
