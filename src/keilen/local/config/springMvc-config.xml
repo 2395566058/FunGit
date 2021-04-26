@@ -28,8 +28,8 @@
     <mvc:resources mapping="/image/**" location="/static/image/" />
     <mvc:resources mapping="/js/**" location="/static/js/" />
      <mvc:resources mapping="/css/**" location="/static/css/" />
-    <mvc:resources mapping="/images/**" location="file:///D:/FunGitData/images/" />    <!-- windows -->
-   <!--   <mvc:resources mapping="/images/**" location="file:/root/FunGitData/images/" /> -->   <!-- linux -->
+    <!--   <mvc:resources mapping="/images/**" location="file:///D:/FunGitData/images/" />  -->    <!-- windows -->
+  <mvc:resources mapping="/images/**" location="file:/root/FunGitData/images/" />   <!-- linux -->
 	
 	<!-- freemarker视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
